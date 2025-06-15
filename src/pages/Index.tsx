@@ -11,6 +11,7 @@ import FloatingMaIA from "@/components/FloatingMaIA";
 import CoursesSection from "@/components/CoursesSection";
 import AchievementsSection from "@/components/AchievementsSection";
 import CommunitySection from "@/components/CommunitySection";
+import AchievementsPage from "@/components/AchievementsPage";
 
 const Index = () => {
   const [showAuth, setShowAuth] = useState(false);
