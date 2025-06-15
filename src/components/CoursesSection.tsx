@@ -1,278 +1,308 @@
 
 import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Clock, Users, Trophy, Share2, Star, Heart, MessageCircle, Award, Target, Zap } from "lucide-react";
-import AchievementsSection from "@/components/AchievementsSection";
-import RecognitionSection from "@/components/RecognitionSection";
+import { Search, Filter, Star, Users, Clock, Play, BookOpen, Atom, Calculator, Cpu, Microscope } from "lucide-react";
+
+interface Course {
+  id: number;
+  title: string;
+  description: string;
+  instructor: string;
+  duration: string;
+  level: string;
+  students: number;
+  rating: number;
+  image: string;
+  category: string;
+  progress?: number;
+}
 
 interface CoursesSectionProps {
-  onNavigateToCommunity: () => void;
+  onNavigateToCommunity?: () => void;
 }
 
 const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedLevel, setSelectedLevel] = useState("all");
 
-  const courses = [
+  const categories = [
+    { id: "all", label: "Todos", icon: BookOpen, color: "text-gray-600" },
+    { id: "ciencia", label: "Ciencia", icon: Microscope, color: "text-blue-600" },
+    { id: "tecnologia", label: "Tecnología", icon: Cpu, color: "text-green-600" },
+    { id: "ingenieria", label: "Ingeniería", icon: Atom, color: "text-purple-600" },
+    { id: "matematicas", label: "Matemáticas", icon: Calculator, color: "text-orange-600" }
+  ];
+
+  const courses: Course[] = [
     {
       id: 1,
-      title: "Programación para Principiantes",
-      description: "Aprende a crear tu primera aplicación web con HTML, CSS y JavaScript básico.",
-      duration: "4 semanas",
+      title: "Programación para Exploradoras",
+      description: "Aprende los fundamentos de programación creando tu primera app que puede cambiar vidas",
+      instructor: "María González",
+      duration: "6 semanas",
       level: "Principiante",
-      category: "programming",
-      enrolled: 234,
-      rating: 4.8,
-      color: "bg-purple-500",
+      students: 1247,
+      rating: 4.9,
+      image: "💻",
+      category: "tecnologia",
       progress: 0
     },
     {
       id: 2,
-      title: "Robótica Creativa",
-      description: "Construye y programa robots usando Arduino. Proyectos divertidos y educativos.",
-      duration: "3 semanas", 
-      level: "Intermedio",
-      category: "robotics",
-      enrolled: 189,
-      rating: 4.9,
-      color: "bg-teal-500",
-      progress: 65
+      title: "Laboratorio de Química Épica",
+      description: "Experimenta con reacciones súper cool y descubre cómo la química puede salvar el mundo",
+      instructor: "Dra. Carmen Ruiz",
+      duration: "4 semanas",
+      level: "Principiante",
+      students: 856,
+      rating: 4.8,
+      image: "🧪",
+      category: "ciencia"
     },
     {
       id: 3,
-      title: "Química en la Cocina",
-      description: "Descubre los secretos químicos detrás de la cocina y crea experimentos seguros.",
-      duration: "2 semanas",
-      level: "Principiante", 
-      category: "science",
-      enrolled: 156,
-      rating: 4.7,
-      color: "bg-pink-500",
-      progress: 0
+      title: "Diseño de Videojuegos que Inspiran",
+      description: "Crea tu primer videojuego con mensaje social y aprende desarrollo de games",
+      instructor: "Sofía Martín",
+      duration: "8 semanas",
+      level: "Intermedio",
+      students: 1593,
+      rating: 4.9,
+      image: "🎮",
+      category: "tecnologia",
+      progress: 35
     },
     {
       id: 4,
-      title: "Diseño de Videojuegos",
-      description: "Crea tu propio videojuego desde cero usando herramientas visuales fáciles.",
+      title: "Matemáticas que Cambian el Mundo",
+      description: "Descubre cómo los números pueden resolver problemas reales y crear impacto social",
+      instructor: "Prof. Ana López",
       duration: "5 semanas",
-      level: "Intermedio",
-      category: "programming",
-      enrolled: 298,
-      rating: 4.8,
-      color: "bg-indigo-500",
-      progress: 30
+      level: "Principiante",
+      students: 724,
+      rating: 4.7,
+      image: "📊",
+      category: "matematicas"
     },
     {
       id: 5,
-      title: "Inteligencia Artificial Básica",
-      description: "Entiende cómo funciona la IA y crea tu primer chatbot simple.",
-      duration: "3 semanas",
+      title: "Ingeniería Biomédica para Genias",
+      description: "Diseña dispositivos médicos que pueden salvar vidas y mejorar la salud",
+      instructor: "Dra. Laura Herrera",
+      duration: "10 semanas",
       level: "Avanzado",
-      category: "ai",
-      enrolled: 167,
-      rating: 4.9,
-      color: "bg-orange-500",
-      progress: 0
+      students: 432,
+      rating: 4.8,
+      image: "⚕️",
+      category: "ingenieria"
     },
     {
       id: 6,
-      title: "Bioingeniería del Futuro",
-      description: "Explora cómo la ingeniería está revolucionando la medicina y la biología.",
-      duration: "4 semanas",
+      title: "Robótica e IA para el Futuro",
+      description: "Construye robots inteligentes y aprende sobre inteligencia artificial",
+      instructor: "Ing. Patricia Vega",
+      duration: "7 semanas",
       level: "Intermedio",
-      category: "science",
-      enrolled: 134,
-      rating: 4.6,
-      color: "bg-green-500",
-      progress: 0
+      students: 967,
+      rating: 4.9,
+      image: "🤖",
+      category: "ingenieria"
     }
   ];
 
-  const categories = [
-    { id: "all", name: "Todos", count: courses.length },
-    { id: "programming", name: "Programación", count: courses.filter(c => c.category === "programming").length },
-    { id: "robotics", name: "Robótica", count: courses.filter(c => c.category === "robotics").length },
-    { id: "science", name: "Ciencias", count: courses.filter(c => c.category === "science").length },
-    { id: "ai", name: "Inteligencia Artificial", count: courses.filter(c => c.category === "ai").length }
-  ];
+  const filteredCourses = courses.filter(course => {
+    const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         course.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === "all" || course.category === selectedCategory;
+    const matchesLevel = selectedLevel === "all" || course.level === selectedLevel;
+    
+    return matchesSearch && matchesCategory && matchesLevel;
+  });
 
-  const filteredCourses = selectedCategory === "all" 
-    ? courses 
-    : courses.filter(course => course.category === selectedCategory);
+  const handleEnrollCourse = (courseId: number) => {
+    console.log(`Inscribiéndose al curso ${courseId}`);
+    // Aquí se manejaría la inscripción al curso
+  };
 
   return (
     <div className="space-y-8">
-      <Tabs defaultValue="courses" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="courses">
-            <BookOpen className="h-4 w-4 mr-2" />
-            Microcursos
-          </TabsTrigger>
-          <TabsTrigger value="achievements">
-            <Trophy className="h-4 w-4 mr-2" />
-            Logros
-          </TabsTrigger>
-          <TabsTrigger value="recognition">
-            <Award className="h-4 w-4 mr-2" />
-            Top Chicas
-          </TabsTrigger>
-          <TabsTrigger value="share">
-            <Share2 className="h-4 w-4 mr-2" />
-            Compartir Reto
-          </TabsTrigger>
-        </TabsList>
+      {/* Header */}
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">
+          Cursos STEM que van a volar tu mente 🚀
+        </h1>
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          Aprende ciencia, tecnología, ingeniería y matemáticas de manera súper cool. 
+          Cada curso está diseñado para que descubras tu superpoder y cambies el mundo.
+        </p>
+      </div>
 
-        <TabsContent value="courses" className="space-y-6">
-          {/* Header */}
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Microcursos STEAM 📚
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Aprende a tu ritmo con contenido diseñado especialmente para ti. 
-              Cada curso es una aventura que te acerca más a descubrir tu pasión en STEAM.
-            </p>
-          </div>
+      {/* Search and Filters */}
+      <div className="flex flex-col md:flex-row gap-4 items-center">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <Input
+            placeholder="Busca tu curso perfecto..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 border-pink-200 focus:border-pink-400"
+          />
+        </div>
+        
+        <div className="flex gap-2">
+          <select
+            value={selectedLevel}
+            onChange={(e) => setSelectedLevel(e.target.value)}
+            className="px-4 py-2 border border-pink-200 rounded-md focus:border-pink-400 focus:outline-none"
+          >
+            <option value="all">Todos los niveles</option>
+            <option value="Principiante">Principiante</option>
+            <option value="Intermedio">Intermedio</option>
+            <option value="Avanzado">Avanzado</option>
+          </select>
+        </div>
+      </div>
 
-          {/* Categories */}
-          <div className="flex flex-wrap justify-center gap-3">
-            {categories.map((category) => (
-              <Button
-                key={category.id}
-                variant={selectedCategory === category.id ? "default" : "outline"}
-                onClick={() => setSelectedCategory(category.id)}
-                className={selectedCategory === category.id ? "text-white" : ""}
-                style={selectedCategory === category.id ? { backgroundColor: '#7E4EFF' } : {}}
-              >
-                {category.name} ({category.count})
-              </Button>
-            ))}
-          </div>
+      {/* Categories */}
+      <div className="flex flex-wrap gap-2 justify-center">
+        {categories.map((category) => (
+          <Button
+            key={category.id}
+            variant={selectedCategory === category.id ? "default" : "outline"}
+            onClick={() => setSelectedCategory(category.id)}
+            className={`flex items-center gap-2 ${
+              selectedCategory === category.id 
+                ? "text-white" 
+                : `border-pink-200 ${category.color} hover:bg-pink-50`
+            }`}
+            style={selectedCategory === category.id ? { backgroundColor: '#FF1493' } : {}}
+          >
+            <category.icon className="h-4 w-4" />
+            {category.label}
+          </Button>
+        ))}
+      </div>
 
-          {/* Courses Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredCourses.map((course) => (
-              <Card key={course.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className={`w-12 h-12 rounded-lg ${course.color} flex items-center justify-center mb-3`}>
-                    <BookOpen className="h-6 w-6 text-white" />
-                  </div>
-                  <CardTitle className="text-lg">{course.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-gray-600 text-sm">{course.description}</p>
-                  
-                  <div className="flex justify-between text-sm">
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-4 w-4 text-gray-500" />
-                      <span>{course.duration}</span>
-                    </div>
-                    <Badge variant="outline">{course.level}</Badge>
-                  </div>
-
-                  <div className="flex justify-between text-sm">
-                    <div className="flex items-center gap-1">
-                      <Users className="h-4 w-4 text-gray-500" />
-                      <span>{course.enrolled} chicas</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 text-yellow-500" />
-                      <span>{course.rating}</span>
-                    </div>
-                  </div>
-
-                  {course.progress > 0 && (
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Tu progreso</span>
-                        <span>{course.progress}%</span>
-                      </div>
-                      <Progress value={course.progress} className="h-2" />
-                    </div>
-                  )}
-
-                  <Button 
-                    className="w-full text-white"
-                    style={{ backgroundColor: '#7E4EFF' }}
+      {/* Courses Grid */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredCourses.map((course) => (
+          <Card key={course.id} className="border-pink-200 hover:shadow-xl transition-all hover:scale-105">
+            <CardHeader>
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-4xl">{course.image}</div>
+                <div className="flex items-center gap-1">
+                  <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                  <span className="text-sm font-medium">{course.rating}</span>
+                </div>
+              </div>
+              <CardTitle className="text-lg text-gray-800">{course.title}</CardTitle>
+              <div className="flex items-center gap-4 text-sm text-gray-500">
+                <div className="flex items-center gap-1">
+                  <Users className="h-4 w-4" />
+                  {course.students}
+                </div>
+                <div className="flex items-center gap-1">
+                  <Clock className="h-4 w-4" />
+                  {course.duration}
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <CardDescription className="text-gray-600 mb-4">
+                {course.description}
+              </CardDescription>
+              
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-500">Por {course.instructor}</span>
+                  <Badge 
+                    variant="outline" 
+                    className={`
+                      ${course.level === 'Principiante' ? 'border-green-200 text-green-600' : ''}
+                      ${course.level === 'Intermedio' ? 'border-yellow-200 text-yellow-600' : ''}
+                      ${course.level === 'Avanzado' ? 'border-red-200 text-red-600' : ''}
+                    `}
                   >
-                    {course.progress > 0 ? 'Continuar' : 'Empezar curso'}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="achievements">
-          <AchievementsSection />
-        </TabsContent>
-
-        <TabsContent value="recognition">
-          <RecognitionSection />
-        </TabsContent>
-
-        <TabsContent value="share">
-          <div className="text-center space-y-6">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              ¡Comparte tu reto! 🚀
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-              ¿Completaste un proyecto increíble? ¡Compártelo con la comunidad StemSisters 
-              y motiva a otras chicas a seguir explorando STEAM!
-            </p>
-            
-            <Card className="max-w-md mx-auto border-purple-200 bg-purple-50">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 justify-center">
-                  <Users className="h-6 w-6 text-purple-600" />
-                  Conectar con la Comunidad
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-center space-y-4">
-                <p className="text-purple-700">
-                  Al compartir tu reto, te conectarás con otras StemSisters increíbles que 
-                  pueden darte feedback, motivación y apoyo en tu camino.
-                </p>
-                <Button 
-                  onClick={onNavigateToCommunity}
-                  className="w-full text-white"
-                  style={{ backgroundColor: '#7E4EFF' }}
+                    {course.level}
+                  </Badge>
+                </div>
+                
+                {course.progress !== undefined && course.progress > 0 && (
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Progreso</span>
+                      <span className="text-pink-600 font-medium">{course.progress}%</span>
+                    </div>
+                    <Progress value={course.progress} className="h-2" />
+                  </div>
+                )}
+                
+                <Button
+                  onClick={() => handleEnrollCourse(course.id)}
+                  className="w-full text-white font-medium"
+                  style={{ backgroundColor: '#FF1493' }}
                 >
-                  <Share2 className="h-4 w-4 mr-2" />
-                  Ir a la Comunidad
+                  {course.progress !== undefined && course.progress > 0 ? (
+                    <>
+                      <Play className="h-4 w-4 mr-2" />
+                      Continuar curso
+                    </>
+                  ) : (
+                    "¡Empezar ahora!"
+                  )}
                 </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
-            <div className="grid md:grid-cols-3 gap-6 mt-8">
-              <div className="text-center">
-                <Heart className="h-12 w-12 text-pink-500 mx-auto mb-3" />
-                <h4 className="font-semibold text-gray-800 mb-2">Motiva a otras</h4>
-                <p className="text-sm text-gray-600">
-                  Tus logros pueden inspirar a otras chicas a seguir adelante
-                </p>
-              </div>
-              <div className="text-center">
-                <MessageCircle className="h-12 w-12 text-teal-500 mx-auto mb-3" />
-                <h4 className="font-semibold text-gray-800 mb-2">Recibe feedback</h4>
-                <p className="text-sm text-gray-600">
-                  Obtén comentarios constructivos de mentoras y compañeras
-                </p>
-              </div>
-              <div className="text-center">
-                <Trophy className="h-12 w-12 text-yellow-500 mx-auto mb-3" />
-                <h4 className="font-semibold text-gray-800 mb-2">Gana reconocimiento</h4>
-                <p className="text-sm text-gray-600">
-                  Los mejores proyectos aparecen en el Top Chicas
-                </p>
-              </div>
-            </div>
-          </div>
-        </TabsContent>
-      </Tabs>
+      {filteredCourses.length === 0 && (
+        <div className="text-center py-12">
+          <div className="text-6xl mb-4">🔍</div>
+          <h3 className="text-xl font-bold text-gray-800 mb-2">
+            No encontramos cursos con esos filtros
+          </h3>
+          <p className="text-gray-600 mb-4">
+            Prueba ajustando los filtros o busca algo diferente
+          </p>
+          <Button
+            onClick={() => {
+              setSearchTerm("");
+              setSelectedCategory("all");
+              setSelectedLevel("all");
+            }}
+            variant="outline"
+            className="border-pink-200 text-pink-600 hover:bg-pink-50"
+          >
+            Limpiar filtros
+          </Button>
+        </div>
+      )}
+
+      {/* Call to Action */}
+      <div className="text-center bg-gradient-to-r from-pink-100 to-purple-100 p-8 rounded-xl border-2 border-pink-200">
+        <h3 className="text-2xl font-bold text-gray-800 mb-4">
+          ¿No encuentras lo que buscas? 💖
+        </h3>
+        <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+          Únete a nuestra comunidad y descubre más cursos, comparte ideas con otras exploradoras 
+          y encuentra mentoras increíbles que te ayudarán en tu camino STEM.
+        </p>
+        <Button
+          onClick={onNavigateToCommunity}
+          size="lg"
+          className="text-white font-bold px-8 py-3"
+          style={{ backgroundColor: '#FF1493' }}
+        >
+          Explorar comunidad 🌟
+        </Button>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,6 +14,7 @@ import CommunitySection from "@/components/CommunitySection";
 
 const Index = () => {
   const [showAuth, setShowAuth] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const [showSurvey, setShowSurvey] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<any>(null);
@@ -25,7 +25,12 @@ const Index = () => {
     setUserData(data);
     setIsAuthenticated(true);
     setShowAuth(false);
-    setShowSurvey(true);
+    // Solo mostrar survey si es registro
+    if (authMode === 'register') {
+      setShowSurvey(true);
+    } else {
+      setCurrentView('community');
+    }
   };
 
   const handleSurveyComplete = () => {
@@ -42,6 +47,16 @@ const Index = () => {
 
   const handleNavigation = (view: string) => {
     setCurrentView(view as any);
+  };
+
+  const handleLoginClick = () => {
+    setAuthMode('login');
+    setShowAuth(true);
+  };
+
+  const handleRegisterClick = () => {
+    setAuthMode('register');
+    setShowAuth(true);
   };
 
   // Show survey if authenticated but hasn't completed it
@@ -230,15 +245,17 @@ const Index = () => {
           
           <div className="flex items-center gap-4">
             <Button 
-              onClick={() => setShowAuth(true)}
-              className="text-white px-6 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all"
-              style={{ backgroundColor: '#FF1493' }}
+              onClick={handleLoginClick}
+              variant="outline"
+              className="px-6 py-2 rounded-full font-bold border-2 text-pink-600 hover:bg-pink-50 transition-all"
+              style={{ borderColor: '#FF1493' }}
             >
               Ingresar
             </Button>
             <Button 
-              onClick={() => setShowAuth(true)}
-              className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all"
+              onClick={handleRegisterClick}
+              className="text-white px-6 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all"
+              style={{ backgroundColor: '#FF1493' }}
             >
               Registrarme
             </Button>
@@ -248,7 +265,7 @@ const Index = () => {
 
       <main>
         {/* Welcome Section */}
-        <WelcomeSection onGetStarted={() => setShowAuth(true)} />
+        <WelcomeSection onGetStarted={handleRegisterClick} />
 
         {/* maIA Teaser Section */}
         <section className="py-16 bg-gradient-to-r from-pink-100 to-purple-100">
@@ -287,7 +304,7 @@ const Index = () => {
                   </div>
                 </div>
                 <Button 
-                  onClick={() => setShowAuth(true)}
+                  onClick={handleRegisterClick}
                   size="lg"
                   className="text-white px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
                   style={{ backgroundColor: '#FF1493' }}
@@ -428,7 +445,7 @@ const Index = () => {
               Tu momento de brillar en ciencia y tecnología empieza AHORA.
             </p>
             <Button 
-              onClick={() => setShowAuth(true)}
+              onClick={handleRegisterClick}
               size="lg"
               className="bg-white text-pink-600 hover:bg-pink-50 px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
             >
@@ -443,6 +460,7 @@ const Index = () => {
         isOpen={showAuth}
         onClose={() => setShowAuth(false)}
         onAuthComplete={handleAuthComplete}
+        mode={authMode}
       />
     </div>
   );

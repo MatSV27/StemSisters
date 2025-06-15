@@ -10,10 +10,11 @@ interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAuthComplete: (userData: any) => void;
+  mode: 'login' | 'register';
 }
 
-const AuthModal = ({ isOpen, onClose, onAuthComplete }: AuthModalProps) => {
-  const [isLogin, setIsLogin] = useState(true);
+const AuthModal = ({ isOpen, onClose, onAuthComplete, mode: initialMode }: AuthModalProps) => {
+  const [isLogin, setIsLogin] = useState(initialMode === 'login');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Send, X, Maximize2, Minimize2, Heart, Star, Sparkles, Atom, BookOpen, Users, Trophy } from "lucide-react";
+import { Send, X, Maximize2, Minimize2, Heart, Star, Sparkles, Atom, BookOpen, Users, Trophy, Target, MessageCircle, Bot } from "lucide-react";
 
 interface Message {
   id: number;
@@ -63,10 +63,26 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
   };
 
   const quickActions = [
-    { text: "¿Qué me recomiendas aprender?", action: () => setInputMessage("¿Qué me recomiendas aprender según mi perfil?") },
-    { text: "Me siento perdida", action: () => setInputMessage("Me siento perdida, ¿puedes ayudarme a encontrar mi camino?") },
-    { text: "Quiero inspiración", action: () => setInputMessage("Cuéntame historias de exploradoras que lo lograron") },
-    { text: "Oportunidades", action: () => setInputMessage("¿Qué talleres y mentorías hay disponibles?") }
+    { 
+      text: "¿Qué me recomiendas aprender?", 
+      action: () => setInputMessage("¿Qué me recomiendas aprender según mi perfil?"),
+      color: "bg-gradient-to-r from-pink-400 to-pink-600"
+    },
+    { 
+      text: "Me siento perdida", 
+      action: () => setInputMessage("Me siento perdida, ¿puedes ayudarme a encontrar mi camino?"),
+      color: "bg-gradient-to-r from-purple-400 to-purple-600"
+    },
+    { 
+      text: "Quiero inspiración", 
+      action: () => setInputMessage("Cuéntame historias de exploradoras que lo lograron"),
+      color: "bg-gradient-to-r from-teal-400 to-teal-600"
+    },
+    { 
+      text: "Oportunidades", 
+      action: () => setInputMessage("¿Qué talleres y mentorías hay disponibles?"),
+      color: "bg-gradient-to-r from-yellow-400 to-orange-500"
+    }
   ];
 
   const suggestedCourses = [
@@ -84,6 +100,13 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
   if (!isOpen) {
     return (
       <div className="fixed bottom-6 right-6 z-50">
+        {/* Mensaje encima del botón */}
+        <div className="absolute -top-14 -left-32 bg-white rounded-lg shadow-lg p-3 border-2 border-pink-200 max-w-xs mb-2">
+          <p className="text-sm text-gray-700 font-medium">
+            ¿Necesitas ayuda? ¡Pregúntame! 💖
+          </p>
+        </div>
+        
         <Button
           onClick={() => setIsOpen(true)}
           className="w-16 h-16 rounded-full shadow-lg text-white border-4 border-white hover:scale-105 transition-all animate-pulse"
@@ -94,11 +117,6 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
             <span className="text-xs">maIA</span>
           </div>
         </Button>
-        <div className="absolute -top-2 -left-40 bg-white rounded-lg shadow-lg p-2 border border-pink-200 max-w-xs">
-          <p className="text-sm text-gray-700 font-medium">
-            ¿Necesitas ayuda? ¡Pregúntame! 💖
-          </p>
-        </div>
       </div>
     );
   }
@@ -175,9 +193,8 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
                   <Button
                     key={index}
                     size="sm"
-                    variant="outline"
                     onClick={action.action}
-                    className="text-pink-600 border-pink-200 hover:bg-pink-50"
+                    className={`text-white hover:scale-105 transition-transform ${action.color}`}
                   >
                     {action.text}
                   </Button>
@@ -191,7 +208,7 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
                 <Input
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
-                  placeholder="Comparte conmigo lo que necesitas... 💖"
+                  placeholder="Juntas conquistemos el mundo, pregúntame... 💖"
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   className="flex-1 border-pink-200 focus:border-pink-400"
                 />
@@ -297,10 +314,9 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
             {quickActions.map((action, index) => (
               <Button
                 key={index}
-                variant="outline"
                 size="sm"
                 onClick={action.action}
-                className="text-xs border-pink-200 hover:bg-pink-50"
+                className={`text-xs text-white hover:scale-105 transition-transform ${action.color}`}
               >
                 {action.text}
               </Button>
