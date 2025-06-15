@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,61 +16,61 @@ const Index = () => {
 
   const successStories = [
     {
-      name: "Ana García",
+      name: "María González",
       age: 16,
-      story: "No me gustaba la física, pero descubrí la robótica y ahora estoy en un proyecto NASA!",
-      achievement: "Ganadora Hackathon 2024",
+      story: "Desarrolló una app para ayudar a su abuela con diabetes. Ahora estudia medicina y su app se usa en 3 hospitales.",
+      achievement: "Innovadora Médica",
+      avatar: "👩‍⚕️"
+    },
+    {
+      name: "Luisa Martínez",
+      age: 17,
+      story: "Creó un videojuego sobre el cambio climático. ¡Nintendo se interesó y ahora trabaja con su equipo!",
+      achievement: "Game Developer",
       avatar: "👩‍💻"
     },
     {
-      name: "María López",
-      age: 17,
-      story: "Pensé que programar era muy difícil, pero con los microcursos ahora creo mis propias apps!",
-      achievement: "Becaria Google Code",
+      name: "Sofía Ramírez",
+      age: 16,
+      story: "Inventó un filtro de agua usando nanotecnología. Su diseño ganó la feria de ciencias nacional.",
+      achievement: "Ingeniera del Futuro",
       avatar: "👩‍🔬"
-    },
-    {
-      name: "Sofia Chen",
-      age: 15,
-      story: "Siempre quise ser doctora, pero descubrí la bioingeniería y es mi pasión!",
-      achievement: "Mentora Comunitaria",
-      avatar: "👩‍⚕️"
     }
   ];
 
   const metrics = [
-    { icon: Users, value: "2,847", label: "Chicas inspiradas", color: "text-purple-600" },
-    { icon: BookOpen, value: "156", label: "Microcursos completados", color: "text-teal-600" },
-    { icon: Award, value: "89%", label: "Encontraron su pasión", color: "text-pink-500" },
-    { icon: Star, value: "4.9/5", label: "Satisfacción", color: "text-yellow-500" }
+    { icon: Users, value: "2,847", label: "Chicas empoderadas", color: "text-pink-500" },
+    { icon: BookOpen, value: "156", label: "Sueños cumplidos", color: "text-purple-600" },
+    { icon: Award, value: "89%", label: "Ahora aman STEM", color: "text-teal-600" },
+    { icon: Star, value: "4.9/5", label: "¡Se sienten poderosas!", color: "text-yellow-500" }
   ];
 
   const appFeatures = [
     {
       icon: Bot,
-      title: "MaIA, tu mentora digital STEAM",
-      description: "Un chatbot inteligente especializado en Ciencia, Tecnología, Ingeniería, Arte y Matemáticas que te conoce, te escucha y te acompaña en cada paso",
-      color: "text-purple-600",
-      bgColor: "bg-purple-100"
-    },
-    {
-      icon: Target,
-      title: "Microcursos personalizados",
-      description: "Contenido diseñado especialmente para ti: videos, experimentos, retos y más según tu estilo de aprendizaje",
-      color: "text-teal-600",
-      bgColor: "bg-teal-100"
-    },
-    {
-      icon: Users,
-      title: "Comunidad de chicas increíbles",
-      description: "Conecta con otras StemSisters, comparte tus logros y encuentra el apoyo que necesitas",
+      title: "maIA, tu hermana mayor digital STEM",
+      description: "Una IA súper cool que te entiende, te escucha sin juzgar y te ayuda a descubrir tu superpoder en Ciencia, Tecnología, Ingeniería y Matemáticas",
       color: "text-pink-500",
       bgColor: "bg-pink-100"
     },
     {
+      icon: Target,
+      title: "Contenido que te va a encantar",
+      description: "Videos, experimentos locos, retos súper cool y proyectos diseñados para que TÚ brilles y demuestres de qué estás hecha",
+      color: "text-purple-600",
+      bgColor: "bg-purple-100"
+    },
+    {
+      icon: Users,
+      title: "Tu squad de power girls",
+      description: "Conecta con chicas increíbles como tú, comparte tus logros épicos y encuentra el apoyo que mereces para conquistar el mundo",
+      color: "text-teal-600",
+      bgColor: "bg-teal-100"
+    },
+    {
       icon: Award,
-      title: "Sistema de logros y reconocimiento",
-      description: "Gana badges, celebra tus avances y forma parte del Top Chicas de nuestra comunidad",
+      title: "Reconocimiento que te mereces",
+      description: "Gana badges súper cool, celebra cada pequeña victoria y forma parte del Top de chicas que están cambiando el mundo",
       color: "text-yellow-600",
       bgColor: "bg-yellow-100"
     }
@@ -99,29 +100,28 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50" style={{ backgroundColor: '#F8F5FF' }}>
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50" style={{ backgroundColor: '#FFF0F8' }}>
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-purple-100 sticky top-0 z-40">
+      <header className="bg-white/90 backdrop-blur-sm border-b-2 border-pink-200 sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-2">
-            <Sparkles className="h-8 w-8 text-purple-600" />
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent">
+            <Sparkles className="h-8 w-8 text-pink-500" />
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
               StemSisters
             </h1>
           </div>
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2 text-sm text-gray-600">
-              <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-teal-500 rounded-full flex items-center justify-center">
+              <div className="w-6 h-6 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center animate-pulse">
                 <Atom className="h-4 w-4 text-white" />
               </div>
-              <span>MaIA está esperándote</span>
+              <span>maIA está esperándote 💖</span>
             </div>
             <Button 
               onClick={handleGetStarted}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full font-semibold"
-              style={{ backgroundColor: '#7E4EFF' }}
+              className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all"
             >
-              {isRegistered ? 'Continuar mi camino' : 'Conocer a MaIA 💜'}
+              {isRegistered ? '¡Seguir conquistando! 🔥' : '¡Conocer a maIA! 💖'}
             </Button>
           </div>
         </div>
@@ -132,48 +132,48 @@ const Index = () => {
         <WelcomeSection onGetStarted={handleGetStarted} />
 
         {/* Chat Bot Teaser Section */}
-        <section className="py-16 bg-gradient-to-r from-purple-100 to-teal-100">
+        <section className="py-16 bg-gradient-to-r from-pink-100 to-purple-100">
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-4xl mx-auto">
-              <div className="bg-white rounded-3xl p-8 shadow-lg border border-purple-200">
+              <div className="bg-white rounded-3xl p-8 shadow-xl border-2 border-pink-200">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-teal-500 rounded-full flex items-center justify-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center animate-pulse">
                     <Atom className="h-10 w-10 text-white" />
                   </div>
                 </div>
                 <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                  ¡Hola! Soy MaIA, tu mentora digital STEAM 💜
+                  ¡Hola queen! Soy maIA, tu hermana mayor digital STEM 💖
                 </h2>
                 <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
-                  Estoy aquí para guiarte en el fascinante mundo de la Ciencia, Tecnología, Ingeniería, Arte y Matemáticas. 
-                  <span className="text-pink-500 font-semibold" style={{ color: '#FF6B9D' }}> 
-                    ¡Descubramos juntas tu superpoder STEAM!
+                  Estoy aquí para recordarte que eres increíble y que puedes dominar la Ciencia, Tecnología, Ingeniería y Matemáticas. 
+                  <span className="text-pink-500 font-bold"> 
+                    ¡Juntas vamos a demostrar de qué estamos hechas!
                   </span>
                 </p>
                 <div className="grid md:grid-cols-3 gap-6 mb-8">
                   <div className="text-center">
                     <Heart className="h-8 w-8 text-pink-500 mx-auto mb-2" />
-                    <h4 className="font-semibold text-gray-800">Te escucho</h4>
-                    <p className="text-sm text-gray-600">Sin juicios, con comprensión</p>
+                    <h4 className="font-bold text-gray-800">Te escucho sin juzgar</h4>
+                    <p className="text-sm text-gray-600">Como tu hermana que siempre está ahí</p>
                   </div>
                   <div className="text-center">
-                    <Target className="h-8 w-8 text-teal-500 mx-auto mb-2" />
-                    <h4 className="font-semibold text-gray-800">Te guío</h4>
-                    <p className="text-sm text-gray-600">Contenido personalizado para ti</p>
+                    <Target className="h-8 w-8 text-purple-500 mx-auto mb-2" />
+                    <h4 className="font-bold text-gray-800">Te guío a tu manera</h4>
+                    <p className="text-sm text-gray-600">Contenido súper cool solo para ti</p>
                   </div>
                   <div className="text-center">
-                    <Zap className="h-8 w-8 text-purple-500 mx-auto mb-2" />
-                    <h4 className="font-semibold text-gray-800">Te inspiro</h4>
-                    <p className="text-sm text-gray-600">Con historias reales de éxito</p>
+                    <Zap className="h-8 w-8 text-teal-500 mx-auto mb-2" />
+                    <h4 className="font-bold text-gray-800">Te empodero</h4>
+                    <p className="text-sm text-gray-600">Con historias de chicas que lo lograron</p>
                   </div>
                 </div>
                 <Button 
                   onClick={handleGetStarted}
                   size="lg"
-                  className="text-white px-8 py-4 text-lg font-semibold rounded-full"
-                  style={{ backgroundColor: '#7E4EFF' }}
+                  className="text-white px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
+                  style={{ backgroundColor: '#FF1493' }}
                 >
-                  Quiero conocer a MaIA 🚀
+                  ¡Quiero conocer a maIA! 🚀✨
                 </Button>
               </div>
             </div>
@@ -184,16 +184,16 @@ const Index = () => {
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
-              ¿Cómo funciona StemSisters?
+              ¿Cómo StemSisters va a cambiar tu vida?
             </h2>
             <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-              Una plataforma diseñada especialmente para chicas como tú, donde cada funcionalidad 
-              está pensada para que te sientas cómoda, inspirada y acompañada.
+              Una plataforma diseñada por chicas, para chicas como tú. Donde cada funcionalidad 
+              está pensada para que te sientas poderosa, inspirada y acompañada.
             </p>
             
             <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
               {appFeatures.map((feature, index) => (
-                <Card key={index} className="border-purple-100 hover:shadow-lg transition-shadow">
+                <Card key={index} className="border-pink-200 hover:shadow-xl transition-all hover:scale-105">
                   <CardHeader>
                     <div className={`w-12 h-12 rounded-full ${feature.bgColor} flex items-center justify-center mb-3`}>
                       <feature.icon className={`h-6 w-6 ${feature.color}`} />
@@ -212,10 +212,10 @@ const Index = () => {
         </section>
 
         {/* Métricas de Impacto */}
-        <section className="py-16" style={{ backgroundColor: '#F8F5FF' }}>
+        <section className="py-16" style={{ backgroundColor: '#FFF0F8' }}>
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
-              Transformando el futuro de las chicas en STEAM
+              Chicas como tú que ya están cambiando el mundo 🌟
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {metrics.map((metric, index) => (
@@ -224,7 +224,7 @@ const Index = () => {
                   <div className={`text-3xl font-bold ${metric.color} mb-2`}>
                     {metric.value}
                   </div>
-                  <div className="text-gray-600 text-sm">
+                  <div className="text-gray-600 text-sm font-medium">
                     {metric.label}
                   </div>
                 </div>
@@ -237,28 +237,28 @@ const Index = () => {
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
-              Chicas como tú que encontraron su camino
+              Chicas reales que lo están logrando 🔥
             </h2>
             <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-              Cada una empezó con dudas, pero descubrió que STEAM puede ser increíble. 
-              <span className="text-pink-500 font-semibold" style={{ color: '#FF6B9D' }}> ¡Tú también puedes!</span>
+              Cada una empezó donde tú estás ahora. Con dudas, pero con ganas de demostrar que sí podemos. 
+              <span className="text-pink-500 font-bold"> ¡Tu historia será la próxima!</span>
             </p>
             
             <div className="grid md:grid-cols-3 gap-8">
               {successStories.map((story, index) => (
-                <Card key={index} className="bg-white border-purple-100 hover:shadow-lg transition-shadow">
+                <Card key={index} className="bg-gradient-to-br from-pink-50 to-purple-50 border-2 border-pink-200 hover:shadow-xl transition-all hover:scale-105">
                   <CardHeader className="text-center">
                     <div className="text-4xl mb-2">{story.avatar}</div>
                     <CardTitle className="text-lg text-gray-800">{story.name}, {story.age} años</CardTitle>
                     <Badge 
-                      className="text-white font-medium"
-                      style={{ backgroundColor: '#FF6B9D' }}
+                      className="text-white font-bold"
+                      style={{ backgroundColor: '#FF1493' }}
                     >
                       {story.achievement}
                     </Badge>
                   </CardHeader>
                   <CardContent>
-                    <CardDescription className="text-gray-600 text-center italic">
+                    <CardDescription className="text-gray-700 text-center font-medium">
                       "{story.story}"
                     </CardDescription>
                   </CardContent>
@@ -269,29 +269,29 @@ const Index = () => {
         </section>
 
         {/* Safety and Privacy */}
-        <section className="py-16" style={{ backgroundColor: '#F8F5FF' }}>
+        <section className="py-16" style={{ backgroundColor: '#FFF0F8' }}>
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-3xl mx-auto">
-              <Shield className="h-16 w-16 text-purple-600 mx-auto mb-6" />
+              <Shield className="h-16 w-16 text-pink-500 mx-auto mb-6" />
               <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                Un espacio seguro para ti
+                Tu espacio seguro para brillar ✨
               </h2>
               <p className="text-lg text-gray-600 mb-6">
-                Tu privacidad y seguridad son nuestra prioridad. StemSisters es un ambiente 
-                protegido donde puedes explorar, aprender y crecer sin presiones.
+                Tu privacidad y seguridad son nuestra prioridad. StemSisters es tu lugar seguro 
+                donde puedes explorar, aprender y brillar sin presiones ni juicios.
               </p>
               <div className="grid md:grid-cols-3 gap-6 text-sm">
                 <div>
-                  <div className="font-semibold text-purple-600 mb-2">Contenido apropiado</div>
-                  <div className="text-gray-600">Todo revisado por educadoras</div>
+                  <div className="font-bold text-pink-500 mb-2">Contenido apropiado</div>
+                  <div className="text-gray-600">Todo revisado por educadoras expertas</div>
                 </div>
                 <div>
-                  <div className="font-semibold text-teal-600 mb-2">Consentimiento parental</div>
+                  <div className="font-bold text-purple-600 mb-2">Consentimiento familiar</div>
                   <div className="text-gray-600">Requerido para menores de edad</div>
                 </div>
                 <div>
-                  <div className="font-semibold text-pink-500 mb-2">Datos protegidos</div>
-                  <div className="text-gray-600">Nunca compartidos con terceros</div>
+                  <div className="font-bold text-teal-600 mb-2">Datos súper protegidos</div>
+                  <div className="text-gray-600">Nunca compartidos con nadie</div>
                 </div>
               </div>
             </div>
@@ -299,21 +299,21 @@ const Index = () => {
         </section>
 
         {/* CTA Final */}
-        <section className="py-20 bg-gradient-to-r from-purple-600 to-teal-500">
+        <section className="py-20 bg-gradient-to-r from-pink-500 to-purple-600">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              ¿Lista para descubrir tu superpoder en STEAM?
+              ¿Lista para demostrar de qué estás hecha? 🔥
             </h2>
-            <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
-              MaIA está esperándote para comenzar esta increíble aventura. 
-              Tu futuro brillante en ciencia y tecnología empieza aquí.
+            <p className="text-xl text-pink-100 mb-8 max-w-2xl mx-auto">
+              maIA está esperándote para comenzar esta aventura épica. 
+              Tu momento de brillar en ciencia y tecnología empieza AHORA.
             </p>
             <Button 
               onClick={handleGetStarted}
               size="lg"
-              className="bg-white text-purple-600 hover:bg-purple-50 px-8 py-4 text-lg font-semibold rounded-full"
+              className="bg-white text-pink-600 hover:bg-pink-50 px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
             >
-              ¡Conocer a MaIA ahora! 💜
+              ¡Conocer a maIA AHORA! 💖🚀
             </Button>
           </div>
         </section>

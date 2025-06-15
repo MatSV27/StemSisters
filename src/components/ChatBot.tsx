@@ -26,7 +26,7 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "¡Hola hermosa! 💜 Soy MaIA, tu mentora digital especializada en STEAM. Me emociona mucho conocerte y acompañarte en este increíble viaje de descubrimiento. Basándome en lo que me contaste en el registro, veo que tienes muchísimo potencial. ¿Cómo te sientes hoy? ¿Estás lista para explorar juntas el mundo de Ciencia, Tecnología, Ingeniería, Arte y Matemáticas?",
+      text: "¡Hola queen! 💖 Soy maIA, tu hermana mayor digital especializada en STEM. Me emociona muchísimo conocerte y acompañarte en este viaje increíble de descubrimiento. Basándome en lo que me contaste, veo que tienes un potencial BRUTAL. ¿Cómo te sientes hoy? ¿Lista para demostrar de qué estás hecha en Ciencia, Tecnología, Ingeniería y Matemáticas? 🔥✨",
       isBot: true,
       timestamp: new Date()
     }
@@ -70,19 +70,19 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
 
   const generateBotResponse = (userMessage: string): string => {
     const responses = [
-      "¡Me encanta tu curiosidad! 🌟 Basándome en lo que me contaste, creo que te podría interesar explorar el mundo de la programación. ¿Has pensado alguna vez en crear tu propia app? Te tengo el curso perfecto para empezar.",
-      "Wow, eso suena súper emocionante! 💫 Sabes qué, hay una historia increíble de María, una chica de 16 años que también se sentía así. Empezó con un curso de robótica y ahora está creando proyectos increíbles. También hay un hackathon próximo que sería perfecto para ti.",
-      "Te entiendo perfectamente, muchas chicas se sienten así al principio 💜 Pero déjame decirte algo: la ciencia necesita tu perspectiva única. ¿Qué tal si empezamos con algo súper divertido? Tengo un micro-reto de 10 minutos que seguro te va a gustar.",
-      "¡Qué genial! 🚀 Veo que tienes mucho potencial. Te tengo una propuesta: hay un hackathon para chicas de tu edad el próximo mes. ¿Te animas a participar? Yo te ayudo a prepararte y también hay mentoras increíbles en nuestra comunidad.",
-      "Me parece perfecto que pienses así 💖 El autoconocimiento es súper importante. Te sugiero que explores nuestro módulo de 'Descubre tu superpoder STEAM'. Son actividades cortitas pero muy reveladoras. También puedes conectar con otras chicas en la comunidad."
+      "¡Me encanta esa actitud! 🌟 Por lo que me contaste, creo que tienes el perfil perfecto para crear videojuegos. ¿Has pensado en desarrollar algo que inspire a otras chicas como tú? Te tengo el curso perfecto para que empieces a conquistar el mundo gaming.",
+      "¡WOW, eso suena épico! 💫 Sabes qué, hay una historia increíble de Luisa, una chica de 17 años que también se sentía así. Creó un videojuego sobre cambio climático y ¡Nintendo se interesó! También hay un hackathon próximo que sería perfecto para ti.",
+      "Te entiendo perfectamente, muchas de nosotras nos hemos sentido así 💜 Pero déjame decirte algo: el mundo NECESITA tu perspectiva única. ¿Qué tal si empezamos con algo súper divertido? Tengo un reto de 10 minutos que va a hacerte sentir como la científica badass que eres.",
+      "¡Qué genial! 🚀 Tu potencial es BRUTAL. Te tengo una propuesta: hay un hackathon para chicas de tu edad el próximo mes. ¿Te animas a demostrar de qué estás hecha? Yo te ayudo a prepararte y también hay mentoras increíbles en nuestro squad.",
+      "Me parece perfecto que pienses así 💖 El autoconocimiento es súper poderoso. Te sugiero que explores nuestro módulo de 'Descubre tu superpoder STEM'. Son actividades cortitas pero súper reveladoras. También puedes conectar con otras queens en la comunidad."
     ];
     return responses[Math.floor(Math.random() * responses.length)];
   };
 
   const suggestedActivities = [
-    { title: "Crea tu primera app", type: "Microcurso", duration: "30 min", color: "bg-purple-500" },
-    { title: "Experimento: Slime conductor", type: "Reto práctico", duration: "20 min", color: "bg-teal-500" },
-    { title: "Historia: Ana y la NASA", type: "Inspiración", duration: "5 min", color: "bg-pink-500" },
+    { title: "Crea tu primera app que cambie vidas", type: "Microcurso", duration: "30 min", color: "bg-pink-500" },
+    { title: "Experimento: Slime conductor épico", type: "Reto práctico", duration: "20 min", color: "bg-purple-500" },
+    { title: "Historia: María y su app médica", type: "Inspiración", duration: "5 min", color: "bg-teal-500" },
   ];
 
   const handleLogout = () => {
@@ -93,24 +93,24 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
 
   // Navigation component
   const Navigation = () => (
-    <nav className="bg-white border-b border-purple-100 p-4">
+    <nav className="bg-white border-b-2 border-pink-200 p-4">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-teal-500 rounded-full flex items-center justify-center">
+          <div className="w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
             <Atom className="h-5 w-5 text-white" />
           </div>
-          <h1 className="text-xl font-bold text-purple-600">
-            {currentView === 'chat' ? 'Chat con MaIA' :
-             currentView === 'dashboard' ? 'Mi Camino STEAM' :
-             currentView === 'courses' ? 'Microcursos STEAM' :
-             'Comunidad StemSisters'}
+          <h1 className="text-xl font-bold text-pink-600">
+            {currentView === 'chat' ? 'Chat con maIA' :
+             currentView === 'dashboard' ? 'Mi Camino STEM' :
+             currentView === 'courses' ? 'Microcursos STEM' :
+             'Squad StemSisters'}
           </h1>
         </div>
         <div className="flex items-center space-x-2">
           <Button 
             variant={currentView === 'dashboard' ? "default" : "ghost"} 
             onClick={() => setCurrentView('dashboard')}
-            style={currentView === 'dashboard' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+            style={currentView === 'dashboard' ? { backgroundColor: '#FF1493', color: 'white' } : {}}
           >
             <Home className="h-4 w-4 mr-2" />
             Mi Dashboard
@@ -118,7 +118,7 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
           <Button 
             variant={currentView === 'courses' ? "default" : "ghost"} 
             onClick={() => setCurrentView('courses')}
-            style={currentView === 'courses' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+            style={currentView === 'courses' ? { backgroundColor: '#FF1493', color: 'white' } : {}}
           >
             <BookOpen className="h-4 w-4 mr-2" />
             Cursos
@@ -126,18 +126,18 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
           <Button 
             variant={currentView === 'community' ? "default" : "ghost"} 
             onClick={() => setCurrentView('community')}
-            style={currentView === 'community' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+            style={currentView === 'community' ? { backgroundColor: '#FF1493', color: 'white' } : {}}
           >
             <Users className="h-4 w-4 mr-2" />
-            Comunidad
+            Squad
           </Button>
           <Button 
             variant={currentView === 'chat' ? "default" : "ghost"} 
             onClick={() => setCurrentView('chat')}
-            style={currentView === 'chat' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+            style={currentView === 'chat' ? { backgroundColor: '#FF1493', color: 'white' } : {}}
           >
             <MessageCircle className="h-4 w-4 mr-2" />
-            Chat MaIA
+            Chat maIA
           </Button>
           <Button 
             variant="ghost" 
@@ -155,7 +155,7 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
   // Render different views
   if (currentView === 'courses') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
         <Navigation />
         <div className="container mx-auto px-4 py-8">
           <CoursesSection onNavigateToCommunity={() => setCurrentView('community')} />
@@ -166,7 +166,7 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
 
   if (currentView === 'community') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
         <Navigation />
         <div className="container mx-auto px-4 py-8">
           <CommunitySection />
@@ -177,14 +177,14 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
 
   if (currentView === 'dashboard') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
         <Navigation />
 
         <div className="container mx-auto px-4 py-8">
           {/* Welcome back message */}
-          <div className="bg-gradient-to-r from-purple-500 to-teal-500 text-white p-6 rounded-lg mb-8">
-            <h2 className="text-2xl font-bold mb-2">¡Bienvenida de vuelta! 🌟</h2>
-            <p>MaIA tiene nuevas sugerencias personalizadas para ti</p>
+          <div className="bg-gradient-to-r from-pink-500 to-purple-500 text-white p-6 rounded-lg mb-8">
+            <h2 className="text-2xl font-bold mb-2">¡Bienvenida de vuelta, queen! 🌟</h2>
+            <p>maIA tiene nuevas sugerencias épicas para ti</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -192,15 +192,15 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
             <Card className="md:col-span-2">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Target className="h-5 w-5 text-purple-500" />
-                  Mi Camino Actual
+                  <Target className="h-5 w-5 text-pink-500" />
+                  Mi Camino de Conquista STEM
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span>Exploración STEAM</span>
+                      <span>Dominando STEM</span>
                       <span>65%</span>
                     </div>
                     <Progress value={65} className="h-2" />
@@ -208,16 +208,16 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
                   
                   <div className="grid grid-cols-3 gap-4 text-center">
                     <div>
-                      <div className="text-2xl font-bold text-purple-600">3</div>
-                      <div className="text-sm text-gray-600">Áreas exploradas</div>
+                      <div className="text-2xl font-bold text-pink-500">3</div>
+                      <div className="text-sm text-gray-600">Áreas conquistadas</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-teal-600">7</div>
+                      <div className="text-2xl font-bold text-purple-600">7</div>
                       <div className="text-sm text-gray-600">Retos completados</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-pink-500">2</div>
-                      <div className="text-sm text-gray-600">Logros obtenidos</div>
+                      <div className="text-2xl font-bold text-teal-500">2</div>
+                      <div className="text-sm text-gray-600">Logros épicos</div>
                     </div>
                   </div>
                 </div>
@@ -229,22 +229,22 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Award className="h-5 w-5 text-yellow-500" />
-                  Mis Logros
+                  Mis Logros Épicos
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <Badge 
                     className="w-full justify-start text-white"
-                    style={{ backgroundColor: '#FF6B9D' }}
+                    style={{ backgroundColor: '#FF1493' }}
                   >
-                    🎯 Primera exploradora
+                    🎯 Conquistadora STEM
                   </Badge>
                   <Badge 
                     className="w-full justify-start text-white"
                     style={{ backgroundColor: '#FFD166' }}
                   >
-                    💻 Programadora novata
+                    💻 Programadora Badass
                   </Badge>
                   <div className="text-sm text-gray-500 mt-4">
                     ¡2 logros más por desbloquear!
@@ -256,10 +256,10 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
 
           {/* Sugerencias de hoy */}
           <div className="mt-8">
-            <h3 className="text-xl font-bold mb-4">MaIA sugiere para ti hoy:</h3>
+            <h3 className="text-xl font-bold mb-4">maIA sugiere para ti hoy:</h3>
             <div className="grid md:grid-cols-3 gap-6">
               {suggestedActivities.map((activity, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer">
+                <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer border-2 border-pink-200">
                   <CardHeader>
                     <div className={`w-12 h-12 rounded-lg ${activity.color} flex items-center justify-center mb-2`}>
                       <BookOpen className="h-6 w-6 text-white" />
@@ -271,8 +271,8 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
                       <Badge variant="outline">{activity.type}</Badge>
                       <span className="text-sm text-gray-500">{activity.duration}</span>
                     </div>
-                    <Button className="w-full mt-4" style={{ backgroundColor: '#7E4EFF' }}>
-                      Empezar ahora
+                    <Button className="w-full mt-4" style={{ backgroundColor: '#FF1493' }}>
+                      ¡Empezar ahora!
                     </Button>
                   </CardContent>
                 </Card>
@@ -280,28 +280,28 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
             </div>
           </div>
 
-          {/* MaIA's recommendation */}
-          <Card className="mt-8 border-purple-200 bg-purple-50">
+          {/* maIA's recommendation */}
+          <Card className="mt-8 border-pink-200 bg-pink-50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-teal-500 rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
                   <Atom className="h-4 w-4 text-white" />
                 </div>
-                Mensaje de MaIA para ti
+                Mensaje de maIA para ti
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-purple-700 italic">
-                "¡Estás progresando increíble! He notado que te gustan los retos prácticos. 
-                Te recomiendo el experimento de slime conductor - es perfecto para entender circuitos de manera divertida. 
-                ¡Y no olvides compartir tus logros en la comunidad! 💜"
+              <p className="text-pink-700 italic">
+                "¡Estás progresando de manera BRUTAL! He notado que te gustan los retos prácticos súper cool. 
+                Te recomiendo el experimento de slime conductor - es perfecto para entender circuitos de manera épica. 
+                ¡Y no olvides compartir tus logros increíbles en el squad! 💖"
               </p>
               <Button 
                 onClick={() => setCurrentView('chat')} 
                 className="mt-4" 
-                style={{ backgroundColor: '#7E4EFF' }}
+                style={{ backgroundColor: '#FF1493' }}
               >
-                Hablar con MaIA
+                Hablar con maIA
               </Button>
             </CardContent>
           </Card>
@@ -311,17 +311,17 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
       {/* Header */}
-      <header className="bg-white border-b border-purple-100 p-4">
+      <header className="bg-white border-b-2 border-pink-200 p-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-teal-500 rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
               <Atom className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-purple-600">MaIA - Tu mentora STEAM</h1>
-              <p className="text-sm text-gray-500">Siempre aquí para ti 💜</p>
+              <h1 className="font-bold text-pink-600">maIA - Tu hermana mayor STEM</h1>
+              <p className="text-sm text-gray-500">Siempre aquí para ti 💖</p>
             </div>
           </div>
           <div className="flex space-x-2">
@@ -358,12 +358,9 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
                 <div
                   className={`max-w-[70%] p-4 rounded-2xl ${
                     message.isBot
-                      ? 'bg-teal-100 text-teal-800 rounded-tl-sm'
+                      ? 'bg-pink-100 text-pink-800 rounded-tl-sm'
                       : 'bg-purple-100 text-purple-800 rounded-tr-sm'
                   }`}
-                  style={{
-                    backgroundColor: message.isBot ? '#E6FFFA' : '#F3E8FF'
-                  }}
                 >
                   <p className="text-sm leading-relaxed">{message.text}</p>
                   <p className="text-xs opacity-70 mt-2">
@@ -376,13 +373,13 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
           </div>
 
           {/* Quick suggestions */}
-          <div className="px-6 py-3 border-t border-purple-100">
+          <div className="px-6 py-3 border-t-2 border-pink-200">
             <div className="flex gap-2 flex-wrap">
               <Button
                 size="sm"
                 variant="outline"
                 onClick={() => setInputMessage("¿Qué carreras me recomiendas según mi perfil?")}
-                className="text-purple-600 border-purple-200"
+                className="text-pink-600 border-pink-200"
               >
                 ¿Qué carreras me recomiendas?
               </Button>
@@ -390,22 +387,22 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
                 size="sm"
                 variant="outline"
                 onClick={() => setInputMessage("Me siento perdida, ¿puedes ayudarme?")}
-                className="text-teal-600 border-teal-200"
+                className="text-purple-600 border-purple-200"
               >
                 Me siento perdida
               </Button>
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => setInputMessage("Cuéntame una historia inspiradora")}
-                className="text-pink-600 border-pink-200"
+                onClick={() => setInputMessage("Cuéntame una historia épica de una chica que lo logró")}
+                className="text-teal-600 border-teal-200"
               >
                 Quiero inspiración
               </Button>
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => setInputMessage("¿Qué eventos hay próximamente?")}
+                onClick={() => setInputMessage("¿Qué eventos cool hay próximamente?")}
                 className="text-yellow-600 border-yellow-200"
               >
                 Eventos y oportunidades
@@ -414,19 +411,19 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
           </div>
 
           {/* Input area */}
-          <div className="p-6 border-t border-purple-100 bg-white">
+          <div className="p-6 border-t-2 border-pink-200 bg-white">
             <div className="flex gap-3">
               <Input
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                placeholder="Comparte conmigo lo que sientes o piensas... 💜"
+                placeholder="Comparte conmigo lo que sientes o piensas... 💖"
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                className="flex-1 border-purple-200 focus:border-purple-400"
+                className="flex-1 border-pink-200 focus:border-pink-400"
               />
               <Button
                 onClick={handleSendMessage}
                 className="text-white"
-                style={{ backgroundColor: '#7E4EFF' }}
+                style={{ backgroundColor: '#FF1493' }}
               >
                 <Send className="h-4 w-4" />
               </Button>
@@ -435,32 +432,32 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
         </div>
 
         {/* Sidebar with suggestions */}
-        <div className="w-80 border-l border-purple-100 bg-white p-6">
-          <h3 className="font-bold text-gray-800 mb-4">Sugerencias para ti</h3>
+        <div className="w-80 border-l-2 border-pink-200 bg-white p-6">
+          <h3 className="font-bold text-gray-800 mb-4">Sugerencias épicas para ti</h3>
           
           <div className="space-y-4">
             {suggestedActivities.map((activity, index) => (
-              <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer">
+              <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer border-pink-200">
                 <CardContent className="p-4">
                   <div className={`w-8 h-8 rounded-lg ${activity.color} flex items-center justify-center mb-2`}>
                     <BookOpen className="h-4 w-4 text-white" />
                   </div>
                   <h4 className="font-semibold text-sm mb-1">{activity.title}</h4>
                   <p className="text-xs text-gray-500 mb-2">{activity.type} • {activity.duration}</p>
-                  <Button size="sm" className="w-full text-xs" style={{ backgroundColor: '#7E4EFF' }}>
-                    Empezar
+                  <Button size="sm" className="w-full text-xs" style={{ backgroundColor: '#FF1493' }}>
+                    ¡Empezar!
                   </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
 
-          <div className="mt-8 p-4 bg-purple-50 rounded-lg">
+          <div className="mt-8 p-4 bg-pink-50 rounded-lg">
             <div className="text-center">
               <Star className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
-              <h4 className="font-semibold text-purple-800 mb-2">¡Sigue así!</h4>
-              <p className="text-sm text-purple-600">
-                Has completado 7 actividades. ¡Solo 3 más para tu próximo logro!
+              <h4 className="font-semibold text-pink-800 mb-2">¡Sigue así, queen!</h4>
+              <p className="text-sm text-pink-600">
+                Has completado 7 actividades épicas. ¡Solo 3 más para tu próximo logro badass!
               </p>
               <Progress value={70} className="mt-3" />
             </div>
@@ -471,27 +468,27 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
             <div className="space-y-2">
               <Button 
                 variant="outline" 
-                className="w-full justify-start text-sm"
+                className="w-full justify-start text-sm border-pink-200"
                 onClick={() => setCurrentView('courses')}
               >
                 <Users className="h-4 w-4 mr-2" />
-                Ver cursos
+                Ver cursos épicos
               </Button>
               <Button 
                 variant="outline" 
-                className="w-full justify-start text-sm"
+                className="w-full justify-start text-sm border-purple-200"
                 onClick={() => setCurrentView('dashboard')}
               >
                 <Trophy className="h-4 w-4 mr-2" />
-                Mis logros
+                Mis logros badass
               </Button>
               <Button 
                 variant="outline" 
-                className="w-full justify-start text-sm"
+                className="w-full justify-start text-sm border-teal-200"
                 onClick={() => setCurrentView('community')}
               >
                 <Share2 className="h-4 w-4 mr-2" />
-                Ir a comunidad
+                Ir al squad
               </Button>
             </div>
           </div>
