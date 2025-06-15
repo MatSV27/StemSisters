@@ -1,11 +1,14 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Send, Heart, Star, Users, BookOpen, Award, Target, MessageCircle, Home } from "lucide-react";
+import { Send, Heart, Star, Users, BookOpen, Award, Target, MessageCircle, Home, Trophy, Share2 } from "lucide-react";
+import CoursesSection from "@/components/CoursesSection";
+import AchievementsSection from "@/components/AchievementsSection";
+import ChallengeShare from "@/components/ChallengeShare";
+import RecognitionSection from "@/components/RecognitionSection";
 
 interface Message {
   id: number;
@@ -24,7 +27,7 @@ const ChatBot = () => {
     }
   ]);
   const [inputMessage, setInputMessage] = useState("");
-  const [currentView, setCurrentView] = useState<'chat' | 'dashboard' | 'community' | 'courses'>('chat');
+  const [currentView, setCurrentView] = useState<'chat' | 'dashboard' | 'community' | 'courses' | 'achievements' | 'challenges' | 'recognition'>('chat');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -77,25 +80,130 @@ const ChatBot = () => {
     { title: "Historia: Ana y la NASA", type: "Inspiración", duration: "5 min", color: "bg-pink-500" },
   ];
 
+  // Navigation component
+  const Navigation = () => (
+    <nav className="bg-white border-b border-purple-100 p-4">
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl font-bold text-purple-600">
+          {currentView === 'chat' ? 'Sofia - Tu hermana mayor' :
+           currentView === 'dashboard' ? 'Mi Camino STEM' :
+           currentView === 'courses' ? 'Microcursos' :
+           currentView === 'achievements' ? 'Mis Logros' :
+           currentView === 'challenges' ? 'Comparte tu Éxito' :
+           currentView === 'recognition' ? 'Reconocimientos' :
+           'Comunidad StemSisters'}
+        </h1>
+        <div className="flex space-x-2">
+          <Button 
+            variant={currentView === 'dashboard' ? "default" : "ghost"} 
+            onClick={() => setCurrentView('dashboard')}
+            style={currentView === 'dashboard' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+          >
+            <Home className="h-4 w-4 mr-2" />
+            Dashboard
+          </Button>
+          <Button 
+            variant={currentView === 'courses' ? "default" : "ghost"} 
+            onClick={() => setCurrentView('courses')}
+            style={currentView === 'courses' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+          >
+            <BookOpen className="h-4 w-4 mr-2" />
+            Cursos
+          </Button>
+          <Button 
+            variant={currentView === 'achievements' ? "default" : "ghost"} 
+            onClick={() => setCurrentView('achievements')}
+            style={currentView === 'achievements' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+          >
+            <Trophy className="h-4 w-4 mr-2" />
+            Logros
+          </Button>
+          <Button 
+            variant={currentView === 'challenges' ? "default" : "ghost"} 
+            onClick={() => setCurrentView('challenges')}
+            style={currentView === 'challenges' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+          >
+            <Share2 className="h-4 w-4 mr-2" />
+            Compartir
+          </Button>
+          <Button 
+            variant={currentView === 'recognition' ? "default" : "ghost"} 
+            onClick={() => setCurrentView('recognition')}
+            style={currentView === 'recognition' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+          >
+            <Award className="h-4 w-4 mr-2" />
+            Top Chicas
+          </Button>
+          <Button 
+            variant={currentView === 'chat' ? "default" : "ghost"} 
+            onClick={() => setCurrentView('chat')}
+            style={currentView === 'chat' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+          >
+            <MessageCircle className="h-4 w-4 mr-2" />
+            Chat Sofia
+          </Button>
+          <Button 
+            variant={currentView === 'community' ? "default" : "ghost"} 
+            onClick={() => setCurrentView('community')}
+            style={currentView === 'community' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+          >
+            <Users className="h-4 w-4 mr-2" />
+            Comunidad
+          </Button>
+        </div>
+      </div>
+    </nav>
+  );
+
+  // Render different views
+  if (currentView === 'courses') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8">
+          <CoursesSection />
+        </div>
+      </div>
+    );
+  }
+
+  if (currentView === 'achievements') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8">
+          <AchievementsSection />
+        </div>
+      </div>
+    );
+  }
+
+  if (currentView === 'challenges') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8">
+          <ChallengeShare />
+        </div>
+      </div>
+    );
+  }
+
+  if (currentView === 'recognition') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8">
+          <RecognitionSection />
+        </div>
+      </div>
+    );
+  }
+
   if (currentView === 'dashboard') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
-        {/* Navigation */}
-        <nav className="bg-white border-b border-purple-100 p-4">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold text-purple-600">Mi Camino STEM</h1>
-            <div className="flex space-x-2">
-              <Button variant="ghost" onClick={() => setCurrentView('chat')}>
-                <MessageCircle className="h-4 w-4 mr-2" />
-                Chat con Sofia
-              </Button>
-              <Button variant="ghost" onClick={() => setCurrentView('community')}>
-                <Users className="h-4 w-4 mr-2" />
-                Comunidad
-              </Button>
-            </div>
-          </div>
-        </nav>
+        <Navigation />
 
         <div className="container mx-auto px-4 py-8">
           {/* Welcome back message */}
@@ -204,22 +312,7 @@ const ChatBot = () => {
   if (currentView === 'community') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
-        {/* Navigation */}
-        <nav className="bg-white border-b border-purple-100 p-4">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold text-purple-600">Comunidad StemSisters</h1>
-            <div className="flex space-x-2">
-              <Button variant="ghost" onClick={() => setCurrentView('dashboard')}>
-                <Home className="h-4 w-4 mr-2" />
-                Mi Dashboard
-              </Button>
-              <Button variant="ghost" onClick={() => setCurrentView('chat')}>
-                <MessageCircle className="h-4 w-4 mr-2" />
-                Chat con Sofia
-              </Button>
-            </div>
-          </div>
-        </nav>
+        <Navigation />
 
         <div className="container mx-auto px-4 py-8">
           <div className="grid md:grid-cols-3 gap-8">
