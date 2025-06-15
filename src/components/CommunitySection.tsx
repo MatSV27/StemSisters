@@ -3,9 +3,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -18,11 +16,9 @@ import {
   Trophy, 
   Target, 
   Star, 
-  Calendar,
-  MapPin,
-  Gift,
   Clock,
-  ExternalLink
+  ExternalLink,
+  TrendingUp
 } from "lucide-react";
 
 interface CommunityPost {
@@ -41,7 +37,7 @@ interface CommunitySectionProps {
 }
 
 const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionProps) => {
-  const [activeTab, setActiveTab] = useState("logros");
+  const [activeTab, setActiveTab] = useState("todo");
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [shareType, setShareType] = useState<'logro' | 'apoyo' | 'pregunta'>('logro');
   const [shareContent, setShareContent] = useState("");
@@ -78,25 +74,29 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
     }
   ]);
 
-  const handleShare = () => {
-    if (!shareContent.trim()) return;
-    
-    const newPost: CommunityPost = {
-      id: posts.length + 1,
-      author: "Tú",
-      avatar: "👤",
-      content: shareContent,
-      type: shareType,
-      timestamp: "ahora",
-      likes: 0,
-      comments: 0
-    };
-
-    setPosts([newPost, ...posts]);
-    setShareContent("");
-    setShareDialogOpen(false);
-    setActiveTab(shareType);
-  };
+  const topExplorers = [
+    {
+      name: "Ana L.",
+      field: "AI & Data",
+      points: 1250,
+      avatar: "👩‍💻",
+      message: "¿Necesitas ayuda? ¡Pregúntame! 💖"
+    },
+    {
+      name: "Valentina S.",
+      field: "Web Dev",
+      points: 1180,
+      avatar: "👩‍💻",
+      message: ""
+    },
+    {
+      name: "Isabella M.",
+      field: "Biotecnología",
+      points: 985,
+      avatar: "👩‍🔬",
+      message: ""
+    }
+  ];
 
   const eventsOpportunities = [
     {
@@ -131,8 +131,28 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
     }
   ];
 
+  const handleShare = () => {
+    if (!shareContent.trim()) return;
+    
+    const newPost: CommunityPost = {
+      id: posts.length + 1,
+      author: "Tú",
+      avatar: "👤",
+      content: shareContent,
+      type: shareType,
+      timestamp: "ahora",
+      likes: 0,
+      comments: 0
+    };
+
+    setPosts([newPost, ...posts]);
+    setShareContent("");
+    setShareDialogOpen(false);
+    setActiveTab(shareType);
+  };
+
   const renderPosts = (filterType: string) => {
-    const filteredPosts = filterType === 'todos' ? posts : posts.filter(post => post.type === filterType);
+    const filteredPosts = filterType === 'todo' ? posts : posts.filter(post => post.type === filterType);
     
     return filteredPosts.map(post => (
       <Card key={post.id} className="mb-4 border-pink-200 hover:shadow-md transition-shadow">
@@ -176,168 +196,301 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
   };
 
   return (
-    <div className="space-y-8">
-      {/* Header con estadísticas */}
-      <div className="grid md:grid-cols-3 gap-6">
-        <Card className="text-center border-pink-200">
-          <CardContent className="pt-6">
-            <Users className="h-8 w-8 text-pink-500 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-pink-600">2,847</div>
-            <div className="text-sm text-gray-600">Exploradoras activas</div>
-          </CardContent>
-        </Card>
-        <Card className="text-center border-purple-200">
-          <CardContent className="pt-6">
-            <Trophy className="h-8 w-8 text-purple-500 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-purple-600">1,234</div>
-            <div className="text-sm text-gray-600">Logros compartidos</div>
-          </CardContent>
-        </Card>
-        <Card className="text-center border-teal-200">
-          <CardContent className="pt-6">
-            <Star className="h-8 w-8 text-teal-500 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-teal-600">987</div>
-            <div className="text-sm text-gray-600">Metas alcanzadas</div>
-          </CardContent>
-        </Card>
+    <div className="bg-gradient-to-br from-pink-50 via-white to-purple-50 min-h-screen">
+      {/* Hero Section */}
+      <div className="text-center py-12 px-4">
+        <div className="flex justify-between items-center max-w-6xl mx-auto">
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">
+              Existen más exploradoras que aprenden contigo ✨
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl">
+              Conecta con chicas geniales como tú, comparte tus logros épicos y encuentra el apoyo que 
+              mereces para conquistar el mundo STEM
+            </p>
+          </div>
+          <Button 
+            className="text-white font-bold px-6 py-3 rounded-full"
+            style={{ backgroundColor: '#FF1493' }}
+          >
+            <Trophy className="h-4 w-4 mr-2" />
+            Mis Logros
+          </Button>
+        </div>
       </div>
 
-      {/* Botón Compartir */}
-      <Card className="border-pink-200 bg-gradient-to-r from-pink-50 to-purple-50">
-        <CardContent className="pt-6">
-          <div className="text-center">
-            <h3 className="text-xl font-bold text-gray-800 mb-2">¡Comparte tu experiencia!</h3>
-            <p className="text-gray-600 mb-4">
-              Tu historia puede inspirar a otras chicas increíbles como tú
-            </p>
-            <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="text-white" style={{ backgroundColor: '#FF1493' }}>
-                  <Share2 className="h-4 w-4 mr-2" />
-                  Compartir con la comunidad
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Comparte con tu Squad 💖</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">¿Qué quieres compartir?</label>
-                    <Select value={shareType} onValueChange={(value: 'logro' | 'apoyo' | 'pregunta') => setShareType(value)}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="logro">🏆 Logro - ¡Algo que lograste!</SelectItem>
-                        <SelectItem value="apoyo">💖 Apoyo - Necesitas palabras de aliento</SelectItem>
-                        <SelectItem value="pregunta">❓ Pregunta - Necesitas ayuda</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Cuéntanos tu historia</label>
-                    <Textarea
-                      value={shareContent}
-                      onChange={(e) => setShareContent(e.target.value)}
-                      placeholder="Escribe aquí lo que quieres compartir con tu squad..."
-                      rows={4}
-                    />
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Main Content - Left Side */}
+        <div className="lg:col-span-3 space-y-6">
+          {/* Share Section */}
+          <Card className="border-pink-200">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-pink-600">
+                <Star className="h-5 w-5" />
+                ¿Qué quieres compartir con las exploradoras?
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <Textarea
+                  placeholder="Comparte tu logro épico, pide apoyo, o cuenta qué estás aprendiendo... ✨"
+                  rows={3}
+                  className="border-pink-200 focus:border-pink-400"
+                />
+                <div className="flex justify-between items-center">
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="border-yellow-200 text-yellow-600 hover:bg-yellow-50"
+                      onClick={() => {setShareType('logro'); setShareDialogOpen(true);}}
+                    >
+                      🏆 Logro
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="border-pink-200 text-pink-600 hover:bg-pink-50"
+                      onClick={() => {setShareType('apoyo'); setShareDialogOpen(true);}}
+                    >
+                      💖 Apoyo
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="border-purple-200 text-purple-600 hover:bg-purple-50"
+                      onClick={() => {setShareType('pregunta'); setShareDialogOpen(true);}}
+                    >
+                      ❓ Pregunta
+                    </Button>
                   </div>
                   <Button 
-                    onClick={handleShare}
-                    className="w-full text-white"
+                    className="text-white font-bold"
                     style={{ backgroundColor: '#FF1493' }}
-                    disabled={!shareContent.trim()}
+                    onClick={() => setShareDialogOpen(true)}
                   >
-                    Publicar en la comunidad
+                    Compartir ✨
                   </Button>
                 </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </CardContent>
-      </Card>
+              </div>
+            </CardContent>
+          </Card>
 
-      {/* Tabs principales */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="logros">🏆 Logros</TabsTrigger>
-          <TabsTrigger value="apoyo">💖 Apoyo</TabsTrigger>
-          <TabsTrigger value="preguntas">❓ Preguntas</TabsTrigger>
-          <TabsTrigger value="eventos-oportunidades">🎯 Eventos y Oportunidades</TabsTrigger>
-        </TabsList>
+          {/* Tabs */}
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid w-full grid-cols-5 bg-white border-2 border-pink-200">
+              <TabsTrigger value="todo" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
+                ✨ Todo
+              </TabsTrigger>
+              <TabsTrigger value="logros" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
+                🏆 Logros
+              </TabsTrigger>
+              <TabsTrigger value="apoyo" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
+                💖 Apoyo
+              </TabsTrigger>
+              <TabsTrigger value="oportunidades" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
+                🚀 Oportunidades
+              </TabsTrigger>
+              <TabsTrigger value="preguntas" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
+                ❓ Preguntas
+              </TabsTrigger>
+            </TabsList>
 
-        <TabsContent value="logros" className="space-y-4">
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Celebremos juntas cada victoria 🎉</h3>
-            {renderPosts('logro')}
-          </div>
-        </TabsContent>
+            <TabsContent value="todo" className="space-y-4 mt-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Star className="h-5 w-5 text-yellow-500" />
+                  Historias de Éxito que Inspiran 🔥
+                </h3>
+                {renderPosts('todo')}
+              </div>
+            </TabsContent>
 
-        <TabsContent value="apoyo" className="space-y-4">
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Aquí estamos para apoyarnos 💝</h3>
-            {renderPosts('apoyo')}
-          </div>
-        </TabsContent>
+            <TabsContent value="logros" className="space-y-4 mt-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Celebremos juntas cada victoria 🎉</h3>
+                {renderPosts('logro')}
+              </div>
+            </TabsContent>
 
-        <TabsContent value="preguntas" className="space-y-4">
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Ninguna pregunta es tonta 🤓</h3>
-            {renderPosts('pregunta')}
-          </div>
-        </TabsContent>
+            <TabsContent value="apoyo" className="space-y-4 mt-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Aquí estamos para apoyarnos 💝</h3>
+                {renderPosts('apoyo')}
+              </div>
+            </TabsContent>
 
-        <TabsContent value="eventos-oportunidades" className="space-y-6">
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Oportunidades épicas esperándote 🚀</h3>
-            
-            <Accordion type="single" collapsible className="space-y-4">
-              {eventsOpportunities.map((opportunity, index) => (
-                <AccordionItem key={index} value={`item-${index}`} className="border border-purple-200 rounded-lg">
-                  <AccordionTrigger className="px-4 py-3 hover:no-underline">
-                    <div className="flex items-center gap-3 w-full">
-                      <div className="text-2xl">{opportunity.icon}</div>
-                      <div className="flex-1 text-left">
-                        <div className="font-semibold text-gray-800">{opportunity.title}</div>
-                        <div className="flex gap-2 mt-1">
-                          <Badge variant="outline" className="text-xs">
-                            {opportunity.type}
-                          </Badge>
-                          <Badge variant="outline" className="text-xs border-green-200 text-green-600">
-                            {opportunity.country}
-                          </Badge>
-                          <Badge variant="outline" className="text-xs border-red-200 text-red-600">
-                            <Clock className="h-3 w-3 mr-1" />
-                            {opportunity.deadline}
-                          </Badge>
+            <TabsContent value="preguntas" className="space-y-4 mt-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Ninguna pregunta es tonta 🤓</h3>
+                {renderPosts('pregunta')}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="oportunidades" className="space-y-6 mt-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Oportunidades épicas esperándote 🚀</h3>
+                
+                <Accordion type="single" collapsible className="space-y-4">
+                  {eventsOpportunities.map((opportunity, index) => (
+                    <AccordionItem key={index} value={`item-${index}`} className="border border-purple-200 rounded-lg">
+                      <AccordionTrigger className="px-4 py-3 hover:no-underline">
+                        <div className="flex items-center gap-3 w-full">
+                          <div className="text-2xl">{opportunity.icon}</div>
+                          <div className="flex-1 text-left">
+                            <div className="font-semibold text-gray-800">{opportunity.title}</div>
+                            <div className="flex gap-2 mt-1">
+                              <Badge variant="outline" className="text-xs">
+                                {opportunity.type}
+                              </Badge>
+                              <Badge variant="outline" className="text-xs border-green-200 text-green-600">
+                                {opportunity.country}
+                              </Badge>
+                              <Badge variant="outline" className="text-xs border-red-200 text-red-600">
+                                <Clock className="h-3 w-3 mr-1" />
+                                {opportunity.deadline}
+                              </Badge>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-bold text-purple-600">{opportunity.amount}</div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-bold text-purple-600">{opportunity.amount}</div>
-                      </div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-4 pb-4">
-                    <div className="space-y-3">
-                      <p className="text-gray-600">{opportunity.description}</p>
-                      <div>
-                        <h5 className="font-semibold text-sm text-gray-800 mb-1">Requisitos:</h5>
-                        <p className="text-sm text-gray-600">{opportunity.requirements}</p>
-                      </div>
-                      <Button size="sm" className="w-full text-white" style={{ backgroundColor: '#8B5CF6' }}>
-                        <ExternalLink className="h-3 w-3 mr-1" />
-                        Ver detalles y aplicar
-                      </Button>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-4 pb-4">
+                        <div className="space-y-3">
+                          <p className="text-gray-600">{opportunity.description}</p>
+                          <div>
+                            <h5 className="font-semibold text-sm text-gray-800 mb-1">Requisitos:</h5>
+                            <p className="text-sm text-gray-600">{opportunity.requirements}</p>
+                          </div>
+                          <Button size="sm" className="w-full text-white" style={{ backgroundColor: '#8B5CF6' }}>
+                            <ExternalLink className="h-3 w-3 mr-1" />
+                            Ver detalles y aplicar
+                          </Button>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        {/* Right Sidebar */}
+        <div className="lg:col-span-1 space-y-6">
+          {/* Exploradoras Activas */}
+          <Card className="border-pink-200">
+            <CardHeader className="text-center">
+              <CardTitle className="flex items-center justify-center gap-2 text-pink-600">
+                <Users className="h-5 w-5" />
+                Exploradoras Activas
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="text-center space-y-4">
+              <div>
+                <div className="text-3xl font-bold text-pink-600">2,847</div>
+                <div className="text-sm text-gray-600">exploradoras conectadas</div>
+              </div>
+              <div className="flex justify-between text-sm">
+                <div>
+                  <div className="font-bold text-purple-600">156</div>
+                  <div className="text-gray-600">logros compartidos</div>
+                </div>
+                <div>
+                  <div className="font-bold text-teal-600">423</div>
+                  <div className="text-gray-600">proyectos activos</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Top Exploradoras */}
+          <Card className="border-yellow-200">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-yellow-600">
+                <Trophy className="h-5 w-5" />
+                Top Exploradoras
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {topExplorers.map((explorer, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <div className="text-2xl">{explorer.avatar}</div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-gray-800">{explorer.name}</div>
+                    <div className="text-sm text-gray-600">{explorer.field}</div>
+                    {explorer.message && (
+                      <div className="text-xs text-pink-600 mt-1">{explorer.message}</div>
+                    )}
+                  </div>
+                  <div className="text-right">
+                    <div className="font-bold text-purple-600">{explorer.points}</div>
+                    <div className="text-xs text-gray-500">puntos</div>
+                  </div>
+                </div>
               ))}
-            </Accordion>
+              <Button variant="outline" size="sm" className="w-full text-yellow-600 border-yellow-200">
+                Ver más
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Help Section */}
+          <Card className="border-purple-200">
+            <CardContent className="pt-6 text-center">
+              <div className="text-2xl mb-2">💖</div>
+              <h4 className="font-semibold text-gray-800 mb-2">¿Necesitas ayuda?</h4>
+              <p className="text-sm text-gray-600 mb-3">¡Pregúntame!</p>
+              <Button size="sm" variant="outline" className="border-purple-200 text-purple-600">
+                💬 Pregúntame
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Share Dialog */}
+      <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Comparte con tu Squad 💖</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium mb-2 block">¿Qué quieres compartir?</label>
+              <Select value={shareType} onValueChange={(value: 'logro' | 'apoyo' | 'pregunta') => setShareType(value)}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="logro">🏆 Logro - ¡Algo que lograste!</SelectItem>
+                  <SelectItem value="apoyo">💖 Apoyo - Necesitas palabras de aliento</SelectItem>
+                  <SelectItem value="pregunta">❓ Pregunta - Necesitas ayuda</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-2 block">Cuéntanos tu historia</label>
+              <Textarea
+                value={shareContent}
+                onChange={(e) => setShareContent(e.target.value)}
+                placeholder="Escribe aquí lo que quieres compartir con tu squad..."
+                rows={4}
+              />
+            </div>
+            <Button 
+              onClick={handleShare}
+              className="w-full text-white"
+              style={{ backgroundColor: '#FF1493' }}
+              disabled={!shareContent.trim()}
+            >
+              Publicar en la comunidad
+            </Button>
           </div>
-        </TabsContent>
-      </Tabs>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

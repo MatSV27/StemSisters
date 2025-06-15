@@ -2,13 +2,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { Star, Users, BookOpen, Award, MessageCircle, Sparkles, Heart, Target, Bot, Zap, Shield, Atom, User, LogOut, Crown } from "lucide-react";
 import WelcomeSection from "@/components/WelcomeSection";
 import AuthModal from "@/components/AuthModal";
 import InitialSurvey from "@/components/InitialSurvey";
 import FloatingMaYA from "@/components/FloatingMaIA";
-import ImprovedCoursesSection from "@/components/ImprovedCoursesSection";
+import CoursesSection from "@/components/CoursesSection";
 import AchievementsSection from "@/components/AchievementsSection";
 import CommunitySection from "@/components/CommunitySection";
 import AchievementsPage from "@/components/AchievementsPage";
@@ -21,7 +20,7 @@ const Index = () => {
   const [showSurvey, setShowSurvey] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<any>(null);
-  const [currentView, setCurrentView] = useState<'home' | 'courses' | 'dashboard' | 'community' | 'success-stories' | 'events-opportunities'>('community');
+  const [currentView, setCurrentView] = useState<'home' | 'courses' | 'dashboard' | 'community' | 'success-stories'>('community');
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const handleAuthComplete = (data: any) => {
@@ -141,15 +140,6 @@ const Index = () => {
                 <Crown className="h-4 w-4" />
                 Reinas de la Ciencia ✨
               </Button>
-              <Button 
-                variant={currentView === 'events-opportunities' ? "default" : "ghost"}
-                onClick={() => setCurrentView('events-opportunities')}
-                style={currentView === 'events-opportunities' ? { backgroundColor: '#FF1493', color: 'white' } : {}}
-                className="flex items-center gap-2"
-              >
-                <Target className="h-4 w-4" />
-                Eventos y Oportunidades
-              </Button>
             </nav>
 
             <div className="flex items-center gap-4">
@@ -186,21 +176,11 @@ const Index = () => {
           </div>
         </header>
 
-        <main className="container mx-auto px-4 py-8">
-          {currentView === 'community' && (
-            <CommunitySection onNavigateToEventsOpportunities={() => setCurrentView('events-opportunities')} />
-          )}
-          {currentView === 'courses' && <ImprovedCoursesSection onNavigateToCommunity={() => setCurrentView('community')} />}
+        <main>
+          {currentView === 'community' && <CommunitySection />}
+          {currentView === 'courses' && <CoursesSection onNavigateToCommunity={() => setCurrentView('community')} />}
           {currentView === 'dashboard' && <AchievementsSection />}
           {currentView === 'success-stories' && <SuccessProfilesSection />}
-          {currentView === 'events-opportunities' && (
-            <div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-                Eventos y Oportunidades 🚀
-              </h1>
-              <EventsOpportunitiesSection />
-            </div>
-          )}
         </main>
 
         <FloatingMaYA onNavigate={handleNavigation} />
