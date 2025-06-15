@@ -1,73 +1,78 @@
-# Welcome to your Lovable project
+# StemSisters
 
-## Project info
+## Descripción
+StemSisters es una aplicación web moderna construida con React y TypeScript, diseñada para proporcionar una experiencia de usuario excepcional con un enfoque en la accesibilidad y el diseño responsivo.
 
-**URL**: https://lovable.dev/projects/f5396e97-9192-4d5e-b57b-d975f55859db
+## Tecnologías Principales
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- Shadcn/ui
+- React Router DOM
+- React Query
+- Zod (Validación)
+- React Hook Form
 
-## How can I edit this code?
+## Características
+- Interfaz de usuario moderna y accesible
+- Componentes reutilizables y personalizables
+- Sistema de temas claro/oscuro
+- Formularios validados
+- Navegación dinámica
+- Diseño responsivo
+- Animaciones suaves
+- Componentes de UI accesibles
 
-There are several ways of editing your application.
+## Requisitos Previos
+- Node.js (versión recomendada: 18.x o superior)
+- npm o bun
 
-**Use Lovable**
+## Instalación
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f5396e97-9192-4d5e-b57b-d975f55859db) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+1. Clona el repositorio:
+```bash
+git clone [URL_DEL_REPOSITORIO]
+cd StemSisters
 ```
 
-**Edit a file directly in GitHub**
+2. Instala las dependencias:
+```bash
+npm install
+# o
+bun install
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Scripts Disponibles
 
-**Use GitHub Codespaces**
+- `npm run dev` - Inicia el servidor de desarrollo
+- `npm run build` - Construye la aplicación para producción
+- `npm run build:dev` - Construye la aplicación en modo desarrollo
+- `npm run lint` - Ejecuta el linter
+- `npm run preview` - Previsualiza la versión de producción localmente
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Estructura del Proyecto
+```
+StemSisters/
+├── src/              # Código fuente
+├── public/           # Archivos estáticos
+├── components/       # Componentes reutilizables
+├── styles/          # Estilos globales
+└── ...
+```
 
-## What technologies are used for this project?
+## Contribución
+1. Haz un Fork del proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
 
-This project is built with:
+## Licencia
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Contacto
+[Información de contacto del equipo]
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/f5396e97-9192-4d5e-b57b-d975f55859db) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+---
+Desarrollado con ❤️ por el equipo de StemSisters
