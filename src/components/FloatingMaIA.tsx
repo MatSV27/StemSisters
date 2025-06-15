@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Send, X, Maximize2, Minimize2, Heart, Star, Sparkles, Atom } from "lucide-react";
+import { Send, X, Maximize2, Minimize2, Heart, Star, Sparkles, Atom, BookOpen, Users, Trophy } from "lucide-react";
 
 interface Message {
   id: number;
@@ -23,7 +23,7 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "¡Hola exploradora! 💖 Soy maIA, tu asistente personal en este increíble viaje STEM. ¿En qué puedo ayudarte hoy? ¿Quieres explorar cursos, ver tu progreso, o simplemente platicar sobre tus sueños? 🌟",
+      text: "¡Hola exploradora! 💖 Soy maIA, tu mentora STEM personal. Me emociona conocerte y acompañarte en este viaje increíble. ¿En qué puedo ayudarte hoy? ¿Quieres explorar cursos, ver tu progreso, o necesitas inspiración? 🌟",
       isBot: true,
       timestamp: new Date()
     }
@@ -63,10 +63,22 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
   };
 
   const quickActions = [
-    { text: "Ver mis cursos", action: () => onNavigate?.('courses') },
-    { text: "Mi seguimiento", action: () => onNavigate?.('dashboard') },
-    { text: "Comunidad", action: () => onNavigate?.('community') },
-    { text: "Necesito inspiración", action: () => setInputMessage("Cuéntame una historia inspiradora") }
+    { text: "¿Qué me recomiendas aprender?", action: () => setInputMessage("¿Qué me recomiendas aprender según mi perfil?") },
+    { text: "Me siento perdida", action: () => setInputMessage("Me siento perdida, ¿puedes ayudarme a encontrar mi camino?") },
+    { text: "Quiero inspiración", action: () => setInputMessage("Cuéntame historias de exploradoras que lo lograron") },
+    { text: "Oportunidades", action: () => setInputMessage("¿Qué talleres y mentorías hay disponibles?") }
+  ];
+
+  const suggestedCourses = [
+    { title: "Programación para principiantes", students: "1,247", color: "bg-pink-500" },
+    { title: "Ciencias de datos", students: "856", color: "bg-purple-500" },
+    { title: "Desarrollo de videojuegos", students: "1,593", color: "bg-teal-500" }
+  ];
+
+  const stats = [
+    { label: "exploradoras estudiando programación", value: "2,847" },
+    { label: "chicas en ingeniería", value: "1,234" },
+    { label: "futuras científicas", value: "987" }
   ];
 
   if (!isOpen) {
@@ -82,7 +94,7 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
             <span className="text-xs">maIA</span>
           </div>
         </Button>
-        <div className="absolute -top-2 -left-32 bg-white rounded-lg shadow-lg p-2 border border-pink-200 max-w-xs">
+        <div className="absolute -top-2 -left-40 bg-white rounded-lg shadow-lg p-2 border border-pink-200 max-w-xs">
           <p className="text-sm text-gray-700 font-medium">
             ¿Necesitas ayuda? ¡Pregúntame! 💖
           </p>
@@ -102,7 +114,7 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
                 <Atom className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="font-bold text-pink-600">maIA - Tu asistente STEM</h1>
+                <h1 className="font-bold text-pink-600">maIA - Tu mentora STEM</h1>
                 <p className="text-sm text-gray-500">Siempre aquí para ti 💖</p>
               </div>
             </div>
@@ -156,6 +168,23 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
               ))}
             </div>
 
+            {/* Quick actions */}
+            <div className="px-6 py-3 border-t border-pink-200">
+              <div className="flex gap-2 flex-wrap">
+                {quickActions.map((action, index) => (
+                  <Button
+                    key={index}
+                    size="sm"
+                    variant="outline"
+                    onClick={action.action}
+                    className="text-pink-600 border-pink-200 hover:bg-pink-50"
+                  >
+                    {action.text}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
             {/* Input */}
             <div className="p-6 border-t-2 border-pink-200 bg-white">
               <div className="flex gap-3">
@@ -176,6 +205,52 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
               </div>
             </div>
           </div>
+
+          {/* Sidebar con sugerencias */}
+          <div className="w-80 border-l-2 border-pink-200 bg-white p-6 overflow-y-auto">
+            <h3 className="font-bold text-gray-800 mb-4">Sugerencias para ti</h3>
+            
+            <div className="space-y-4 mb-6">
+              {suggestedCourses.map((course, index) => (
+                <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer border-pink-200">
+                  <CardContent className="p-4">
+                    <div className={`w-8 h-8 rounded-lg ${course.color} flex items-center justify-center mb-2`}>
+                      <BookOpen className="h-4 w-4 text-white" />
+                    </div>
+                    <h4 className="font-semibold text-sm mb-1">{course.title}</h4>
+                    <p className="text-xs text-gray-500 mb-2">{course.students} exploradoras estudiando</p>
+                    <Button size="sm" className="w-full text-xs" style={{ backgroundColor: '#FF1493' }}>
+                      ¡Empezar!
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="mb-6">
+              <h4 className="font-semibold text-gray-800 mb-3">Exploradoras activas</h4>
+              <div className="space-y-2">
+                {stats.map((stat, index) => (
+                  <div key={index} className="text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">{stat.value}</span>
+                      <span className="text-pink-600 font-medium">{stat.label}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 p-4 bg-pink-50 rounded-lg">
+              <div className="text-center">
+                <Star className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
+                <h4 className="font-semibold text-pink-800 mb-2">¡Sigue así, genia!</h4>
+                <p className="text-sm text-pink-600">
+                  Eres parte de las 2,847 exploradoras cambiando el mundo
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -192,7 +267,7 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
               </div>
               <div>
                 <CardTitle className="text-sm text-pink-600">maIA</CardTitle>
-                <p className="text-xs text-gray-500">Tu asistente STEM</p>
+                <p className="text-xs text-gray-500">Tu mentora STEM</p>
               </div>
             </div>
             <div className="flex gap-1">

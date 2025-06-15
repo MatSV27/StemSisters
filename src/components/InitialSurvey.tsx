@@ -81,7 +81,7 @@ const InitialSurveyProps = ({ onComplete }: InitialSurveyProps) => {
   const progress = ((currentStep + 1) / questions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <Card className="w-full max-w-2xl border-2 border-pink-200">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">

@@ -46,7 +46,28 @@ const Index = () => {
 
   // Show survey if authenticated but hasn't completed it
   if (isAuthenticated && showSurvey) {
-    return <InitialSurvey onComplete={handleSurveyComplete} />;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
+        {/* Header visible during survey */}
+        <header className="bg-white/90 backdrop-blur-sm border-b-2 border-pink-200 sticky top-0 z-40">
+          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div className="flex items-center space-x-2">
+              <Sparkles className="h-8 w-8 text-pink-500" />
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+                StemSisters
+              </h1>
+            </div>
+          </div>
+        </header>
+
+        <main className="container mx-auto px-4 py-8">
+          <CommunitySection />
+        </main>
+
+        <InitialSurvey onComplete={handleSurveyComplete} />
+        <FloatingMaIA onNavigate={handleNavigation} />
+      </div>
+    );
   }
 
   // Show main app if authenticated
@@ -167,7 +188,7 @@ const Index = () => {
   const appFeatures = [
     {
       icon: Bot,
-      title: "maIA, tu hermana mayor digital STEM",
+      title: "maIA, tu mentora STEM personal",
       description: "Una asistente súper cool que te entiende, te escucha sin juzgar y te ayuda a descubrir tu superpoder en Ciencia, Tecnología, Ingeniería y Matemáticas",
       color: "text-pink-500",
       bgColor: "bg-pink-100"
@@ -210,8 +231,8 @@ const Index = () => {
           <div className="flex items-center gap-4">
             <Button 
               onClick={() => setShowAuth(true)}
-              variant="outline" 
-              className="border-pink-200 text-pink-600 hover:bg-pink-50"
+              className="text-white px-6 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all"
+              style={{ backgroundColor: '#FF1493' }}
             >
               Ingresar
             </Button>
@@ -240,7 +261,7 @@ const Index = () => {
                   </div>
                 </div>
                 <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                  ¡Hola genia! Soy maIA, tu hermana mayor digital STEM 💖
+                  ¡Hola genia! Soy maIA, tu mentora STEM personal 💖
                 </h2>
                 <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
                   Estoy aquí para recordarte que eres increíble y que puedes dominar la Ciencia, Tecnología, Ingeniería y Matemáticas. 
