@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,7 +21,11 @@ interface Profile {
   tags: string[];
 }
 
-const SuccessProfilesSection = () => {
+interface SuccessProfilesSectionProps {
+  onNavigateToCourses?: () => void;
+}
+
+const SuccessProfilesSection = ({ onNavigateToCourses }: SuccessProfilesSectionProps) => {
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
   const [showSimilarModal, setShowSimilarModal] = useState(false);
 
@@ -298,6 +301,7 @@ const SuccessProfilesSection = () => {
                 </p>
                 <Button 
                   size="lg"
+                  onClick={onNavigateToCourses}
                   className="bg-white text-pink-600 hover:bg-pink-50 px-8 py-3 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
                 >
                   ¡Comenzar mi aventura STEM! 🚀

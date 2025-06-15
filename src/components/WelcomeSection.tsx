@@ -46,7 +46,7 @@ const WelcomeSection = ({ onGetStarted }: WelcomeSectionProps) => {
           </p>
 
           <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
-            Somos tu comunidad digital de hermanas mayores que te ayudarán a dominar el increíble mundo de la 
+            Somos tu comunidad digital de <span className="font-bold text-purple-600">hermanas digitales</span> que te ayudarán a dominar el increíble mundo de la 
             <span className="font-bold text-purple-600"> Ciencia, Tecnología, Ingeniería y Matemáticas (STEM)</span>.
           </p>
           
@@ -57,7 +57,7 @@ const WelcomeSection = ({ onGetStarted }: WelcomeSectionProps) => {
               className="text-white px-8 py-4 text-lg font-semibold rounded-full hover:scale-105 transition-transform shadow-lg"
               style={{ backgroundColor: '#FF1493' }}
             >
-              ¡Quiero cambiar el mundo! 🚀💖
+              ¡Empezar con MaYA! 🤖💖
             </Button>
             
             <p className="text-sm text-gray-500 md:ml-4">
@@ -68,7 +68,7 @@ const WelcomeSection = ({ onGetStarted }: WelcomeSectionProps) => {
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="bg-gradient-to-br from-pink-50 to-purple-50 backdrop-blur-sm rounded-2xl p-6 border-2 border-pink-200 hover:shadow-lg transition-all">
               <div className="text-4xl mb-3">🤖✨</div>
-              <h3 className="font-bold text-gray-800 mb-2">maIA te entiende</h3>
+              <h3 className="font-bold text-gray-800 mb-2">MaYA te entiende</h3>
               <p className="text-gray-600 text-sm">Como tu hermana mayor que siempre está ahí</p>
             </div>
             

@@ -15,9 +15,10 @@ interface Message {
 
 interface FloatingMaYAProps {
   onNavigate?: (section: string) => void;
+  onNavigateToCourses?: () => void;
 }
 
-const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
+const FloatingMaYA = ({ onNavigate, onNavigateToCourses }: FloatingMaYAProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -29,6 +30,7 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const [showCourses, setShowCourses] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
 
   const predefinedMessages = [
     {
@@ -49,7 +51,7 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
     {
       text: "¿Qué cursos hay?",
       color: "bg-orange-500",
-      response: "¡Tenemos cursos increíbles! Desde 'Experimentos épicos para chicas curiosas' hasta 'Diseño UX/UI para apps que importan'. Todos están diseñados para que descubras tu superpoder. ¿Te gustaría que te lleve a la sección de cursos?"
+      response: "¡Tenemos cursos increíbles! Desde 'Experimentos épicos para chicas curiosas' hasta 'Diseño UX/UI para apps que importan'. Todos están diseñados para que descubras tu superpoder. Aquí tienes algunos recomendados especialmente para ti:"
     }
   ];
 
@@ -78,6 +80,15 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
       duration: "8 semanas", 
       icon: "🤖"
     }
+  ];
+
+  const helpOptions = [
+    "💬 Puedo ayudarte a encontrar cursos perfectos para ti",
+    "🌟 Te cuento historias inspiradoras de mujeres en STEM",
+    "🎯 Te recomiendo tu próximo paso según tus intereses",
+    "💖 Te apoyo cuando sientes dudas o inseguridades",
+    "📚 Te explico conceptos STEM de forma súper fácil",
+    "🚀 Te motivo a perseguir tus sueños más grandes"
   ];
 
   const handleSendMessage = () => {
@@ -121,6 +132,11 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
 
     setMessages(prev => [...prev, userMessage]);
 
+    // Si es "¿Qué cursos hay?" mostrar cursos
+    if (message.text === "¿Qué cursos hay?") {
+      setShowCourses(true);
+    }
+
     // Respuesta automática
     setTimeout(() => {
       setMessages(prev => [...prev, {
@@ -130,6 +146,17 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
         timestamp: new Date()
       }]);
     }, 1000);
+  };
+
+  const handleViewCourse = () => {
+    setIsOpen(false);
+    if (onNavigateToCourses) {
+      onNavigateToCourses();
+    }
+  };
+
+  const handleShowHelp = () => {
+    setShowHelp(!showHelp);
   };
 
   const generateMaYAResponse = (userMessage: string): string => {
@@ -198,6 +225,7 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
               variant="ghost"
               size="sm"
               className="text-gray-600"
+              onClick={handleShowHelp}
             >
               <HelpCircle className="h-4 w-4" />
               Ayuda
@@ -213,6 +241,28 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
           </div>
         </div>
       </header>
+
+      {/* Show Help Options */}
+      {showHelp && (
+        <div className="bg-purple-50 border-b border-purple-200 p-4">
+          <h3 className="font-semibold text-purple-800 mb-3">¿En qué puedo ayudarte? 💜</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            {helpOptions.map((option, index) => (
+              <div key={index} className="text-sm text-purple-700 bg-white p-2 rounded-lg shadow-sm">
+                {option}
+              </div>
+            ))}
+          </div>
+          <Button
+            onClick={() => setShowHelp(false)}
+            size="sm"
+            className="mt-3 text-white"
+            style={{ backgroundColor: '#FF1493' }}
+          >
+            ¡Entendido!
+          </Button>
+        </div>
+      )}
 
       {/* Main content */}
       <div className="flex h-[calc(100vh-80px)] max-w-7xl mx-auto">
@@ -291,6 +341,7 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
                         size="sm" 
                         className="w-full text-white text-xs"
                         style={{ backgroundColor: '#FF1493' }}
+                        onClick={handleViewCourse}
                       >
                         Ver curso
                       </Button>
