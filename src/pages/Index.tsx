@@ -7,8 +7,8 @@ import { Star, Users, BookOpen, Award, MessageCircle, Sparkles, Heart, Target, B
 import WelcomeSection from "@/components/WelcomeSection";
 import AuthModal from "@/components/AuthModal";
 import InitialSurvey from "@/components/InitialSurvey";
-import FloatingMaIA from "@/components/FloatingMaIA";
-import CoursesSection from "@/components/CoursesSection";
+import FloatingMaYA from "@/components/FloatingMaIA";
+import ImprovedCoursesSection from "@/components/ImprovedCoursesSection";
 import AchievementsSection from "@/components/AchievementsSection";
 import CommunitySection from "@/components/CommunitySection";
 import AchievementsPage from "@/components/AchievementsPage";
@@ -86,7 +86,7 @@ const Index = () => {
         </main>
 
         <InitialSurvey onComplete={handleSurveyComplete} />
-        <FloatingMaIA onNavigate={handleNavigation} />
+        <FloatingMaYA onNavigate={handleNavigation} />
       </div>
     );
   }
@@ -185,12 +185,12 @@ const Index = () => {
               </div>
             </>
           )}
-          {currentView === 'courses' && <CoursesSection onNavigateToCommunity={() => setCurrentView('community')} />}
+          {currentView === 'courses' && <ImprovedCoursesSection onNavigateToCommunity={() => setCurrentView('community')} />}
           {currentView === 'dashboard' && <AchievementsSection />}
           {currentView === 'success-stories' && <SuccessProfilesSection />}
         </main>
 
-        <FloatingMaIA onNavigate={handleNavigation} />
+        <FloatingMaYA onNavigate={handleNavigation} />
       </div>
     );
   }
@@ -298,7 +298,7 @@ const Index = () => {
         {/* Welcome Section */}
         <WelcomeSection onGetStarted={handleRegisterClick} />
 
-        {/* maIA Teaser Section */}
+        {/* MaYA Teaser Section actualizada */}
         <section className="py-16 bg-gradient-to-r from-pink-100 to-purple-100">
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-4xl mx-auto">
@@ -307,16 +307,16 @@ const Index = () => {
                   <div className="w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center animate-pulse">
                     <img 
                       src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
-                      alt="maIA Logo" 
+                      alt="MaYA Logo" 
                       className="h-10 w-10 object-contain"
                     />
                   </div>
                 </div>
                 <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                  ¡Hola genia! Soy maIA, tu mentora STEM personal 💖
+                  ¡Hola genia! Soy MaYA, tu mentora STEM personal 💖
                 </h2>
                 <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
-                  Estoy aquí para recordarte que eres increíble y que puedes dominar la Ciencia, Tecnología, Ingeniería y Matemáticas. 
+                  Estoy aquí para acompañarte a descubrir tus talentos en Ciencia, Tecnología, Ingeniería y Matemáticas. 
                   <span className="text-pink-500 font-bold"> 
                     ¡Juntas vamos a demostrar de qué estamos hechas!
                   </span>
@@ -324,17 +324,17 @@ const Index = () => {
                 <div className="grid md:grid-cols-3 gap-6 mb-8">
                   <div className="text-center">
                     <Heart className="h-8 w-8 text-pink-500 mx-auto mb-2" />
-                    <h4 className="font-bold text-gray-800">Te escucho sin juzgar</h4>
-                    <p className="text-sm text-gray-600">Como tu hermana que siempre está ahí</p>
+                    <h4 className="font-bold text-gray-800">Te entiendo sin juzgar</h4>
+                    <p className="text-sm text-gray-600">Como tu mejor amiga que siempre está ahí</p>
                   </div>
                   <div className="text-center">
                     <Target className="h-8 w-8 text-purple-500 mx-auto mb-2" />
-                    <h4 className="font-bold text-gray-800">Te guío a tu manera</h4>
-                    <p className="text-sm text-gray-600">Contenido súper cool solo para ti</p>
+                    <h4 className="font-bold text-gray-800">Te guío paso a paso</h4>
+                    <p className="text-sm text-gray-600">Contenido súper cool diseñado para ti</p>
                   </div>
                   <div className="text-center">
                     <Zap className="h-8 w-8 text-teal-500 mx-auto mb-2" />
-                    <h4 className="font-bold text-gray-800">Te empodero</h4>
+                    <h4 className="font-bold text-gray-800">Te empodero siempre</h4>
                     <p className="text-sm text-gray-600">Con historias de chicas que lo lograron</p>
                   </div>
                 </div>
@@ -344,7 +344,7 @@ const Index = () => {
                   className="text-white px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
                   style={{ backgroundColor: '#FF1493' }}
                 >
-                  ¡Quiero conocer a maIA! 🚀✨
+                  ¡Quiero conocer a MaYA! 🚀✨
                 </Button>
               </div>
             </div>
@@ -479,7 +479,7 @@ const Index = () => {
               ¿Lista para demostrar de qué estás hecha? 🔥
             </h2>
             <p className="text-xl text-pink-100 mb-8 max-w-2xl mx-auto">
-              maIA está esperándote para comenzar esta aventura épica. 
+              MaYA está esperándote para comenzar esta aventura épica. 
               Tu momento de brillar en ciencia y tecnología empieza AHORA.
             </p>
             <Button 
@@ -487,7 +487,7 @@ const Index = () => {
               size="lg"
               className="bg-white text-pink-600 hover:bg-pink-50 px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
             >
-              ¡Conocer a maIA AHORA! 💖🚀
+              ¡Conocer a MaYA AHORA! 💖🚀
             </Button>
           </div>
         </section>

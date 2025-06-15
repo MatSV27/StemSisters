@@ -13,17 +13,17 @@ interface Message {
   timestamp: Date;
 }
 
-interface FloatingMaIAProps {
+interface FloatingMaYAProps {
   onNavigate?: (section: string) => void;
 }
 
-const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
+const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "¡Hola exploradora! 💖 Soy maIA, tu mentora STEM personal. Me emociona conocerte y acompañarte en este viaje increíble. ¿En qué puedo ayudarte hoy? ¿Quieres explorar cursos, ver tu progreso, o necesitas inspiración? 🌟",
+      text: "¡Hola, bienvenida a StemSisters! Me llamo MaYA y estoy aquí para acompañarte a descubrir tus talentos. 🌟 Antes de empezar… ¿cómo te sientes hoy al pensar en carreras de ciencia, tecnología o matemáticas?",
       isBot: true,
       timestamp: new Date()
     }
@@ -43,16 +43,9 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
     setMessages(prev => [...prev, newMessage]);
     setInputMessage("");
 
-    // Simular respuesta de maIA
+    // Simular respuesta de MaYA con los escenarios proporcionados
     setTimeout(() => {
-      const responses = [
-        "¡Me encanta esa actitud, genia! 🔥 Te veo súper motivada. ¿Te gustaría que te recomiende algunos cursos perfectos para tu perfil?",
-        "¡Qué pregunta tan genial! 💜 Basándome en lo que me cuentas, creo que tienes el potencial para crear cosas increíbles. ¿Quieres que exploremos juntas algunas opciones?",
-        "¡WOW! Me encanta cómo piensas 🌟 Hay tantas exploradoras como tú que han logrado cosas épicas. ¿Te cuento algunas historias inspiradoras?",
-        "¡Eres increíble! 💫 Tu curiosidad me emociona mucho. ¿Qué tal si revisamos tu progreso o exploramos la comunidad de exploradoras?"
-      ];
-      
-      const botResponse = responses[Math.floor(Math.random() * responses.length)];
+      const botResponse = generateMaYAResponse(inputMessage);
       setMessages(prev => [...prev, {
         id: prev.length + 1,
         text: botResponse,
@@ -62,25 +55,55 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
     }, 1000);
   };
 
+  const generateMaYAResponse = (userMessage: string): string => {
+    const lowerMessage = userMessage.toLowerCase();
+    
+    // Escenario 1 - Dudas sobre dificultad
+    if (lowerMessage.includes('difícil') || lowerMessage.includes('dificil') || lowerMessage.includes('complicado') || lowerMessage.includes('no sé') || lowerMessage.includes('no se')) {
+      return "Eso es muy común, y es normal tener dudas. Justamente estamos aquí para ir paso a paso. 💜 ¿Te gustaría que empecemos por algo sencillo? Puedo mostrarte algunas áreas para explorar y tú me dices cuál te llama la atención.";
+    }
+    
+    // Escenario 2 - Después de completar algo
+    if (lowerMessage.includes('terminé') || lowerMessage.includes('complete') || lowerMessage.includes('acabé') || lowerMessage.includes('divertido')) {
+      return "¡Eso pasa mucho cuando programamos: al principio parece complicado, pero después todo empieza a tener sentido! 😊 ¿Quieres seguir probando cosas parecidas? Puedo recomendarte un mini reto para crear tu primer escenario de juego.";
+    }
+    
+    // Escenario 3 - Motivación baja
+    if (lowerMessage.includes('no soy buena') || lowerMessage.includes('malo') || lowerMessage.includes('frustrada') || lowerMessage.includes('perdida')) {
+      return "Te entiendo mucho. Aprender algo nuevo siempre puede ser un desafío. 💖 Recuerda: el talento no nace, se construye con práctica. Si quieres, puedo mostrarte historias de chicas que sintieron lo mismo y hoy están creando cosas increíbles. ¿Te gustaría ver algunas?";
+    }
+    
+    // Respuestas generales más empáticas para adolescentes
+    const responses = [
+      "¡Me encanta esa actitud! 🌟 Sabes qué, hay muchas chicas como tú que han descubierto que STEM puede ser súper divertido. ¿Te gustaría que exploremos juntas algunas opciones que podrían gustarte?",
+      "¡Qué genial que estés aquí! 💫 El mundo necesita más chicas curiosas como tú. ¿Hay algo específico que te llame la atención? ¿Videojuegos, apps, experimentos, robótica?",
+      "Me emociona conocerte 🚀 Cada gran científica o programadora empezó exactamente donde tú estás ahora. ¿Quieres que te cuente sobre algunas chicas súper cool que están cambiando el mundo?",
+      "¡Perfecto! 💜 Estás en el lugar correcto para descubrir cosas increíbles. ¿Te gustaría empezar con un experimento súper fácil o prefieres ver qué cursos tenemos?",
+      "¡Eres increíble por estar aquí! 🌟 Tengo muchas ideas geniales para compartir contigo. ¿Qué te parece si exploramos juntas las áreas de STEM de una manera súper divertida?"
+    ];
+    
+    return responses[Math.floor(Math.random() * responses.length)];
+  };
+
   const quickActions = [
     { 
-      text: "¿Qué me recomiendas aprender?", 
-      action: () => setInputMessage("¿Qué me recomiendas aprender según mi perfil?"),
+      text: "No sé si soy buena en esto", 
+      action: () => setInputMessage("No sé si soy buena en esto, me siento perdida"),
       color: "bg-gradient-to-r from-pink-400 to-pink-600"
     },
     { 
-      text: "Me siento perdida", 
-      action: () => setInputMessage("Me siento perdida, ¿puedes ayudarme a encontrar mi camino?"),
+      text: "¿Qué me recomiendas?", 
+      action: () => setInputMessage("¿Qué me recomiendas para empezar?"),
       color: "bg-gradient-to-r from-purple-400 to-purple-600"
     },
     { 
-      text: "Quiero inspiración", 
-      action: () => setInputMessage("Cuéntame historias de exploradoras que lo lograron"),
+      text: "Quiero historias inspiradoras", 
+      action: () => setInputMessage("Cuéntame historias de chicas que lo lograron"),
       color: "bg-gradient-to-r from-teal-400 to-teal-600"
     },
     { 
-      text: "Oportunidades", 
-      action: () => setInputMessage("¿Qué talleres y mentorías hay disponibles?"),
+      text: "¿Qué cursos hay?", 
+      action: () => setInputMessage("¿Qué cursos súper cool tienen disponibles?"),
       color: "bg-gradient-to-r from-yellow-400 to-orange-500"
     }
   ];
@@ -113,8 +136,12 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
           style={{ backgroundColor: '#FF1493' }}
         >
           <div className="flex flex-col items-center">
-            <Atom className="h-6 w-6" />
-            <span className="text-xs">maIA</span>
+            <img 
+              src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
+              alt="MaYA" 
+              className="h-6 w-6 object-contain"
+            />
+            <span className="text-xs">MaYA</span>
           </div>
         </Button>
       </div>
@@ -280,10 +307,14 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
-                <Atom className="h-5 w-5 text-white" />
+                <img 
+                  src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
+                  alt="MaYA" 
+                  className="h-5 w-5 object-contain"
+                />
               </div>
               <div>
-                <CardTitle className="text-sm text-pink-600">maIA</CardTitle>
+                <CardTitle className="text-sm text-pink-600">MaYA</CardTitle>
                 <p className="text-xs text-gray-500">Tu mentora STEM</p>
               </div>
             </div>
@@ -355,4 +386,4 @@ const FloatingMaIA = ({ onNavigate }: FloatingMaIAProps) => {
   );
 };
 
-export default FloatingMaIA;
+export default FloatingMaYA;

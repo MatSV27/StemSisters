@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Send, Heart, Star, Users, BookOpen, Award, Target, MessageCircle, Home, Trophy, Share2, Bot, LogOut, Atom, Microscope, Calculator } from "lucide-react";
-import CoursesSection from "@/components/CoursesSection";
+import ImprovedCoursesSection from "@/components/ImprovedCoursesSection";
 import AchievementsSection from "@/components/AchievementsSection";
 import ChallengeShare from "@/components/ChallengeShare";
 import RecognitionSection from "@/components/RecognitionSection";
@@ -26,7 +26,7 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "¡Hola queen! 💖 Soy maIA, tu hermana mayor digital especializada en STEM. Me emociona muchísimo conocerte y acompañarte en este viaje increíble de descubrimiento. Basándome en lo que me contaste, veo que tienes un potencial BRUTAL. ¿Cómo te sientes hoy? ¿Lista para demostrar de qué estás hecha en Ciencia, Tecnología, Ingeniería y Matemáticas? 🔥✨",
+      text: "¡Hola, bienvenida a StemSisters! Me llamo MaYA y estoy aquí para acompañarte a descubrir tus talentos. 🌟 Antes de empezar… ¿cómo te sientes hoy al pensar en carreras de ciencia, tecnología o matemáticas?",
       isBot: true,
       timestamp: new Date()
     }
@@ -58,7 +58,7 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
 
     // Simular respuesta del bot
     setTimeout(() => {
-      const botResponse = generateBotResponse(inputMessage);
+      const botResponse = generateMaYAResponse(inputMessage);
       setMessages(prev => [...prev, {
         id: prev.length + 1,
         text: botResponse,
@@ -68,14 +68,33 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
     }, 1000);
   };
 
-  const generateBotResponse = (userMessage: string): string => {
+  const generateMaYAResponse = (userMessage: string): string => {
+    const lowerMessage = userMessage.toLowerCase();
+    
+    // Escenario 1 - Dudas sobre dificultad
+    if (lowerMessage.includes('difícil') || lowerMessage.includes('dificil') || lowerMessage.includes('complicado') || lowerMessage.includes('no sé') || lowerMessage.includes('no se')) {
+      return "Eso es muy común, y es normal tener dudas. Justamente estamos aquí para ir paso a paso. 💜 ¿Te gustaría que empecemos por algo sencillo? Puedo mostrarte algunas áreas para explorar y tú me dices cuál te llama la atención.";
+    }
+    
+    // Escenario 2 - Después de completar algo
+    if (lowerMessage.includes('terminé') || lowerMessage.includes('complete') || lowerMessage.includes('acabé') || lowerMessage.includes('divertido')) {
+      return "¡Eso pasa mucho cuando programamos: al principio parece complicado, pero después todo empieza a tener sentido! 😊 ¿Quieres seguir probando cosas parecidas? Puedo recomendarte un mini reto para crear tu primer escenario de juego.";
+    }
+    
+    // Escenario 3 - Motivación baja
+    if (lowerMessage.includes('no soy buena') || lowerMessage.includes('malo') || lowerMessage.includes('frustrada') || lowerMessage.includes('perdida')) {
+      return "Te entiendo mucho. Aprender algo nuevo siempre puede ser un desafío. 💖 Recuerda: el talento no nace, se construye con práctica. Si quieres, puedo mostrarte historias de chicas que sintieron lo mismo y hoy están creando cosas increíbles. ¿Te gustaría ver algunas?";
+    }
+    
+    // Respuestas generales más empáticas para adolescentes
     const responses = [
-      "¡Me encanta esa actitud! 🌟 Por lo que me contaste, creo que tienes el perfil perfecto para crear videojuegos. ¿Has pensado en desarrollar algo que inspire a otras chicas como tú? Te tengo el curso perfecto para que empieces a conquistar el mundo gaming.",
-      "¡WOW, eso suena épico! 💫 Sabes qué, hay una historia increíble de Luisa, una chica de 17 años que también se sentía así. Creó un videojuego sobre cambio climático y ¡Nintendo se interesó! También hay un hackathon próximo que sería perfecto para ti.",
-      "Te entiendo perfectamente, muchas de nosotras nos hemos sentido así 💜 Pero déjame decirte algo: el mundo NECESITA tu perspectiva única. ¿Qué tal si empezamos con algo súper divertido? Tengo un reto de 10 minutos que va a hacerte sentir como la científica badass que eres.",
-      "¡Qué genial! 🚀 Tu potencial es BRUTAL. Te tengo una propuesta: hay un hackathon para chicas de tu edad el próximo mes. ¿Te animas a demostrar de qué estás hecha? Yo te ayudo a prepararte y también hay mentoras increíbles en nuestro squad.",
-      "Me parece perfecto que pienses así 💖 El autoconocimiento es súper poderoso. Te sugiero que explores nuestro módulo de 'Descubre tu superpoder STEM'. Son actividades cortitas pero súper reveladoras. También puedes conectar con otras queens en la comunidad."
+      "¡Me encanta esa actitud! 🌟 Sabes qué, hay muchas chicas como tú que han descubierto que STEM puede ser súper divertido. ¿Te gustaría que exploremos juntas algunas opciones que podrían gustarte?",
+      "¡Qué genial que estés aquí! 💫 El mundo necesita más chicas curiosas como tú. ¿Hay algo específico que te llame la atención? ¿Videojuegos, apps, experimentos, robótica?",
+      "Me emociona conocerte 🚀 Cada gran científica o programadora empezó exactamente donde tú estás ahora. ¿Quieres que te cuente sobre algunas chicas súper cool que están cambiando el mundo?",
+      "¡Perfecto! 💜 Estás en el lugar correcto para descubrir cosas increíbles. ¿Te gustaría empezar con un experimento súper fácil o prefieres ver qué cursos tenemos?",
+      "¡Eres increíble por estar aquí! 🌟 Tengo muchas ideas geniales para compartir contigo. ¿Qué te parece si exploramos juntas las áreas de STEM de una manera súper divertida?"
     ];
+    
     return responses[Math.floor(Math.random() * responses.length)];
   };
 
@@ -97,10 +116,14 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
-            <Atom className="h-5 w-5 text-white" />
+            <img 
+              src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
+              alt="MaYA" 
+              className="h-5 w-5 object-contain"
+            />
           </div>
           <h1 className="text-xl font-bold text-pink-600">
-            {currentView === 'chat' ? 'Chat con maIA' :
+            {currentView === 'chat' ? 'Chat con MaYA' :
              currentView === 'dashboard' ? 'Mi Camino STEM' :
              currentView === 'courses' ? 'Microcursos STEM' :
              'Squad StemSisters'}
@@ -137,7 +160,7 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
             style={currentView === 'chat' ? { backgroundColor: '#FF1493', color: 'white' } : {}}
           >
             <MessageCircle className="h-4 w-4 mr-2" />
-            Chat maIA
+            Chat MaYA
           </Button>
           <Button 
             variant="ghost" 
@@ -158,7 +181,7 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
       <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
         <Navigation />
         <div className="container mx-auto px-4 py-8">
-          <CoursesSection onNavigateToCommunity={() => setCurrentView('community')} />
+          <ImprovedCoursesSection onNavigateToCommunity={() => setCurrentView('community')} />
         </div>
       </div>
     );
@@ -184,7 +207,7 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
           {/* Welcome back message */}
           <div className="bg-gradient-to-r from-pink-500 to-purple-500 text-white p-6 rounded-lg mb-8">
             <h2 className="text-2xl font-bold mb-2">¡Bienvenida de vuelta, queen! 🌟</h2>
-            <p>maIA tiene nuevas sugerencias épicas para ti</p>
+            <p>MaYA tiene nuevas sugerencias épicas para ti</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -256,7 +279,7 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
 
           {/* Sugerencias de hoy */}
           <div className="mt-8">
-            <h3 className="text-xl font-bold mb-4">maIA sugiere para ti hoy:</h3>
+            <h3 className="text-xl font-bold mb-4">MaYA sugiere para ti hoy:</h3>
             <div className="grid md:grid-cols-3 gap-6">
               {suggestedActivities.map((activity, index) => (
                 <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer border-2 border-pink-200">
@@ -280,14 +303,14 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
             </div>
           </div>
 
-          {/* maIA's recommendation */}
+          {/* MaYA's recommendation */}
           <Card className="mt-8 border-pink-200 bg-pink-50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <div className="w-6 h-6 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
                   <Atom className="h-4 w-4 text-white" />
                 </div>
-                Mensaje de maIA para ti
+                Mensaje de MaYA para ti
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -301,7 +324,7 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
                 className="mt-4" 
                 style={{ backgroundColor: '#FF1493' }}
               >
-                Hablar con maIA
+                Hablar con MaYA
               </Button>
             </CardContent>
           </Card>
@@ -317,10 +340,14 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
-              <Atom className="h-6 w-6 text-white" />
+              <img 
+                src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
+                alt="MaYA" 
+                className="h-6 w-6 object-contain"
+              />
             </div>
             <div>
-              <h1 className="font-bold text-pink-600">maIA - Tu hermana mayor STEM</h1>
+              <h1 className="font-bold text-pink-600">MaYA - Tu mentora STEM personal</h1>
               <p className="text-sm text-gray-500">Siempre aquí para ti 💖</p>
             </div>
           </div>
