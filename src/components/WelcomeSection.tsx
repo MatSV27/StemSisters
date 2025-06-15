@@ -61,7 +61,7 @@ const WelcomeSection = ({ onGetStarted }: WelcomeSectionProps) => {
             </Button>
             
             <p className="text-sm text-gray-500 md:ml-4">
-              100% gratis • Sin drama • Solo apoyo entre exploradoras
+              100% gratis • Sin presión • Solo apoyo entre exploradoras
             </p>
           </div>
           
