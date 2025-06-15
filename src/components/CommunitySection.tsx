@@ -513,13 +513,13 @@ const CommunitySection = ({ onNavigateToAchievements }: CommunityProps) => {
         <div className="space-y-6">
           {/* Community Stats */}
           <Card className="border-pink-200">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center justify-center gap-2 text-lg">
                 <Users className="h-5 w-5 text-pink-500" />
                 Exploradoras Activas
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-4">
               <div className="text-center">
                 <div className="text-3xl font-bold text-pink-600">2,847</div>
                 <div className="text-sm text-gray-600">exploradoras conectadas</div>
