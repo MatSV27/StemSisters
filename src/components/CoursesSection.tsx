@@ -7,10 +7,13 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Clock, Users, Trophy, Share2, Star, Heart, MessageCircle, Award, Target, Zap } from "lucide-react";
 import AchievementsSection from "@/components/AchievementsSection";
-import ChallengeShare from "@/components/ChallengeShare";
 import RecognitionSection from "@/components/RecognitionSection";
 
-const CoursesSection = () => {
+interface CoursesSectionProps {
+  onNavigateToCommunity: () => void;
+}
+
+const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   const courses = [
@@ -100,68 +103,13 @@ const CoursesSection = () => {
     ? courses 
     : courses.filter(course => course.category === selectedCategory);
 
-  const communityPosts = [
-    {
-      id: 1,
-      author: "María López",
-      age: 16,
-      avatar: "👩‍💻",
-      time: "2 horas",
-      content: "¡Acabo de terminar mi primer proyecto de programación! 🎉 Era una calculadora simple pero me siento súper orgullosa. Sofia me ayudó cuando me quedé atascada con los condicionales.",
-      likes: 12,
-      comments: 5,
-      achievement: "Programadora Novata"
-    },
-    {
-      id: 2,
-      author: "Ana García", 
-      age: 15,
-      avatar: "👩‍🔬",
-      time: "5 horas",
-      content: "¿Alguien más se siente nerviosa por el hackathon del próximo mes? 😅 Es mi primera vez participando en algo así. ¡Pero estoy emocionada!",
-      likes: 8,
-      comments: 12,
-      achievement: "Científica Curiosa"
-    },
-    {
-      id: 3,
-      author: "Sofia Chen",
-      age: 17, 
-      avatar: "👩‍⚕️",
-      time: "1 día",
-      content: "Terminé el curso de bioingeniería y WOW 🤯 Nunca pensé que podría combinar mi amor por la medicina con la tecnología. ¡Ya sé qué quiero estudiar!",
-      likes: 15,
-      comments: 8,
-      achievement: "Mentora Comunitaria"
-    }
-  ];
-
-  const activeUsers = [
-    { name: "Sofía R.", avatar: "👩‍🎨", activity: "Diseñando apps", status: "online" },
-    { name: "Carmen M.", avatar: "👩‍⚕️", activity: "Explorando medicina", status: "online" },
-    { name: "Luna P.", avatar: "👩‍🚀", activity: "Estudiando astronomía", status: "online" },
-    { name: "Valeria K.", avatar: "👩‍💻", activity: "Programando", status: "away" },
-    { name: "Isabella F.", avatar: "👩‍🔬", activity: "Experimentando", status: "online" }
-  ];
-
-  const upcomingEvents = [
-    { name: "Hackathon StemSisters", date: "15 de Julio", type: "Competencia" },
-    { name: "Taller de Robótica", date: "22 de Julio", type: "Taller" },
-    { name: "Charla: Mujeres en Tech", date: "29 de Julio", type: "Conferencia" },
-    { name: "Mentoría Grupal", date: "5 de Agosto", type: "Mentoría" }
-  ];
-
   return (
     <div className="space-y-8">
       <Tabs defaultValue="courses" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="courses">
             <BookOpen className="h-4 w-4 mr-2" />
             Microcursos
-          </TabsTrigger>
-          <TabsTrigger value="community">
-            <Users className="h-4 w-4 mr-2" />
-            Comunidad
           </TabsTrigger>
           <TabsTrigger value="achievements">
             <Trophy className="h-4 w-4 mr-2" />
@@ -173,7 +121,7 @@ const CoursesSection = () => {
           </TabsTrigger>
           <TabsTrigger value="share">
             <Share2 className="h-4 w-4 mr-2" />
-            Compartir
+            Compartir Reto
           </TabsTrigger>
         </TabsList>
 
@@ -181,11 +129,11 @@ const CoursesSection = () => {
           {/* Header */}
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Microcursos STEM 📚
+              Microcursos STEAM 📚
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Aprende a tu ritmo con contenido diseñado especialmente para ti. 
-              Cada curso es una aventura que te acerca más a descubrir tu pasión en STEM.
+              Cada curso es una aventura que te acerca más a descubrir tu pasión en STEAM.
             </p>
           </div>
 
@@ -258,104 +206,6 @@ const CoursesSection = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="community" className="space-y-6">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              Comunidad StemSisters 💜
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Conecta con chicas increíbles, comparte tus experiencias y encuentra la inspiración que necesitas.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Posts de la comunidad */}
-            <div className="lg:col-span-2 space-y-6">
-              {communityPosts.map((post) => (
-                <Card key={post.id}>
-                  <CardHeader>
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-lg">
-                        {post.avatar}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <div className="font-semibold">{post.author}, {post.age} años</div>
-                          <Badge 
-                            className="text-xs text-white"
-                            style={{ backgroundColor: '#FF6B9D' }}
-                          >
-                            {post.achievement}
-                          </Badge>
-                        </div>
-                        <div className="text-sm text-gray-500">Hace {post.time}</div>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="mb-4">{post.content}</p>
-                    <div className="flex gap-4">
-                      <Button size="sm" variant="outline" className="flex items-center gap-1">
-                        <Heart className="h-4 w-4" />
-                        {post.likes}
-                      </Button>
-                      <Button size="sm" variant="outline" className="flex items-center gap-1">
-                        <MessageCircle className="h-4 w-4" />
-                        {post.comments}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {/* Sidebar de comunidad */}
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Chicas activas ahora</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {activeUsers.map((user, index) => (
-                      <div key={index} className="flex items-center gap-3">
-                        <div className="relative">
-                          <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-sm">
-                            {user.avatar}
-                          </div>
-                          <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white ${
-                            user.status === 'online' ? 'bg-green-500' : 'bg-yellow-500'
-                          }`} />
-                        </div>
-                        <div className="flex-1">
-                          <div className="font-medium text-sm">{user.name}</div>
-                          <div className="text-xs text-gray-500">{user.activity}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Próximos eventos</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {upcomingEvents.map((event, index) => (
-                      <div key={index} className="border-l-4 border-purple-500 pl-3">
-                        <div className="font-medium text-sm">{event.name}</div>
-                        <div className="text-xs text-gray-500">{event.date} • {event.type}</div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </TabsContent>
-
         <TabsContent value="achievements">
           <AchievementsSection />
         </TabsContent>
@@ -365,7 +215,62 @@ const CoursesSection = () => {
         </TabsContent>
 
         <TabsContent value="share">
-          <ChallengeShare />
+          <div className="text-center space-y-6">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              ¡Comparte tu reto! 🚀
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+              ¿Completaste un proyecto increíble? ¡Compártelo con la comunidad StemSisters 
+              y motiva a otras chicas a seguir explorando STEAM!
+            </p>
+            
+            <Card className="max-w-md mx-auto border-purple-200 bg-purple-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 justify-center">
+                  <Users className="h-6 w-6 text-purple-600" />
+                  Conectar con la Comunidad
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-center space-y-4">
+                <p className="text-purple-700">
+                  Al compartir tu reto, te conectarás con otras StemSisters increíbles que 
+                  pueden darte feedback, motivación y apoyo en tu camino.
+                </p>
+                <Button 
+                  onClick={onNavigateToCommunity}
+                  className="w-full text-white"
+                  style={{ backgroundColor: '#7E4EFF' }}
+                >
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Ir a la Comunidad
+                </Button>
+              </CardContent>
+            </Card>
+
+            <div className="grid md:grid-cols-3 gap-6 mt-8">
+              <div className="text-center">
+                <Heart className="h-12 w-12 text-pink-500 mx-auto mb-3" />
+                <h4 className="font-semibold text-gray-800 mb-2">Motiva a otras</h4>
+                <p className="text-sm text-gray-600">
+                  Tus logros pueden inspirar a otras chicas a seguir adelante
+                </p>
+              </div>
+              <div className="text-center">
+                <MessageCircle className="h-12 w-12 text-teal-500 mx-auto mb-3" />
+                <h4 className="font-semibold text-gray-800 mb-2">Recibe feedback</h4>
+                <p className="text-sm text-gray-600">
+                  Obtén comentarios constructivos de mentoras y compañeras
+                </p>
+              </div>
+              <div className="text-center">
+                <Trophy className="h-12 w-12 text-yellow-500 mx-auto mb-3" />
+                <h4 className="font-semibold text-gray-800 mb-2">Gana reconocimiento</h4>
+                <p className="text-sm text-gray-600">
+                  Los mejores proyectos aparecen en el Top Chicas
+                </p>
+              </div>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

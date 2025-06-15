@@ -5,11 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Send, Heart, Star, Users, BookOpen, Award, Target, MessageCircle, Home, Trophy, Share2, Bot } from "lucide-react";
+import { Send, Heart, Star, Users, BookOpen, Award, Target, MessageCircle, Home, Trophy, Share2, Bot, LogOut, Atom, Microscope, Calculator } from "lucide-react";
 import CoursesSection from "@/components/CoursesSection";
 import AchievementsSection from "@/components/AchievementsSection";
 import ChallengeShare from "@/components/ChallengeShare";
 import RecognitionSection from "@/components/RecognitionSection";
+import CommunitySection from "@/components/CommunitySection";
 
 interface Message {
   id: number;
@@ -18,17 +19,21 @@ interface Message {
   timestamp: Date;
 }
 
-const ChatBot = () => {
+interface ChatBotProps {
+  onLogout?: () => void;
+}
+
+const ChatBot = ({ onLogout }: ChatBotProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "¡Hola hermosa! 💜 Soy Sofia, tu hermana mayor digital. Me emociona mucho conocerte y acompañarte en este increíble viaje de descubrimiento. Basándome en lo que me contaste en el registro, veo que tienes muchísimo potencial. ¿Cómo te sientes hoy? ¿Estás lista para explorar juntas el mundo de STEM?",
+      text: "¡Hola hermosa! 💜 Soy MaIA, tu mentora digital especializada en STEAM. Me emociona mucho conocerte y acompañarte en este increíble viaje de descubrimiento. Basándome en lo que me contaste en el registro, veo que tienes muchísimo potencial. ¿Cómo te sientes hoy? ¿Estás lista para explorar juntas el mundo de Ciencia, Tecnología, Ingeniería, Arte y Matemáticas?",
       isBot: true,
       timestamp: new Date()
     }
   ]);
   const [inputMessage, setInputMessage] = useState("");
-  const [currentView, setCurrentView] = useState<'chat' | 'dashboard' | 'courses'>('chat');
+  const [currentView, setCurrentView] = useState<'chat' | 'dashboard' | 'courses' | 'community'>('chat');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -70,7 +75,7 @@ const ChatBot = () => {
       "Wow, eso suena súper emocionante! 💫 Sabes qué, hay una historia increíble de María, una chica de 16 años que también se sentía así. Empezó con un curso de robótica y ahora está creando proyectos increíbles. También hay un hackathon próximo que sería perfecto para ti.",
       "Te entiendo perfectamente, muchas chicas se sienten así al principio 💜 Pero déjame decirte algo: la ciencia necesita tu perspectiva única. ¿Qué tal si empezamos con algo súper divertido? Tengo un micro-reto de 10 minutos que seguro te va a gustar.",
       "¡Qué genial! 🚀 Veo que tienes mucho potencial. Te tengo una propuesta: hay un hackathon para chicas de tu edad el próximo mes. ¿Te animas a participar? Yo te ayudo a prepararte y también hay mentoras increíbles en nuestra comunidad.",
-      "Me parece perfecto que pienses así 💖 El autoconocimiento es súper importante. Te sugiero que explores nuestro módulo de 'Descubre tu superpoder STEM'. Son actividades cortitas pero muy reveladoras. También puedes conectar con otras chicas en la comunidad."
+      "Me parece perfecto que pienses así 💖 El autoconocimiento es súper importante. Te sugiero que explores nuestro módulo de 'Descubre tu superpoder STEAM'. Son actividades cortitas pero muy reveladoras. También puedes conectar con otras chicas en la comunidad."
     ];
     return responses[Math.floor(Math.random() * responses.length)];
   };
@@ -81,19 +86,28 @@ const ChatBot = () => {
     { title: "Historia: Ana y la NASA", type: "Inspiración", duration: "5 min", color: "bg-pink-500" },
   ];
 
+  const handleLogout = () => {
+    if (onLogout) {
+      onLogout();
+    }
+  };
+
   // Navigation component
   const Navigation = () => (
     <nav className="bg-white border-b border-purple-100 p-4">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <Bot className="h-6 w-6 text-purple-600" />
+          <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-teal-500 rounded-full flex items-center justify-center">
+            <Atom className="h-5 w-5 text-white" />
+          </div>
           <h1 className="text-xl font-bold text-purple-600">
-            {currentView === 'chat' ? 'Chat con Sofia' :
-             currentView === 'dashboard' ? 'Mi Camino STEM' :
-             'Cursos y Comunidad'}
+            {currentView === 'chat' ? 'Chat con MaIA' :
+             currentView === 'dashboard' ? 'Mi Camino STEAM' :
+             currentView === 'courses' ? 'Microcursos STEAM' :
+             'Comunidad StemSisters'}
           </h1>
         </div>
-        <div className="flex space-x-2">
+        <div className="flex items-center space-x-2">
           <Button 
             variant={currentView === 'dashboard' ? "default" : "ghost"} 
             onClick={() => setCurrentView('dashboard')}
@@ -108,7 +122,7 @@ const ChatBot = () => {
             style={currentView === 'courses' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
           >
             <BookOpen className="h-4 w-4 mr-2" />
-            Cursos & Comunidad
+            Cursos
           </Button>
           <Button 
             variant={currentView === 'chat' ? "default" : "ghost"} 
@@ -116,7 +130,15 @@ const ChatBot = () => {
             style={currentView === 'chat' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
           >
             <MessageCircle className="h-4 w-4 mr-2" />
-            Chat Sofia
+            Chat MaIA
+          </Button>
+          <Button 
+            variant="ghost" 
+            onClick={handleLogout}
+            className="text-red-600 hover:text-red-700"
+          >
+            <LogOut className="h-4 w-4 mr-2" />
+            Salir
           </Button>
         </div>
       </div>
@@ -129,7 +151,18 @@ const ChatBot = () => {
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
         <Navigation />
         <div className="container mx-auto px-4 py-8">
-          <CoursesSection />
+          <CoursesSection onNavigateToCommunity={() => setCurrentView('community')} />
+        </div>
+      </div>
+    );
+  }
+
+  if (currentView === 'community') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8">
+          <CommunitySection />
         </div>
       </div>
     );
@@ -144,7 +177,7 @@ const ChatBot = () => {
           {/* Welcome back message */}
           <div className="bg-gradient-to-r from-purple-500 to-teal-500 text-white p-6 rounded-lg mb-8">
             <h2 className="text-2xl font-bold mb-2">¡Bienvenida de vuelta! 🌟</h2>
-            <p>Sofia tiene nuevas sugerencias personalizadas para ti</p>
+            <p>MaIA tiene nuevas sugerencias personalizadas para ti</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -160,7 +193,7 @@ const ChatBot = () => {
                 <div className="space-y-6">
                   <div>
                     <div className="flex justify-between text-sm mb-2">
-                      <span>Exploración STEM</span>
+                      <span>Exploración STEAM</span>
                       <span>65%</span>
                     </div>
                     <Progress value={65} className="h-2" />
@@ -216,7 +249,7 @@ const ChatBot = () => {
 
           {/* Sugerencias de hoy */}
           <div className="mt-8">
-            <h3 className="text-xl font-bold mb-4">Sofia sugiere para ti hoy:</h3>
+            <h3 className="text-xl font-bold mb-4">MaIA sugiere para ti hoy:</h3>
             <div className="grid md:grid-cols-3 gap-6">
               {suggestedActivities.map((activity, index) => (
                 <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer">
@@ -240,12 +273,14 @@ const ChatBot = () => {
             </div>
           </div>
 
-          {/* Sofia's recommendation */}
+          {/* MaIA's recommendation */}
           <Card className="mt-8 border-purple-200 bg-purple-50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Bot className="h-5 w-5 text-purple-600" />
-                Mensaje de Sofia para ti
+                <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-teal-500 rounded-full flex items-center justify-center">
+                  <Atom className="h-4 w-4 text-white" />
+                </div>
+                Mensaje de MaIA para ti
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -259,7 +294,7 @@ const ChatBot = () => {
                 className="mt-4" 
                 style={{ backgroundColor: '#7E4EFF' }}
               >
-                Hablar con Sofia
+                Hablar con MaIA
               </Button>
             </CardContent>
           </Card>
@@ -274,11 +309,11 @@ const ChatBot = () => {
       <header className="bg-white border-b border-purple-100 p-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-              <Heart className="h-6 w-6 text-white" />
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-teal-500 rounded-full flex items-center justify-center">
+              <Atom className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-purple-600">Sofia - Tu hermana mayor</h1>
+              <h1 className="font-bold text-purple-600">MaIA - Tu mentora STEAM</h1>
               <p className="text-sm text-gray-500">Siempre aquí para ti 💜</p>
             </div>
           </div>
@@ -289,7 +324,15 @@ const ChatBot = () => {
             </Button>
             <Button variant="ghost" onClick={() => setCurrentView('courses')}>
               <BookOpen className="h-4 w-4 mr-2" />
-              Cursos & Comunidad
+              Cursos
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={handleLogout}
+              className="text-red-600 hover:text-red-700"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Salir
             </Button>
           </div>
         </div>
@@ -425,12 +468,12 @@ const ChatBot = () => {
                 onClick={() => setCurrentView('courses')}
               >
                 <Users className="h-4 w-4 mr-2" />
-                Ver comunidad
+                Ver cursos
               </Button>
               <Button 
                 variant="outline" 
                 className="w-full justify-start text-sm"
-                onClick={() => setCurrentView('courses')}
+                onClick={() => setCurrentView('dashboard')}
               >
                 <Trophy className="h-4 w-4 mr-2" />
                 Mis logros
@@ -438,10 +481,10 @@ const ChatBot = () => {
               <Button 
                 variant="outline" 
                 className="w-full justify-start text-sm"
-                onClick={() => setCurrentView('courses')}
+                onClick={() => setCurrentView('community')}
               >
                 <Share2 className="h-4 w-4 mr-2" />
-                Compartir progreso
+                Ir a comunidad
               </Button>
             </div>
           </div>

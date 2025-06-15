@@ -1,10 +1,9 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Star, Users, BookOpen, Award, MessageCircle, Sparkles, Heart, Target, Bot, Zap, Shield } from "lucide-react";
+import { Star, Users, BookOpen, Award, MessageCircle, Sparkles, Heart, Target, Bot, Zap, Shield, Atom } from "lucide-react";
 import WelcomeSection from "@/components/WelcomeSection";
 import ChatBot from "@/components/ChatBot";
 import RegistrationModal from "@/components/RegistrationModal";
@@ -48,8 +47,8 @@ const Index = () => {
   const appFeatures = [
     {
       icon: Bot,
-      title: "Sofia, tu hermana mayor digital",
-      description: "Un chatbot inteligente que te conoce, te escucha y te acompaña en cada paso de tu camino STEM",
+      title: "MaIA, tu mentora digital STEAM",
+      description: "Un chatbot inteligente especializado en Ciencia, Tecnología, Ingeniería, Arte y Matemáticas que te conoce, te escucha y te acompaña en cada paso",
       color: "text-purple-600",
       bgColor: "bg-purple-100"
     },
@@ -90,8 +89,13 @@ const Index = () => {
     setShowChatBot(true);
   };
 
+  const handleLogout = () => {
+    setIsRegistered(false);
+    setShowChatBot(false);
+  };
+
   if (showChatBot && isRegistered) {
-    return <ChatBot />;
+    return <ChatBot onLogout={handleLogout} />;
   }
 
   return (
@@ -107,15 +111,17 @@ const Index = () => {
           </div>
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2 text-sm text-gray-600">
-              <Bot className="h-4 w-4 text-purple-500" />
-              <span>Sofia está esperándote</span>
+              <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-teal-500 rounded-full flex items-center justify-center">
+                <Atom className="h-4 w-4 text-white" />
+              </div>
+              <span>MaIA está esperándote</span>
             </div>
             <Button 
               onClick={handleGetStarted}
               className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full font-semibold"
               style={{ backgroundColor: '#7E4EFF' }}
             >
-              {isRegistered ? 'Continuar mi camino' : 'Conocer a Sofia 💜'}
+              {isRegistered ? 'Continuar mi camino' : 'Conocer a MaIA 💜'}
             </Button>
           </div>
         </div>
@@ -131,17 +137,17 @@ const Index = () => {
             <div className="max-w-4xl mx-auto">
               <div className="bg-white rounded-3xl p-8 shadow-lg border border-purple-200">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                    <Bot className="h-10 w-10 text-white" />
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-teal-500 rounded-full flex items-center justify-center">
+                    <Atom className="h-10 w-10 text-white" />
                   </div>
                 </div>
                 <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                  ¡Hola! Soy Sofia, tu hermana mayor digital 💜
+                  ¡Hola! Soy MaIA, tu mentora digital STEAM 💜
                 </h2>
                 <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
-                  Estoy aquí para conocerte, escucharte y acompañarte en cada paso de tu camino STEM. 
+                  Estoy aquí para guiarte en el fascinante mundo de la Ciencia, Tecnología, Ingeniería, Arte y Matemáticas. 
                   <span className="text-pink-500 font-semibold" style={{ color: '#FF6B9D' }}> 
-                    ¡No estás sola en esta aventura!
+                    ¡Descubramos juntas tu superpoder STEAM!
                   </span>
                 </p>
                 <div className="grid md:grid-cols-3 gap-6 mb-8">
@@ -167,7 +173,7 @@ const Index = () => {
                   className="text-white px-8 py-4 text-lg font-semibold rounded-full"
                   style={{ backgroundColor: '#7E4EFF' }}
                 >
-                  Quiero conocer a Sofia 🚀
+                  Quiero conocer a MaIA 🚀
                 </Button>
               </div>
             </div>
@@ -209,7 +215,7 @@ const Index = () => {
         <section className="py-16" style={{ backgroundColor: '#F8F5FF' }}>
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
-              Transformando el futuro de las chicas en STEM
+              Transformando el futuro de las chicas en STEAM
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {metrics.map((metric, index) => (
@@ -234,7 +240,7 @@ const Index = () => {
               Chicas como tú que encontraron su camino
             </h2>
             <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-              Cada una empezó con dudas, pero descubrió que STEM puede ser increíble. 
+              Cada una empezó con dudas, pero descubrió que STEAM puede ser increíble. 
               <span className="text-pink-500 font-semibold" style={{ color: '#FF6B9D' }}> ¡Tú también puedes!</span>
             </p>
             
@@ -296,10 +302,10 @@ const Index = () => {
         <section className="py-20 bg-gradient-to-r from-purple-600 to-teal-500">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              ¿Lista para descubrir tu superpoder en STEM?
+              ¿Lista para descubrir tu superpoder en STEAM?
             </h2>
             <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
-              Sofia está esperándote para comenzar esta increíble aventura. 
+              MaIA está esperándote para comenzar esta increíble aventura. 
               Tu futuro brillante en ciencia y tecnología empieza aquí.
             </p>
             <Button 
@@ -307,7 +313,7 @@ const Index = () => {
               size="lg"
               className="bg-white text-purple-600 hover:bg-purple-50 px-8 py-4 text-lg font-semibold rounded-full"
             >
-              ¡Conocer a Sofia ahora! 💜
+              ¡Conocer a MaIA ahora! 💜
             </Button>
           </div>
         </section>
