@@ -78,7 +78,7 @@ const Index = () => {
         </header>
 
         <main className="container mx-auto px-4 py-8">
-          <CommunitySection />
+          <SuccessProfilesSection />
         </main>
 
         <InitialSurvey onComplete={handleSurveyComplete} />
@@ -160,7 +160,14 @@ const Index = () => {
         </header>
 
         <main className="container mx-auto px-4 py-8">
-          {currentView === 'community' && <CommunitySection />}
+          {currentView === 'community' && (
+            <>
+              <CommunitySection />
+              <div className="mt-16">
+                <SuccessProfilesSection />
+              </div>
+            </>
+          )}
           {currentView === 'courses' && <CoursesSection onNavigateToCommunity={() => setCurrentView('community')} />}
           {currentView === 'dashboard' && <AchievementsSection />}
         </main>

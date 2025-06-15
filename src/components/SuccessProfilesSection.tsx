@@ -1,11 +1,31 @@
 
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Star, Sparkles, Heart, Rocket } from "lucide-react";
 import ProfileCard from "./ProfileCard";
+import SimilarProfilesModal from "./SimilarProfilesModal";
+
+interface Profile {
+  name: string;
+  field: string;
+  country: string;
+  birthYear: number;
+  image: string;
+  achievements: string[];
+  biography: string;
+  impact: string;
+  quote: string;
+  backgroundColor: string;
+  badgeColor: string;
+  tags: string[];
+}
 
 const SuccessProfilesSection = () => {
-  const profiles = [
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+  const [showSimilarModal, setShowSimilarModal] = useState(false);
+
+  const profiles: Profile[] = [
     {
       name: "Marie Curie",
       field: "Física y Química",
@@ -22,7 +42,8 @@ const SuccessProfilesSection = () => {
       impact: "Sus investigaciones sobre radioactividad salvaron millones de vidas y abrieron el camino para tratamientos contra el cáncer. Además, inspiró a generaciones de mujeres a seguir carreras científicas.",
       quote: "No hay nada que temer en la vida, solo hay que entender. Ahora es el momento de entender más, para temer menos.",
       backgroundColor: "bg-gradient-to-br from-blue-50 to-purple-50",
-      badgeColor: "bg-blue-500"
+      badgeColor: "bg-blue-500",
+      tags: ["investigación", "medicina", "física", "química", "premio-nobel", "pionera"]
     },
     {
       name: "Katherine Johnson",
@@ -40,7 +61,8 @@ const SuccessProfilesSection = () => {
       impact: "Sus cálculos precisos hicieron posible que los humanos llegaran a la luna. Abrió puertas para mujeres y personas de color en STEM, demostrando que el talento no conoce barreras.",
       quote: "Me gustaban los números y los números me gustaban a mí. Todo sumaba. Las matemáticas me hicieron libre.",
       backgroundColor: "bg-gradient-to-br from-purple-50 to-pink-50",
-      badgeColor: "bg-purple-500"
+      badgeColor: "bg-purple-500",
+      tags: ["matemáticas", "espacio", "nasa", "astronáutica", "cálculos", "pionera"]
     },
     {
       name: "Hedy Lamarr",
@@ -58,7 +80,8 @@ const SuccessProfilesSection = () => {
       impact: "Su tecnología de salto de frecuencia es la base del WiFi, Bluetooth y GPS que usamos hoy. Sin ella, no tendríamos smartphones ni internet inalámbrico.",
       quote: "Cualquier chica puede ser glamorosa. Todo lo que tienes que hacer es quedarte quieta y parecer estúpida. Pero yo prefería usar mi cerebro.",
       backgroundColor: "bg-gradient-to-br from-pink-50 to-yellow-50",
-      badgeColor: "bg-pink-500"
+      badgeColor: "bg-pink-500",
+      tags: ["tecnología", "ingeniería", "telecomunicaciones", "inventora", "wifi", "bluetooth"]
     },
     {
       name: "Reshma Saujani",
@@ -76,7 +99,8 @@ const SuccessProfilesSection = () => {
       impact: "Ha entrenado a casi medio millón de chicas en programación y ha cambiado la conversación sobre mujeres en tecnología. Sus egresadas trabajan en Google, Microsoft, Tesla y muchas más.",
       quote: "Enseñemos a nuestras chicas a ser valientes, no perfectas. La perfección es el enemigo de la revolución.",
       backgroundColor: "bg-gradient-to-br from-teal-50 to-green-50",
-      badgeColor: "bg-teal-500"
+      badgeColor: "bg-teal-500",
+      tags: ["programación", "educación", "tecnología", "emprendimiento", "coding", "girls-who-code"]
     },
     {
       name: "Dr. Mae Jemison",
@@ -94,7 +118,8 @@ const SuccessProfilesSection = () => {
       impact: "Rompió barreras raciales y de género en la NASA. Ahora dedica su vida a inspirar a niñas de todas las etnias a seguir carreras STEM sin límites.",
       quote: "No tengas miedo de alcanzar las estrellas. Lo único que necesitas es creer en ti misma y trabajar duro.",
       backgroundColor: "bg-gradient-to-br from-indigo-50 to-blue-50",
-      badgeColor: "bg-indigo-500"
+      badgeColor: "bg-indigo-500",
+      tags: ["medicina", "espacio", "astronáutica", "nasa", "multidisciplinaria", "pionera"]
     },
     {
       name: "Jennifer Doudna",
@@ -112,89 +137,109 @@ const SuccessProfilesSection = () => {
       impact: "CRISPR está siendo usado para curar la anemia falciforme, desarrollar mejores cultivos y potencialmente curar el cáncer. Su trabajo está salvando vidas en todo el mundo.",
       quote: "La ciencia no es solo sobre descubrir cómo funciona el mundo, sino sobre usar ese conocimiento para hacerlo mejor.",
       backgroundColor: "bg-gradient-to-br from-green-50 to-emerald-50",
-      badgeColor: "bg-green-500"
+      badgeColor: "bg-green-500",
+      tags: ["bioquímica", "genética", "crispr", "medicina", "investigación", "premio-nobel"]
     }
   ];
 
+  const handleViewSimilar = (profile: Profile) => {
+    setSelectedProfile(profile);
+    setShowSimilarModal(true);
+  };
+
   return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Star className="h-8 w-8 text-yellow-500" />
-            <Sparkles className="h-8 w-8 text-pink-500" />
-            <Star className="h-8 w-8 text-yellow-500" />
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-            Mujeres que Cambiaron el Mundo 🌟
-          </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-            Estas mujeres extraordinarias rompieron barreras, desafiaron estereotipos y 
-            demostraron que no hay límites para lo que una chica determinada puede lograr en STEM.
-          </p>
-          <div className="flex items-center justify-center gap-4 text-sm">
-            <div className="flex items-center gap-2 text-pink-600">
-              <Heart className="h-4 w-4" />
-              <span className="font-semibold">Todas empezaron como tú</span>
+    <>
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Star className="h-8 w-8 text-yellow-500" />
+              <Sparkles className="h-8 w-8 text-pink-500" />
+              <Star className="h-8 w-8 text-yellow-500" />
             </div>
-            <div className="flex items-center gap-2 text-purple-600">
-              <Rocket className="h-4 w-4" />
-              <span className="font-semibold">Todas cambiaron el mundo</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+              Mujeres que Cambiaron el Mundo 🌟
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
+              Estas mujeres extraordinarias rompieron barreras, desafiaron estereotipos y 
+              demostraron que no hay límites para lo que una chica determinada puede lograr en STEM.
+            </p>
+            <div className="flex items-center justify-center gap-4 text-sm">
+              <div className="flex items-center gap-2 text-pink-600">
+                <Heart className="h-4 w-4" />
+                <span className="font-semibold">Todas empezaron como tú</span>
+              </div>
+              <div className="flex items-center gap-2 text-purple-600">
+                <Rocket className="h-4 w-4" />
+                <span className="font-semibold">Todas cambiaron el mundo</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Inspiration Message */}
-        <Card className="mb-12 bg-gradient-to-r from-pink-100 via-purple-100 to-teal-100 border-2 border-pink-200">
-          <CardHeader className="text-center">
-            <CardTitle className="text-xl text-gray-800 flex items-center justify-center gap-2">
-              <Sparkles className="h-5 w-5 text-pink-500" />
-              Tu historia puede ser la próxima ✨
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="text-center">
-            <CardDescription className="text-gray-700 text-base leading-relaxed">
-              Cada una de estas mujeres increíbles enfrentó obstáculos, dudas y desafíos. 
-              Lo que las hizo especiales no fue que fueran perfectas, sino que fueron <strong>valientes</strong>, 
-              <strong> persistentes</strong> y nunca dejaron que nadie les dijera que no podían hacerlo.
-              <br />
-              <span className="text-pink-600 font-bold mt-2 block">
-                Tú tienes ese mismo poder dentro de ti. ¡Es hora de descubrirlo!
-              </span>
-            </CardDescription>
-          </CardContent>
-        </Card>
-
-        {/* Profiles Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {profiles.map((profile, index) => (
-            <ProfileCard key={index} {...profile} />
-          ))}
-        </div>
-
-        {/* Call to Action */}
-        <div className="text-center mt-12">
-          <Card className="bg-gradient-to-r from-pink-500 to-purple-600 border-none text-white max-w-2xl mx-auto">
-            <CardContent className="p-8">
-              <h3 className="text-2xl font-bold mb-4">
-                ¿Lista para escribir tu propia historia de éxito? 💫
-              </h3>
-              <p className="text-pink-100 mb-6">
-                Cada gran científica, ingeniera o matemática comenzó con un solo paso. 
-                Tu momento de brillar es AHORA.
-              </p>
-              <Button 
-                size="lg"
-                className="bg-white text-pink-600 hover:bg-pink-50 px-8 py-3 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
-              >
-                ¡Comenzar mi aventura STEM! 🚀
-              </Button>
+          {/* Inspiration Message */}
+          <Card className="mb-12 bg-gradient-to-r from-pink-100 via-purple-100 to-teal-100 border-2 border-pink-200">
+            <CardHeader className="text-center">
+              <CardTitle className="text-xl text-gray-800 flex items-center justify-center gap-2">
+                <Sparkles className="h-5 w-5 text-pink-500" />
+                Tu historia puede ser la próxima ✨
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <CardDescription className="text-gray-700 text-base leading-relaxed">
+                Cada una de estas mujeres increíbles enfrentó obstáculos, dudas y desafíos. 
+                Lo que las hizo especiales no fue que fueran perfectas, sino que fueron <strong>valientes</strong>, 
+                <strong> persistentes</strong> y nunca dejaron que nadie les dijera que no podían hacerlo.
+                <br />
+                <span className="text-pink-600 font-bold mt-2 block">
+                  Tú tienes ese mismo poder dentro de ti. ¡Es hora de descubrirlo!
+                </span>
+              </CardDescription>
             </CardContent>
           </Card>
+
+          {/* Profiles Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {profiles.map((profile, index) => (
+              <ProfileCard 
+                key={index} 
+                {...profile} 
+                onViewSimilar={() => handleViewSimilar(profile)}
+              />
+            ))}
+          </div>
+
+          {/* Call to Action */}
+          <div className="text-center mt-12">
+            <Card className="bg-gradient-to-r from-pink-500 to-purple-600 border-none text-white max-w-2xl mx-auto">
+              <CardContent className="p-8">
+                <h3 className="text-2xl font-bold mb-4">
+                  ¿Lista para escribir tu propia historia de éxito? 💫
+                </h3>
+                <p className="text-pink-100 mb-6">
+                  Cada gran científica, ingeniera o matemática comenzó con un solo paso. 
+                  Tu momento de brillar es AHORA.
+                </p>
+                <Button 
+                  size="lg"
+                  className="bg-white text-pink-600 hover:bg-pink-50 px-8 py-3 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
+                >
+                  ¡Comenzar mi aventura STEM! 🚀
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Similar Profiles Modal */}
+      <SimilarProfilesModal
+        isOpen={showSimilarModal}
+        onClose={() => setShowSimilarModal(false)}
+        selectedProfile={selectedProfile}
+        allProfiles={profiles}
+      />
+    </>
   );
 };
 

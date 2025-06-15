@@ -16,6 +16,8 @@ interface ProfileCardProps {
   quote: string;
   backgroundColor: string;
   badgeColor: string;
+  tags?: string[];
+  onViewSimilar?: () => void;
 }
 
 const ProfileCard = ({ 
@@ -29,7 +31,9 @@ const ProfileCard = ({
   impact, 
   quote, 
   backgroundColor,
-  badgeColor 
+  badgeColor,
+  tags = [],
+  onViewSimilar
 }: ProfileCardProps) => {
   const currentYear = new Date().getFullYear();
   const age = currentYear - birthYear;
@@ -93,7 +97,18 @@ const ProfileCard = ({
           </div>
         </div>
         
-        <div className="mt-4 pt-3 border-t border-pink-200">
+        <div className="mt-4 pt-3 border-t border-pink-200 space-y-2">
+          {onViewSimilar && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="w-full border-purple-300 text-purple-600 hover:bg-purple-50 text-xs"
+              onClick={onViewSimilar}
+            >
+              <Award className="h-3 w-3 mr-1" />
+              Ver perfiles similares 🌟
+            </Button>
+          )}
           <Button 
             variant="outline" 
             size="sm" 
