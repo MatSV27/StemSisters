@@ -1,10 +1,11 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Send, Heart, Star, Users, BookOpen, Award, Target, MessageCircle, Home, Trophy, Share2 } from "lucide-react";
+import { Send, Heart, Star, Users, BookOpen, Award, Target, MessageCircle, Home, Trophy, Share2, Bot } from "lucide-react";
 import CoursesSection from "@/components/CoursesSection";
 import AchievementsSection from "@/components/AchievementsSection";
 import ChallengeShare from "@/components/ChallengeShare";
@@ -21,13 +22,13 @@ const ChatBot = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "¡Hola hermosa! 💜 Soy Sofia, tu hermana mayor digital. Me emociona mucho conocerte y acompañarte en este increíble viaje de descubrimiento. ¿Cómo te sientes hoy? ¿Estás lista para explorar juntas el mundo de STEM?",
+      text: "¡Hola hermosa! 💜 Soy Sofia, tu hermana mayor digital. Me emociona mucho conocerte y acompañarte en este increíble viaje de descubrimiento. Basándome en lo que me contaste en el registro, veo que tienes muchísimo potencial. ¿Cómo te sientes hoy? ¿Estás lista para explorar juntas el mundo de STEM?",
       isBot: true,
       timestamp: new Date()
     }
   ]);
   const [inputMessage, setInputMessage] = useState("");
-  const [currentView, setCurrentView] = useState<'chat' | 'dashboard' | 'community' | 'courses' | 'achievements' | 'challenges' | 'recognition'>('chat');
+  const [currentView, setCurrentView] = useState<'chat' | 'dashboard' | 'courses'>('chat');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -65,11 +66,11 @@ const ChatBot = () => {
 
   const generateBotResponse = (userMessage: string): string => {
     const responses = [
-      "¡Me encanta tu curiosidad! 🌟 Basándome en lo que me contaste, creo que te podría interesar explorar el mundo de la programación. ¿Has pensado alguna vez en crear tu propia app?",
-      "Wow, eso suena súper emocionante! 💫 Sabes qué, hay una historia increíble de María, una chica de 16 años que también se sentía así. Empezó con un curso de robótica y ahora está creando proyectos increíbles. ¿Te gustaría que te cuente más?",
+      "¡Me encanta tu curiosidad! 🌟 Basándome en lo que me contaste, creo que te podría interesar explorar el mundo de la programación. ¿Has pensado alguna vez en crear tu propia app? Te tengo el curso perfecto para empezar.",
+      "Wow, eso suena súper emocionante! 💫 Sabes qué, hay una historia increíble de María, una chica de 16 años que también se sentía así. Empezó con un curso de robótica y ahora está creando proyectos increíbles. También hay un hackathon próximo que sería perfecto para ti.",
       "Te entiendo perfectamente, muchas chicas se sienten así al principio 💜 Pero déjame decirte algo: la ciencia necesita tu perspectiva única. ¿Qué tal si empezamos con algo súper divertido? Tengo un micro-reto de 10 minutos que seguro te va a gustar.",
-      "¡Qué genial! 🚀 Veo que tienes mucho potencial. Te tengo una propuesta: hay un hackathon para chicas de tu edad el próximo mes. ¿Te animas a participar? Yo te ayudo a prepararte.",
-      "Me parece perfecto que pienses así 💖 El autoconocimiento es súper importante. Te sugiero que explores nuestro módulo de 'Descubre tu superpoder STEM'. Son actividades cortitas pero muy reveladoras."
+      "¡Qué genial! 🚀 Veo que tienes mucho potencial. Te tengo una propuesta: hay un hackathon para chicas de tu edad el próximo mes. ¿Te animas a participar? Yo te ayudo a prepararte y también hay mentoras increíbles en nuestra comunidad.",
+      "Me parece perfecto que pienses así 💖 El autoconocimiento es súper importante. Te sugiero que explores nuestro módulo de 'Descubre tu superpoder STEM'. Son actividades cortitas pero muy reveladoras. También puedes conectar con otras chicas en la comunidad."
     ];
     return responses[Math.floor(Math.random() * responses.length)];
   };
@@ -84,15 +85,14 @@ const ChatBot = () => {
   const Navigation = () => (
     <nav className="bg-white border-b border-purple-100 p-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold text-purple-600">
-          {currentView === 'chat' ? 'Sofia - Tu hermana mayor' :
-           currentView === 'dashboard' ? 'Mi Camino STEM' :
-           currentView === 'courses' ? 'Microcursos' :
-           currentView === 'achievements' ? 'Mis Logros' :
-           currentView === 'challenges' ? 'Comparte tu Éxito' :
-           currentView === 'recognition' ? 'Reconocimientos' :
-           'Comunidad StemSisters'}
-        </h1>
+        <div className="flex items-center gap-2">
+          <Bot className="h-6 w-6 text-purple-600" />
+          <h1 className="text-xl font-bold text-purple-600">
+            {currentView === 'chat' ? 'Chat con Sofia' :
+             currentView === 'dashboard' ? 'Mi Camino STEM' :
+             'Cursos y Comunidad'}
+          </h1>
+        </div>
         <div className="flex space-x-2">
           <Button 
             variant={currentView === 'dashboard' ? "default" : "ghost"} 
@@ -100,7 +100,7 @@ const ChatBot = () => {
             style={currentView === 'dashboard' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
           >
             <Home className="h-4 w-4 mr-2" />
-            Dashboard
+            Mi Dashboard
           </Button>
           <Button 
             variant={currentView === 'courses' ? "default" : "ghost"} 
@@ -108,31 +108,7 @@ const ChatBot = () => {
             style={currentView === 'courses' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
           >
             <BookOpen className="h-4 w-4 mr-2" />
-            Cursos
-          </Button>
-          <Button 
-            variant={currentView === 'achievements' ? "default" : "ghost"} 
-            onClick={() => setCurrentView('achievements')}
-            style={currentView === 'achievements' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
-          >
-            <Trophy className="h-4 w-4 mr-2" />
-            Logros
-          </Button>
-          <Button 
-            variant={currentView === 'challenges' ? "default" : "ghost"} 
-            onClick={() => setCurrentView('challenges')}
-            style={currentView === 'challenges' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
-          >
-            <Share2 className="h-4 w-4 mr-2" />
-            Compartir
-          </Button>
-          <Button 
-            variant={currentView === 'recognition' ? "default" : "ghost"} 
-            onClick={() => setCurrentView('recognition')}
-            style={currentView === 'recognition' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
-          >
-            <Award className="h-4 w-4 mr-2" />
-            Top Chicas
+            Cursos & Comunidad
           </Button>
           <Button 
             variant={currentView === 'chat' ? "default" : "ghost"} 
@@ -141,14 +117,6 @@ const ChatBot = () => {
           >
             <MessageCircle className="h-4 w-4 mr-2" />
             Chat Sofia
-          </Button>
-          <Button 
-            variant={currentView === 'community' ? "default" : "ghost"} 
-            onClick={() => setCurrentView('community')}
-            style={currentView === 'community' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
-          >
-            <Users className="h-4 w-4 mr-2" />
-            Comunidad
           </Button>
         </div>
       </div>
@@ -162,39 +130,6 @@ const ChatBot = () => {
         <Navigation />
         <div className="container mx-auto px-4 py-8">
           <CoursesSection />
-        </div>
-      </div>
-    );
-  }
-
-  if (currentView === 'achievements') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
-        <Navigation />
-        <div className="container mx-auto px-4 py-8">
-          <AchievementsSection />
-        </div>
-      </div>
-    );
-  }
-
-  if (currentView === 'challenges') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
-        <Navigation />
-        <div className="container mx-auto px-4 py-8">
-          <ChallengeShare />
-        </div>
-      </div>
-    );
-  }
-
-  if (currentView === 'recognition') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
-        <Navigation />
-        <div className="container mx-auto px-4 py-8">
-          <RecognitionSection />
         </div>
       </div>
     );
@@ -304,119 +239,30 @@ const ChatBot = () => {
               ))}
             </div>
           </div>
-        </div>
-      </div>
-    );
-  }
 
-  if (currentView === 'community') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
-        <Navigation />
-
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Posts de la comunidad */}
-            <div className="md:col-span-2 space-y-6">
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                      👩‍💻
-                    </div>
-                    <div>
-                      <div className="font-semibold">María, 16 años</div>
-                      <div className="text-sm text-gray-500">Hace 2 horas</div>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="mb-4">¡Acabo de terminar mi primer proyecto de programación! 🎉 Era una calculadora simple pero me siento súper orgullosa. Sofia me ayudó cuando me quedé atascada.</p>
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outline">💜 12</Button>
-                    <Button size="sm" variant="outline">💬 5</Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                      👩‍🔬
-                    </div>
-                    <div>
-                      <div className="font-semibold">Ana, 15 años</div>
-                      <div className="text-sm text-gray-500">Hace 5 horas</div>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="mb-4">¿Alguien más se siente nerviosa por el hackathon del próximo mes? 😅 Es mi primera vez participando en algo así.</p>
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outline">💜 8</Button>
-                    <Button size="sm" variant="outline">💬 12</Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Sidebar de comunidad */}
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Chicas activas hoy</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center text-sm">👩‍🎨</div>
-                      <div>
-                        <div className="font-medium text-sm">Sofía</div>
-                        <div className="text-xs text-gray-500">Diseñando apps</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-sm">👩‍⚕️</div>
-                      <div>
-                        <div className="font-medium text-sm">Carmen</div>
-                        <div className="text-xs text-gray-500">Explorando medicina</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-sm">👩‍🚀</div>
-                      <div>
-                        <div className="font-medium text-sm">Luna</div>
-                        <div className="text-xs text-gray-500">Estudiando astronomía</div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Próximos eventos</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3 text-sm">
-                    <div>
-                      <div className="font-medium">Hackathon StemSisters</div>
-                      <div className="text-gray-500">15 de Julio</div>
-                    </div>
-                    <div>
-                      <div className="font-medium">Taller de Robótica</div>
-                      <div className="text-gray-500">22 de Julio</div>
-                    </div>
-                    <div>
-                      <div className="font-medium">Charla: Mujeres en Tech</div>
-                      <div className="text-gray-500">29 de Julio</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
+          {/* Sofia's recommendation */}
+          <Card className="mt-8 border-purple-200 bg-purple-50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Bot className="h-5 w-5 text-purple-600" />
+                Mensaje de Sofia para ti
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-purple-700 italic">
+                "¡Estás progresando increíble! He notado que te gustan los retos prácticos. 
+                Te recomiendo el experimento de slime conductor - es perfecto para entender circuitos de manera divertida. 
+                ¡Y no olvides compartir tus logros en la comunidad! 💜"
+              </p>
+              <Button 
+                onClick={() => setCurrentView('chat')} 
+                className="mt-4" 
+                style={{ backgroundColor: '#7E4EFF' }}
+              >
+                Hablar con Sofia
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
@@ -441,9 +287,9 @@ const ChatBot = () => {
               <Home className="h-4 w-4 mr-2" />
               Mi Dashboard
             </Button>
-            <Button variant="ghost" onClick={() => setCurrentView('community')}>
-              <Users className="h-4 w-4 mr-2" />
-              Comunidad
+            <Button variant="ghost" onClick={() => setCurrentView('courses')}>
+              <BookOpen className="h-4 w-4 mr-2" />
+              Cursos & Comunidad
             </Button>
           </div>
         </div>
@@ -485,7 +331,7 @@ const ChatBot = () => {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => setInputMessage("¿Qué carreras me recomiendas?")}
+                onClick={() => setInputMessage("¿Qué carreras me recomiendas según mi perfil?")}
                 className="text-purple-600 border-purple-200"
               >
                 ¿Qué carreras me recomiendas?
@@ -493,10 +339,10 @@ const ChatBot = () => {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => setInputMessage("Me siento perdida, ¿me ayudas?")}
+                onClick={() => setInputMessage("Me siento perdida, ¿puedes ayudarme?")}
                 className="text-teal-600 border-teal-200"
               >
-                Me siento perdida, ¿me ayudas?
+                Me siento perdida
               </Button>
               <Button
                 size="sm"
@@ -504,7 +350,15 @@ const ChatBot = () => {
                 onClick={() => setInputMessage("Cuéntame una historia inspiradora")}
                 className="text-pink-600 border-pink-200"
               >
-                Cuéntame una historia inspiradora
+                Quiero inspiración
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setInputMessage("¿Qué eventos hay próximamente?")}
+                className="text-yellow-600 border-yellow-200"
+              >
+                Eventos y oportunidades
               </Button>
             </div>
           </div>
@@ -515,7 +369,7 @@ const ChatBot = () => {
               <Input
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                placeholder="Escribe tu mensaje aquí... 💜"
+                placeholder="Comparte conmigo lo que sientes o piensas... 💜"
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 className="flex-1 border-purple-200 focus:border-purple-400"
               />
@@ -559,6 +413,36 @@ const ChatBot = () => {
                 Has completado 7 actividades. ¡Solo 3 más para tu próximo logro!
               </p>
               <Progress value={70} className="mt-3" />
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <h4 className="font-semibold text-gray-800 mb-3">Acceso rápido</h4>
+            <div className="space-y-2">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start text-sm"
+                onClick={() => setCurrentView('courses')}
+              >
+                <Users className="h-4 w-4 mr-2" />
+                Ver comunidad
+              </Button>
+              <Button 
+                variant="outline" 
+                className="w-full justify-start text-sm"
+                onClick={() => setCurrentView('courses')}
+              >
+                <Trophy className="h-4 w-4 mr-2" />
+                Mis logros
+              </Button>
+              <Button 
+                variant="outline" 
+                className="w-full justify-start text-sm"
+                onClick={() => setCurrentView('courses')}
+              >
+                <Share2 className="h-4 w-4 mr-2" />
+                Compartir progreso
+              </Button>
             </div>
           </div>
         </div>
