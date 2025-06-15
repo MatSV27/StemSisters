@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Send, X, MessageCircle, Bot, Menu, Sidebar, PanelLeftClose, PanelLeftOpen, BookOpen, Play } from "lucide-react";
+import { Send, X, MessageCircle, Bot, Menu, Sidebar, PanelLeftClose, PanelLeftOpen, BookOpen, Play, Home, RotateCcw, HelpCircle } from "lucide-react";
 
 interface Message {
   id: number;
@@ -61,7 +61,7 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
   const [suggestedCourses] = useState([
     {
       id: 1,
-      title: "Programación desde Cero con Python",
+      title: "Crea tu primer proyecto STEAM",
       description: "Perfecto para principiantes",
       duration: "6 semanas",
       students: "2,847",
@@ -70,20 +70,20 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
     },
     {
       id: 2,
-      title: "Matemáticas Divertidas para STEM",
-      description: "Descubre la belleza de las matemáticas",
+      title: "Experimentos épicos para chicas curiosas",
+      description: "Descubre la belleza de las ciencias",
       duration: "8 semanas", 
       students: "1,956",
-      icon: "📊",
+      icon: "🧪",
       color: "bg-purple-500"
     },
     {
       id: 3,
-      title: "Desarrollo de Videojuegos",
-      description: "Crea tus propios videojuegos",
+      title: "Robótica fácil para chicas",
+      description: "Construye tu primer robot",
       duration: "12 semanas",
       students: "1,893",
-      icon: "🎮",
+      icon: "🤖",
       color: "bg-yellow-500"
     }
   ]);
@@ -143,6 +143,26 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
   const handleCourseClick = (courseId: number) => {
     onNavigate?.('courses');
     setIsOpen(false);
+  };
+
+  const handleNewTopic = () => {
+    setMessages([{
+      id: 1,
+      text: "¡Hola! ¿En qué puedo ayudarte hoy? 🌟",
+      isBot: true,
+      timestamp: new Date()
+    }]);
+    setRightPanelOpen(false);
+  };
+
+  const handleHelp = () => {
+    const helpMessage = {
+      id: messages.length + 1,
+      text: "¡Estoy aquí para ayudarte! Puedes preguntarme sobre:\n• Cursos y carreras STEM\n• Dudas sobre programación o ciencias\n• Consejos de estudio\n• Motivación y apoyo\n\n¿En qué te gustaría que te ayude? 💖",
+      isBot: true,
+      timestamp: new Date()
+    };
+    setMessages(prev => [...prev, helpMessage]);
   };
 
   if (!isOpen) {
@@ -234,6 +254,39 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
 
         {/* Center Panel - Chat */}
         <div className="flex-1 flex flex-col">
+          {/* Quick Action Buttons */}
+          <div className="p-4 bg-white border-b border-pink-200">
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleNewTopic}
+                className="border-pink-200 text-pink-600 hover:bg-pink-50"
+              >
+                <Home className="h-4 w-4 mr-1" />
+                Nuevo tema
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setLeftPanelOpen(!leftPanelOpen)}
+                className="border-purple-200 text-purple-600 hover:bg-purple-50"
+              >
+                <RotateCcw className="h-4 w-4 mr-1" />
+                Ver historial
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleHelp}
+                className="border-teal-200 text-teal-600 hover:bg-teal-50"
+              >
+                <HelpCircle className="h-4 w-4 mr-1" />
+                Ayuda
+              </Button>
+            </div>
+          </div>
+
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {messages.map((message) => (
@@ -248,7 +301,7 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
                       : 'bg-purple-100 text-purple-800 rounded-tr-sm'
                   }`}
                 >
-                  <p className="text-sm leading-relaxed">{message.text}</p>
+                  <p className="text-sm leading-relaxed whitespace-pre-line">{message.text}</p>
                   <p className="text-xs opacity-70 mt-2">
                     {message.timestamp.toLocaleTimeString()}
                   </p>

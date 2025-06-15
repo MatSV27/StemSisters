@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { 
   Heart, 
   MessageCircle, 
@@ -94,6 +95,7 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
     setPosts([newPost, ...posts]);
     setShareContent("");
     setShareDialogOpen(false);
+    setActiveTab(shareType);
   };
 
   const eventsOpportunities = [
@@ -102,9 +104,9 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
       type: "Beca",
       deadline: "15 Dic 2024",
       amount: "$5,000 USD",
-      description: "Beca completa para chicas destacadas en tecnología",
+      description: "Beca completa para chicas destacadas en tecnología. Incluye mentoría personalizada, acceso a cursos premium y networking con profesionales de Google.",
+      requirements: "Promedio mínimo 8.5, ensayo motivacional, proyecto tecnológico",
       icon: "💰",
-      link: "#",
       country: "Internacional"
     },
     {
@@ -112,25 +114,20 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
       type: "Evento",
       deadline: "20 Nov 2024",
       amount: "Gratis",
-      description: "48 horas creando soluciones tecnológicas para problemas sociales",
+      description: "48 horas creando soluciones tecnológicas para problemas sociales. Mentores de Microsoft, premios de $10,000 MXN y oportunidades de internship.",
+      requirements: "Edad 16-25 años, conocimientos básicos de programación",
       icon: "💻",
-      link: "#",
       country: "México"
-    }
-  ];
-
-  const upcomingEvents = [
-    {
-      title: "Hackathon Chicas Tech",
-      date: "15 Oct",
-      participants: "125 inscritas",
-      color: "bg-pink-500"
     },
     {
-      title: "Mentoring con Google",
-      date: "22 Oct", 
-      participants: "45 plazas",
-      color: "bg-purple-500"
+      title: "Programa de Mentoring STEM",
+      type: "Programa",
+      deadline: "30 Nov 2024", 
+      amount: "Gratuito",
+      description: "Conecta con mentoras exitosas en STEM por 6 meses. Sesiones semanales personalizadas y acceso a red profesional.",
+      requirements: "Estudiante de bachillerato interesada en STEM",
+      icon: "🌟",
+      country: "España"
     }
   ];
 
@@ -267,8 +264,8 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="logros">🏆 Logros</TabsTrigger>
           <TabsTrigger value="apoyo">💖 Apoyo</TabsTrigger>
-          <TabsTrigger value="eventos-oportunidades">🎯 Eventos y Oportunidades</TabsTrigger>
           <TabsTrigger value="preguntas">❓ Preguntas</TabsTrigger>
+          <TabsTrigger value="eventos-oportunidades">🎯 Eventos y Oportunidades</TabsTrigger>
         </TabsList>
 
         <TabsContent value="logros" className="space-y-4">
@@ -285,97 +282,59 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
           </div>
         </TabsContent>
 
-        <TabsContent value="eventos-oportunidades" className="space-y-6">
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Oportunidades épicas esperándote 🚀</h3>
-            
-            {/* Oportunidades */}
-            <Card className="border-purple-200 bg-gradient-to-r from-purple-50 to-teal-50 mb-6">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Gift className="h-5 w-5 text-purple-500" />
-                  Oportunidades Épicas para Ti 🚀
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-2 gap-4">
-                  {eventsOpportunities.map((opportunity, index) => (
-                    <Card key={index} className="border-purple-200 hover:shadow-lg transition-shadow">
-                      <CardHeader className="pb-3">
-                        <div className="flex items-center gap-3">
-                          <div className="text-2xl">{opportunity.icon}</div>
-                          <div className="flex-1">
-                            <CardTitle className="text-sm">{opportunity.title}</CardTitle>
-                            <div className="flex gap-2 mt-1">
-                              <Badge variant="outline" className="text-xs">
-                                {opportunity.type}
-                              </Badge>
-                              <Badge variant="outline" className="text-xs border-green-200 text-green-600">
-                                {opportunity.country}
-                              </Badge>
-                            </div>
-                          </div>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="pt-0">
-                        <p className="text-xs text-gray-600 mb-3">{opportunity.description}</p>
-                        <div className="flex justify-between items-center text-xs mb-3">
-                          <span className="text-gray-500">
-                            <Clock className="h-3 w-3 inline mr-1" />
-                            {opportunity.deadline}
-                          </span>
-                          <span className="font-bold text-purple-600">{opportunity.amount}</span>
-                        </div>
-                        <Button size="sm" className="w-full text-xs" style={{ backgroundColor: '#8B5CF6' }}>
-                          <ExternalLink className="h-3 w-3 mr-1" />
-                          Ver detalles
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Próximos Eventos */}
-            <Card className="border-pink-200">
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <CardTitle className="flex items-center gap-2 text-lg">
-                    <Calendar className="h-5 w-5 text-purple-500" />
-                    Próximos Eventos
-                  </CardTitle>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={onNavigateToEventsOpportunities}
-                    className="border-pink-200 text-pink-600 hover:bg-pink-50"
-                  >
-                    Ver todos los eventos
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {upcomingEvents.map((event, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg p-3">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full ${event.color}`} />
-                      <div className="flex-1">
-                        <div className="font-semibold text-sm text-gray-800">{event.title}</div>
-                        <div className="text-xs text-gray-500">{event.date} • {event.participants}</div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
         <TabsContent value="preguntas" className="space-y-4">
           <div>
             <h3 className="text-lg font-semibold mb-4">Ninguna pregunta es tonta 🤓</h3>
             {renderPosts('pregunta')}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="eventos-oportunidades" className="space-y-6">
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Oportunidades épicas esperándote 🚀</h3>
+            
+            <Accordion type="single" collapsible className="space-y-4">
+              {eventsOpportunities.map((opportunity, index) => (
+                <AccordionItem key={index} value={`item-${index}`} className="border border-purple-200 rounded-lg">
+                  <AccordionTrigger className="px-4 py-3 hover:no-underline">
+                    <div className="flex items-center gap-3 w-full">
+                      <div className="text-2xl">{opportunity.icon}</div>
+                      <div className="flex-1 text-left">
+                        <div className="font-semibold text-gray-800">{opportunity.title}</div>
+                        <div className="flex gap-2 mt-1">
+                          <Badge variant="outline" className="text-xs">
+                            {opportunity.type}
+                          </Badge>
+                          <Badge variant="outline" className="text-xs border-green-200 text-green-600">
+                            {opportunity.country}
+                          </Badge>
+                          <Badge variant="outline" className="text-xs border-red-200 text-red-600">
+                            <Clock className="h-3 w-3 mr-1" />
+                            {opportunity.deadline}
+                          </Badge>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold text-purple-600">{opportunity.amount}</div>
+                      </div>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-4 pb-4">
+                    <div className="space-y-3">
+                      <p className="text-gray-600">{opportunity.description}</p>
+                      <div>
+                        <h5 className="font-semibold text-sm text-gray-800 mb-1">Requisitos:</h5>
+                        <p className="text-sm text-gray-600">{opportunity.requirements}</p>
+                      </div>
+                      <Button size="sm" className="w-full text-white" style={{ backgroundColor: '#8B5CF6' }}>
+                        <ExternalLink className="h-3 w-3 mr-1" />
+                        Ver detalles y aplicar
+                      </Button>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </TabsContent>
       </Tabs>

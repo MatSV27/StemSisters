@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { Search, Filter, Star, Users, Clock, Play, BookOpen, Atom, Calculator, Cpu, Microscope } from "lucide-react";
+import { Search, Filter, Star, Users, Clock, Play, BookOpen, Atom, Calculator, Cpu, Microscope, Heart, Palette, Dna } from "lucide-react";
 
 interface Course {
   id: number;
@@ -19,6 +19,7 @@ interface Course {
   image: string;
   category: string;
   progress?: number;
+  hasCertificate?: boolean;
 }
 
 interface CoursesSectionProps {
@@ -35,14 +36,16 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
     { id: "ciencia", label: "Ciencia", icon: Microscope, color: "text-blue-600" },
     { id: "tecnologia", label: "Tecnología", icon: Cpu, color: "text-green-600" },
     { id: "ingenieria", label: "Ingeniería", icon: Atom, color: "text-purple-600" },
-    { id: "matematicas", label: "Matemáticas", icon: Calculator, color: "text-orange-600" }
+    { id: "matematicas", label: "Matemáticas", icon: Calculator, color: "text-orange-600" },
+    { id: "biologia", label: "Biología", icon: Dna, color: "text-teal-600" },
+    { id: "diseño", label: "Diseño", icon: Palette, color: "text-pink-600" }
   ];
 
   const courses: Course[] = [
     {
       id: 1,
-      title: "Programación para Exploradoras",
-      description: "Aprende los fundamentos de programación creando tu primera app que puede cambiar vidas",
+      title: "Crea tu primer proyecto STEAM",
+      description: "Aprende los fundamentos mientras creates una app que puede cambiar vidas. Perfecto para empezar tu aventura tech.",
       instructor: "María González",
       duration: "6 semanas",
       level: "Principiante",
@@ -50,12 +53,13 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
       rating: 4.9,
       image: "💻",
       category: "tecnologia",
-      progress: 0
+      progress: 35,
+      hasCertificate: false
     },
     {
       id: 2,
-      title: "Laboratorio de Química Épica",
-      description: "Experimenta con reacciones súper cool y descubre cómo la química puede salvar el mundo",
+      title: "Experimentos épicos para chicas curiosas",
+      description: "Química súper divertida con experimentos que puedes hacer en casa. ¡Descubre la magia de la ciencia!",
       instructor: "Dra. Carmen Ruiz",
       duration: "4 semanas",
       level: "Principiante",
@@ -66,21 +70,22 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
     },
     {
       id: 3,
-      title: "Diseño de Videojuegos que Inspiran",
-      description: "Crea tu primer videojuego con mensaje social y aprende desarrollo de games",
+      title: "Robótica fácil para chicas",
+      description: "Construye tu primer robot paso a paso. Sin experiencia previa necesaria, solo ganas de crear algo increíble.",
       instructor: "Sofía Martín",
       duration: "8 semanas",
       level: "Intermedio",
       students: 1593,
       rating: 4.9,
-      image: "🎮",
-      category: "tecnologia",
-      progress: 35
+      image: "🤖",
+      category: "ingenieria",
+      progress: 75,
+      hasCertificate: true
     },
     {
       id: 4,
-      title: "Matemáticas que Cambian el Mundo",
-      description: "Descubre cómo los números pueden resolver problemas reales y crear impacto social",
+      title: "Matemáticas para resolver problemas reales",
+      description: "Descubre cómo los números pueden cambiar el mundo. Desde estadísticas hasta algoritmos, todo súper fácil.",
       instructor: "Prof. Ana López",
       duration: "5 semanas",
       level: "Principiante",
@@ -91,8 +96,8 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
     },
     {
       id: 5,
-      title: "Ingeniería Biomédica para Genias",
-      description: "Diseña dispositivos médicos que pueden salvar vidas y mejorar la salud",
+      title: "Diseña dispositivos que salvan vidas",
+      description: "Ingeniería biomédica para principiantes. Aprende a crear soluciones tecnológicas para la salud.",
       instructor: "Dra. Laura Herrera",
       duration: "10 semanas",
       level: "Avanzado",
@@ -103,15 +108,40 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
     },
     {
       id: 6,
-      title: "Robótica e IA para el Futuro",
-      description: "Construye robots inteligentes y aprende sobre inteligencia artificial",
+      title: "Ciencias divertidas para el día a día",
+      description: "Física y química aplicada a situaciones cotidianas. Entiende el mundo que te rodea de forma genial.",
       instructor: "Ing. Patricia Vega",
       duration: "7 semanas",
       level: "Intermedio",
       students: 967,
       rating: 4.9,
-      image: "🤖",
-      category: "ingenieria"
+      image: "🔬",
+      category: "ciencia"
+    },
+    {
+      id: 7,
+      title: "Biología molecular para futuras científicas",
+      description: "Desde el ADN hasta las células. Descubre los secretos de la vida de manera súper accesible.",
+      instructor: "Dra. Elena Vargas",
+      duration: "6 semanas",
+      level: "Intermedio",
+      students: 543,
+      rating: 4.8,
+      image: "🧬",
+      category: "biologia"
+    },
+    {
+      id: 8,
+      title: "Diseño UX/UI para apps que importan",
+      description: "Aprende a diseñar aplicaciones que la gente ame usar. Combina creatividad con tecnología.",
+      instructor: "Carla Mendoza",
+      duration: "8 semanas",
+      level: "Principiante",
+      students: 892,
+      rating: 4.9,
+      image: "🎨",
+      category: "diseño",
+      progress: 20
     }
   ];
 
@@ -127,6 +157,16 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
   const handleEnrollCourse = (courseId: number) => {
     console.log(`Inscribiéndose al curso ${courseId}`);
     // Aquí se manejaría la inscripción al curso
+  };
+
+  const handleContinueCourse = (courseId: number) => {
+    console.log(`Continuando curso ${courseId}`);
+    // Aquí se manejaría la continuación del curso
+  };
+
+  const handleViewCertificate = (courseId: number) => {
+    console.log(`Viendo certificado del curso ${courseId}`);
+    // Aquí se manejaría la visualización del certificado
   };
 
   return (
@@ -242,20 +282,36 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
                   </div>
                 )}
                 
-                <Button
-                  onClick={() => handleEnrollCourse(course.id)}
-                  className="w-full text-white font-medium"
-                  style={{ backgroundColor: '#FF1493' }}
-                >
+                <div className="flex gap-2">
                   {course.progress !== undefined && course.progress > 0 ? (
-                    <>
+                    <Button
+                      onClick={() => handleContinueCourse(course.id)}
+                      className="flex-1 text-white font-medium"
+                      style={{ backgroundColor: '#FF1493' }}
+                    >
                       <Play className="h-4 w-4 mr-2" />
                       Continuar curso
-                    </>
+                    </Button>
                   ) : (
-                    "¡Empezar ahora!"
+                    <Button
+                      onClick={() => handleEnrollCourse(course.id)}
+                      className="flex-1 text-white font-medium"
+                      style={{ backgroundColor: '#FF1493' }}
+                    >
+                      ¡Empezar ahora!
+                    </Button>
                   )}
-                </Button>
+                  
+                  {course.hasCertificate && (
+                    <Button
+                      onClick={() => handleViewCertificate(course.id)}
+                      variant="outline"
+                      className="border-pink-200 text-pink-600 hover:bg-pink-50"
+                    >
+                      Ver Certificado
+                    </Button>
+                  )}
+                </div>
               </div>
             </CardContent>
           </Card>
