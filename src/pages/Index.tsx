@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -70,7 +69,11 @@ const Index = () => {
         <header className="bg-white/90 backdrop-blur-sm border-b-2 border-pink-200 sticky top-0 z-40">
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              <Sparkles className="h-8 w-8 text-pink-500" />
+              <img 
+                src="/lovable-uploads/114fa174-de26-43c4-a0ac-a55e99208bbe.png" 
+                alt="StemSisters Logo" 
+                className="h-8 w-8 object-contain"
+              />
               <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
                 StemSisters
               </h1>
@@ -96,7 +99,11 @@ const Index = () => {
         <header className="bg-white/90 backdrop-blur-sm border-b-2 border-pink-200 sticky top-0 z-40">
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              <Sparkles className="h-8 w-8 text-pink-500" />
+              <img 
+                src="/lovable-uploads/114fa174-de26-43c4-a0ac-a55e99208bbe.png" 
+                alt="StemSisters Logo" 
+                className="h-8 w-8 object-contain"
+              />
               <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
                 StemSisters
               </h1>
@@ -257,7 +264,11 @@ const Index = () => {
       <header className="bg-white/90 backdrop-blur-sm border-b-2 border-pink-200 sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-2">
-            <Sparkles className="h-8 w-8 text-pink-500" />
+            <img 
+              src="/lovable-uploads/114fa174-de26-43c4-a0ac-a55e99208bbe.png" 
+              alt="StemSisters Logo" 
+              className="h-8 w-8 object-contain"
+            />
             <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
               StemSisters
             </h1>
