@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Send, X, MessageCircle, Bot } from "lucide-react";
+import { Send, X, MessageCircle, Bot, HelpCircle, MoreHorizontal } from "lucide-react";
 
 interface Message {
   id: number;
@@ -50,6 +50,12 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
       color: "bg-orange-500",
       response: "¡Tenemos cursos increíbles! Desde 'Experimentos épicos para chicas curiosas' hasta 'Diseño UX/UI para apps que importan'. Todos están diseñados para que descubras tu superpoder. ¿Te gustaría que te lleve a la sección de cursos?"
     }
+  ];
+
+  const conversationHistory = [
+    { id: 1, title: "Primeros pasos en STEM", time: "2:50 PM" },
+    { id: 2, title: "Cursos recomendados", time: "3:01 PM" },
+    { id: 3, title: "Dudas sobre programación", time: "3:01 PM" }
   ];
 
   const handleSendMessage = () => {
@@ -102,7 +108,7 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
     const lowerMessage = userMessage.toLowerCase();
     
     if (lowerMessage.includes('curso') || lowerMessage.includes('estudiar') || lowerMessage.includes('aprender')) {
-      return "¡Perfecto! Tenemos cursos súper cool que podrían interesarte. ¿Te gustaría que te lleve a la sección de cursos para explorar todas las opciones? 💫";
+      return "¡Tenemos cursos increíbles! Desde 'Experimentos épicos para chicas curiosas' hasta 'Diseño UX/UI para apps que importan'. Todos están diseñados para que descubras tu superpoder. ¿Te gustaría que te lleve a la sección de cursos?";
     }
     
     if (lowerMessage.includes('difícil') || lowerMessage.includes('complicado') || lowerMessage.includes('no sé')) {
@@ -162,6 +168,14 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
             <Button
               variant="ghost"
               size="sm"
+              className="text-gray-600"
+            >
+              <HelpCircle className="h-4 w-4" />
+              Ayuda
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => setIsOpen(false)}
               className="text-gray-600"
             >
@@ -172,8 +186,37 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
       </header>
 
       {/* Main content */}
-      <div className="flex h-[calc(100vh-80px)] max-w-4xl mx-auto">
-        {/* Chat */}
+      <div className="flex h-[calc(100vh-80px)] max-w-7xl mx-auto">
+        {/* Left Sidebar - Conversation History */}
+        <div className="w-80 bg-white border-r-2 border-pink-200 p-4">
+          <div className="mb-4">
+            <h3 className="font-semibold text-gray-800 mb-3">Conversaciones</h3>
+            <Button
+              className="w-full text-white mb-4"
+              style={{ backgroundColor: '#FF1493' }}
+            >
+              + Nueva conversación
+            </Button>
+          </div>
+          
+          <div className="space-y-2">
+            {conversationHistory.map((conv) => (
+              <div
+                key={conv.id}
+                className="p-3 rounded-lg hover:bg-pink-50 cursor-pointer border border-pink-100"
+              >
+                <div className="font-medium text-sm text-gray-800 truncate">
+                  {conv.title}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {conv.time}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Chat Area */}
         <div className="flex-1 flex flex-col">
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">

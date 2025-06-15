@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, Clock, Users, Star, Trophy, Target, Search, Filter, Play, Award } from "lucide-react";
+import { BookOpen, Clock, Users, Star, Trophy, Target, Search, Play, Award } from "lucide-react";
 
 interface Course {
   id: number;
@@ -162,8 +162,8 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
             Microcursos STEM que van a cambiar tu vida 🚀
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Contenido épico diseñado por mujeres increíbles para chicas como tú. 
-            Cada curso es una aventura hacia tu futuro badass en ciencia y tecnología.
+            Contenido genial diseñado por mujeres increíbles para chicas como tú. 
+            Cada curso es una aventura hacia tu futuro genial en ciencia y tecnología.
           </p>
         </div>
 
@@ -182,9 +182,9 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
           </TabsList>
 
           <TabsContent value="explorar" className="space-y-8">
-            {/* Search and Filters */}
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-              <div className="relative flex-1 max-w-md">
+            {/* Search */}
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
+              <div className="relative w-full max-w-2xl">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <input
                   type="text"
@@ -194,10 +194,6 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
                   className="w-full pl-10 pr-4 py-2 border-2 border-pink-200 rounded-full focus:border-pink-400 focus:outline-none"
                 />
               </div>
-              <Button variant="outline" className="border-pink-200 text-pink-600">
-                <Filter className="h-4 w-4 mr-2" />
-                Filtros
-              </Button>
             </div>
 
             {/* Categories */}
@@ -224,7 +220,7 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
             </div>
 
             {/* Courses Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
               {filteredCourses.map((course) => (
                 <Card key={course.id} className="border-pink-200 hover:shadow-xl transition-all hover:scale-105">
                   <CardHeader>
@@ -278,7 +274,7 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
                         {course.progress ? (
                           <Button className="flex-1 text-white" style={{ backgroundColor: '#FF1493' }}>
                             <Play className="h-4 w-4 mr-2" />
-                            Continuar aventura
+                            🚀 Continuar aventura
                           </Button>
                         ) : (
                           <Button className="flex-1 text-white" style={{ backgroundColor: '#FF1493' }}>
@@ -302,12 +298,26 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
           </TabsContent>
 
           <TabsContent value="progreso" className="space-y-6">
+            {/* Search also in Mi Progreso */}
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
+              <div className="relative w-full max-w-2xl">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <input
+                  type="text"
+                  placeholder="Busca en tus cursos..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border-2 border-pink-200 rounded-full focus:border-pink-400 focus:outline-none"
+                />
+              </div>
+            </div>
+
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">Tu progreso épico 📈</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">Tu progreso genial 📈</h2>
               <p className="text-gray-600">Sigue así, estás conquistando el mundo STEM paso a paso</p>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-6 px-4">
               {inProgressCourses.map((course) => (
                 <Card key={course.id} className="border-purple-200">
                   <CardHeader>
@@ -330,7 +340,7 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
                       </div>
                       <Button className="w-full text-white" style={{ backgroundColor: '#FF1493' }}>
                         <Play className="h-4 w-4 mr-2" />
-                        Continuar aventura
+                        🚀 Continuar aventura
                       </Button>
                     </div>
                   </CardContent>
@@ -340,12 +350,26 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
           </TabsContent>
 
           <TabsContent value="completados" className="space-y-6">
+            {/* Search also in Completados */}
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
+              <div className="relative w-full max-w-2xl">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <input
+                  type="text"
+                  placeholder="Busca en tus cursos completados..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border-2 border-pink-200 rounded-full focus:border-pink-400 focus:outline-none"
+                />
+              </div>
+            </div>
+
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">¡Logros épicos desbloqueados! 🏆</h2>
-              <p className="text-gray-600">Cada curso completado es un paso más hacia tu futuro badass</p>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">¡Logros geniales desbloqueados! 🏆</h2>
+              <p className="text-gray-600">Cada curso completado es un paso más hacia tu futuro genial</p>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-6 px-4">
               {completedCourses.map((course) => (
                 <Card key={course.id} className="border-yellow-200 bg-gradient-to-br from-yellow-50 to-orange-50">
                   <CardHeader>

@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { 
   Heart, 
@@ -238,17 +237,34 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
                   className="border-pink-200 focus:border-pink-400"
                 />
                 <div className="flex justify-between items-center">
-                  <div className="flex items-center gap-4">
-                    <Select value={shareType} onValueChange={(value: 'logro' | 'apoyo' | 'pregunta') => setShareType(value)}>
-                      <SelectTrigger className="w-48">
-                        <SelectValue placeholder="Tipo de mensaje" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="logro">🏆 Logro</SelectItem>
-                        <SelectItem value="apoyo">💖 Apoyo</SelectItem>
-                        <SelectItem value="pregunta">❓ Pregunta</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant={shareType === 'logro' ? 'default' : 'outline'}
+                      onClick={() => setShareType('logro')}
+                      size="sm"
+                      className={shareType === 'logro' ? 'text-white' : 'border-yellow-200 text-yellow-600'}
+                      style={shareType === 'logro' ? { backgroundColor: '#FF1493' } : {}}
+                    >
+                      🏆 Logro
+                    </Button>
+                    <Button
+                      variant={shareType === 'apoyo' ? 'default' : 'outline'}
+                      onClick={() => setShareType('apoyo')}
+                      size="sm"
+                      className={shareType === 'apoyo' ? 'text-white' : 'border-pink-200 text-pink-600'}
+                      style={shareType === 'apoyo' ? { backgroundColor: '#FF1493' } : {}}
+                    >
+                      💖 Apoyo
+                    </Button>
+                    <Button
+                      variant={shareType === 'pregunta' ? 'default' : 'outline'}
+                      onClick={() => setShareType('pregunta')}
+                      size="sm"
+                      className={shareType === 'pregunta' ? 'text-white' : 'border-purple-200 text-purple-600'}
+                      style={shareType === 'pregunta' ? { backgroundColor: '#FF1493' } : {}}
+                    >
+                      ❓ Pregunta
+                    </Button>
                   </div>
                   <Button 
                     className="text-white font-bold"
@@ -303,7 +319,7 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
 
             <TabsContent value="eventos" className="space-y-6 mt-6">
               <div>
-                <h3 className="text-lg font-semibold mb-4">Oportunidades épicas esperándote 🚀</h3>
+                <h3 className="text-lg font-semibold mb-4">Oportunidades geniales esperándote 🚀</h3>
                 
                 <Accordion type="single" collapsible className="space-y-4">
                   {eventsOpportunities.map((opportunity, index) => (
@@ -350,6 +366,11 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
               </div>
             </TabsContent>
           </Tabs>
+
+          {/* Footer with MaYA prompt */}
+          <div className="text-center py-6 text-gray-500">
+            <p>Escribe algo para conversar con MaYA... 💬</p>
+          </div>
         </div>
 
         {/* Right Sidebar */}
