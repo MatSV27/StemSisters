@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { X, Heart, Sparkles } from "lucide-react";
 
 interface RegistrationModalProps {
@@ -27,6 +27,20 @@ const RegistrationModal = ({ onClose, onComplete }: RegistrationModalProps) => {
     stemFeeling: "",
     motivation: ""
   });
+
+  const gradeOptions = [
+    "7mo grado (1ro de secundaria)",
+    "8vo grado (2do de secundaria)", 
+    "9no grado (3ro de secundaria)",
+    "10mo grado (4to de secundaria)",
+    "11vo grado (5to de secundaria)",
+    "1er año de bachillerato",
+    "2do año de bachillerato",
+    "3er año de bachillerato",
+    "1er año de preparatoria",
+    "2do año de preparatoria",
+    "3er año de preparatoria"
+  ];
 
   const stemInterests = [
     "Programación y desarrollo", "Robótica", "Medicina y biología", 
@@ -158,12 +172,21 @@ const RegistrationModal = ({ onClose, onComplete }: RegistrationModalProps) => {
 
                 <div>
                   <Label htmlFor="grade">¿En qué grado estás?</Label>
-                  <Input
-                    id="grade"
-                    value={formData.grade}
-                    onChange={(e) => setFormData(prev => ({ ...prev, grade: e.target.value }))}
-                    placeholder="Ej: 3ro de secundaria, 5to de bachillerato..."
-                  />
+                  <Select 
+                    value={formData.grade} 
+                    onValueChange={(value) => setFormData(prev => ({ ...prev, grade: value }))}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Selecciona tu grado escolar" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
+                      {gradeOptions.map((grade) => (
+                        <SelectItem key={grade} value={grade} className="hover:bg-purple-50">
+                          {grade}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="flex items-center space-x-2 bg-yellow-50 p-3 rounded-lg">
