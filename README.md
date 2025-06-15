@@ -71,8 +71,5 @@ StemSisters/
 ## Licencia
 Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
-## Contacto
-[Información de contacto del equipo]
-
 ---
 Desarrollado con ❤️ por el equipo de StemSisters
