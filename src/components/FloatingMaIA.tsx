@@ -162,22 +162,6 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => onNavigate?.('home')}
-              className="text-gray-600"
-            >
-              Home
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onNavigate?.('courses')}
-              className="text-gray-600"
-            >
-              Cursos
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
               onClick={() => setIsOpen(false)}
               className="text-gray-600"
             >

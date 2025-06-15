@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { 
   Heart, 
@@ -37,10 +36,9 @@ interface CommunitySectionProps {
 }
 
 const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionProps) => {
-  const [activeTab, setActiveTab] = useState("todo");
-  const [shareDialogOpen, setShareDialogOpen] = useState(false);
-  const [shareType, setShareType] = useState<'logro' | 'apoyo' | 'pregunta'>('logro');
+  const [activeTab, setActiveTab] = useState("logro");
   const [shareContent, setShareContent] = useState("");
+  const [shareType, setShareType] = useState<'logro' | 'apoyo' | 'pregunta' | ''>('');
   const [posts, setPosts] = useState<CommunityPost[]>([
     {
       id: 1,
@@ -132,7 +130,7 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
   ];
 
   const handleShare = () => {
-    if (!shareContent.trim()) return;
+    if (!shareContent.trim() || !shareType) return;
     
     const newPost: CommunityPost = {
       id: posts.length + 1,
@@ -147,12 +145,12 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
 
     setPosts([newPost, ...posts]);
     setShareContent("");
-    setShareDialogOpen(false);
+    setShareType('');
     setActiveTab(shareType);
   };
 
   const renderPosts = (filterType: string) => {
-    const filteredPosts = filterType === 'todo' ? posts : posts.filter(post => post.type === filterType);
+    const filteredPosts = posts.filter(post => post.type === filterType);
     
     return filteredPosts.map(post => (
       <Card key={post.id} className="mb-4 border-pink-200 hover:shadow-md transition-shadow">
@@ -233,41 +231,30 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
             <CardContent>
               <div className="space-y-4">
                 <Textarea
+                  value={shareContent}
+                  onChange={(e) => setShareContent(e.target.value)}
                   placeholder="Comparte tu logro épico, pide apoyo, o cuenta qué estás aprendiendo... ✨"
                   rows={3}
                   className="border-pink-200 focus:border-pink-400"
                 />
                 <div className="flex justify-between items-center">
-                  <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="border-yellow-200 text-yellow-600 hover:bg-yellow-50"
-                      onClick={() => {setShareType('logro'); setShareDialogOpen(true);}}
-                    >
-                      🏆 Logro
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="border-pink-200 text-pink-600 hover:bg-pink-50"
-                      onClick={() => {setShareType('apoyo'); setShareDialogOpen(true);}}
-                    >
-                      💖 Apoyo
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="border-purple-200 text-purple-600 hover:bg-purple-50"
-                      onClick={() => {setShareType('pregunta'); setShareDialogOpen(true);}}
-                    >
-                      ❓ Pregunta
-                    </Button>
+                  <div className="flex items-center gap-4">
+                    <Select value={shareType} onValueChange={(value: 'logro' | 'apoyo' | 'pregunta') => setShareType(value)}>
+                      <SelectTrigger className="w-48">
+                        <SelectValue placeholder="Tipo de mensaje" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="logro">🏆 Logro</SelectItem>
+                        <SelectItem value="apoyo">💖 Apoyo</SelectItem>
+                        <SelectItem value="pregunta">❓ Pregunta</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                   <Button 
                     className="text-white font-bold"
                     style={{ backgroundColor: '#FF1493' }}
-                    onClick={() => setShareDialogOpen(true)}
+                    onClick={handleShare}
+                    disabled={!shareContent.trim() || !shareType}
                   >
                     Compartir ✨
                   </Button>
@@ -278,35 +265,22 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
 
           {/* Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-5 bg-white border-2 border-pink-200">
-              <TabsTrigger value="todo" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
-                ✨ Todo
-              </TabsTrigger>
-              <TabsTrigger value="logros" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
+            <TabsList className="grid w-full grid-cols-4 bg-white border-2 border-pink-200">
+              <TabsTrigger value="logro" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
                 🏆 Logros
               </TabsTrigger>
               <TabsTrigger value="apoyo" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
                 💖 Apoyo
               </TabsTrigger>
-              <TabsTrigger value="oportunidades" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
-                🚀 Oportunidades
-              </TabsTrigger>
-              <TabsTrigger value="preguntas" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
+              <TabsTrigger value="pregunta" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
                 ❓ Preguntas
+              </TabsTrigger>
+              <TabsTrigger value="eventos" className="data-[state=active]:bg-pink-500 data-[state=active]:text-white">
+                🚀 Eventos
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="todo" className="space-y-4 mt-6">
-              <div>
-                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <Star className="h-5 w-5 text-yellow-500" />
-                  Historias de Éxito que Inspiran 🔥
-                </h3>
-                {renderPosts('todo')}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="logros" className="space-y-4 mt-6">
+            <TabsContent value="logro" className="space-y-4 mt-6">
               <div>
                 <h3 className="text-lg font-semibold mb-4">Celebremos juntas cada victoria 🎉</h3>
                 {renderPosts('logro')}
@@ -320,14 +294,14 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
               </div>
             </TabsContent>
 
-            <TabsContent value="preguntas" className="space-y-4 mt-6">
+            <TabsContent value="pregunta" className="space-y-4 mt-6">
               <div>
                 <h3 className="text-lg font-semibold mb-4">Ninguna pregunta es tonta 🤓</h3>
                 {renderPosts('pregunta')}
               </div>
             </TabsContent>
 
-            <TabsContent value="oportunidades" className="space-y-6 mt-6">
+            <TabsContent value="eventos" className="space-y-6 mt-6">
               <div>
                 <h3 className="text-lg font-semibold mb-4">Oportunidades épicas esperándote 🚀</h3>
                 
@@ -400,7 +374,7 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
                 </div>
                 <div>
                   <div className="font-bold text-teal-600">423</div>
-                  <div className="text-gray-600">proyectos activos</div>
+                  <div className="text-gray-600">metas alcanzadas</div>
                 </div>
               </div>
             </CardContent>
@@ -450,47 +424,6 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
           </Card>
         </div>
       </div>
-
-      {/* Share Dialog */}
-      <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Comparte con tu Squad 💖</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium mb-2 block">¿Qué quieres compartir?</label>
-              <Select value={shareType} onValueChange={(value: 'logro' | 'apoyo' | 'pregunta') => setShareType(value)}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="logro">🏆 Logro - ¡Algo que lograste!</SelectItem>
-                  <SelectItem value="apoyo">💖 Apoyo - Necesitas palabras de aliento</SelectItem>
-                  <SelectItem value="pregunta">❓ Pregunta - Necesitas ayuda</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-2 block">Cuéntanos tu historia</label>
-              <Textarea
-                value={shareContent}
-                onChange={(e) => setShareContent(e.target.value)}
-                placeholder="Escribe aquí lo que quieres compartir con tu squad..."
-                rows={4}
-              />
-            </div>
-            <Button 
-              onClick={handleShare}
-              className="w-full text-white"
-              style={{ backgroundColor: '#FF1493' }}
-              disabled={!shareContent.trim()}
-            >
-              Publicar en la comunidad
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
