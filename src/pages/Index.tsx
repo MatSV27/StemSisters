@@ -1,9 +1,10 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Star, Users, BookOpen, Award, MessageCircle, Sparkles, Heart, Target, Bot, Zap, Shield, Atom, User, LogOut } from "lucide-react";
+import { Star, Users, BookOpen, Award, MessageCircle, Sparkles, Heart, Target, Bot, Zap, Shield, Atom, User, LogOut, Crown } from "lucide-react";
 import WelcomeSection from "@/components/WelcomeSection";
 import AuthModal from "@/components/AuthModal";
 import InitialSurvey from "@/components/InitialSurvey";
@@ -20,7 +21,7 @@ const Index = () => {
   const [showSurvey, setShowSurvey] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<any>(null);
-  const [currentView, setCurrentView] = useState<'home' | 'courses' | 'dashboard' | 'community'>('community');
+  const [currentView, setCurrentView] = useState<'home' | 'courses' | 'dashboard' | 'community' | 'success-stories'>('community');
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const handleAuthComplete = (data: any) => {
@@ -123,6 +124,15 @@ const Index = () => {
               >
                 Mi Seguimiento
               </Button>
+              <Button 
+                variant={currentView === 'success-stories' ? "default" : "ghost"}
+                onClick={() => setCurrentView('success-stories')}
+                style={currentView === 'success-stories' ? { backgroundColor: '#FF1493', color: 'white' } : {}}
+                className="flex items-center gap-2"
+              >
+                <Crown className="h-4 w-4" />
+                Reinas de la Ciencia ✨
+              </Button>
             </nav>
 
             <div className="flex items-center gap-4">
@@ -170,6 +180,7 @@ const Index = () => {
           )}
           {currentView === 'courses' && <CoursesSection onNavigateToCommunity={() => setCurrentView('community')} />}
           {currentView === 'dashboard' && <AchievementsSection />}
+          {currentView === 'success-stories' && <SuccessProfilesSection />}
         </main>
 
         <FloatingMaIA onNavigate={handleNavigation} />
