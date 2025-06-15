@@ -1,344 +1,345 @@
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { Search, Star, Users, Clock, Play, Heart, Zap, Sparkles, Trophy, Target } from "lucide-react";
-
-interface Course {
-  id: number;
-  title: string;
-  description: string;
-  instructor: string;
-  duration: string;
-  level: string;
-  students: number;
-  rating: number;
-  emoji: string;
-  category: string;
-  progress?: number;
-  highlights: string[];
-  price: string;
-}
+import { 
+  BookOpen, 
+  Clock, 
+  Users, 
+  Star, 
+  Play, 
+  CheckCircle2, 
+  Zap,
+  Target,
+  Award,
+  Heart
+} from "lucide-react";
 
 interface ImprovedCoursesSectionProps {
   onNavigateToCommunity?: () => void;
 }
 
 const ImprovedCoursesSection = ({ onNavigateToCommunity }: ImprovedCoursesSectionProps) => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-
-  const categories = [
-    { id: "all", label: "Todos 🌟", color: "text-gray-600" },
-    { id: "tech", label: "Tech 💻", color: "text-blue-600" },
-    { id: "creative", label: "Creativo 🎨", color: "text-purple-600" },
-    { id: "science", label: "Ciencia 🔬", color: "text-green-600" },
-    { id: "math", label: "Matemáticas 📊", color: "text-orange-600" }
-  ];
-
-  const courses: Course[] = [
+  const courses = [
     {
       id: 1,
-      title: "Crea tu Primera App que Cambie Vidas 📱✨",
-      description: "Diseña una app súper cool que resuelva problemas reales. ¡Desde la idea hasta la tienda de apps!",
-      instructor: "María González (19 años)",
-      duration: "3 semanas",
+      title: "Programación desde Cero con Python",
+      description: "Aprende a programar paso a paso con el lenguaje más amigable. Perfecto para principiantes que quieren crear sus primeras aplicaciones.",
+      duration: "6 semanas",
       level: "Principiante",
-      students: 2847,
+      students: "2,847",
       rating: 4.9,
-      emoji: "📱",
-      category: "tech",
-      progress: 0,
-      highlights: ["Sin experiencia previa", "Proyecto real", "Mentoría 1:1"],
-      price: "Gratis"
+      progress: 65,
+      completed: false,
+      topics: ["Variables y tipos de datos", "Estructuras de control", "Funciones", "Proyectos prácticos"],
+      objectives: ["Crear tu primera aplicación", "Dominar sintaxis básica", "Resolver problemas reales"],
+      image: "💻",
+      color: "bg-pink-500",
+      enrolled: true
     },
     {
       id: 2,
-      title: "Química Épica: Experimentos que Vuelan la Mente 🧪🔥",
-      description: "Crea slime conductor, volcanes coloridos y experimentos súper cool para TikTok",
-      instructor: "Dra. Carmen Ruiz",
-      duration: "2 semanas",
-      level: "Principiante",
-      students: 1935,
+      title: "Matemáticas Divertidas para STEM",
+      description: "Descubre cómo las matemáticas están en todo lo que nos rodea. Aprende álgebra, geometría y estadística de forma práctica y emocionante.",
+      duration: "8 semanas", 
+      level: "Intermedio",
+      students: "1,956",
       rating: 4.8,
-      emoji: "🧪",
-      category: "science",
-      highlights: ["Kit de experimentos gratis", "Videos virales", "Certificado cool"],
-      price: "Gratis"
+      progress: 30,
+      completed: false,
+      topics: ["Álgebra aplicada", "Geometría en el mundo real", "Estadística práctica", "Cálculo básico"],
+      objectives: ["Aplicar matemáticas a problemas reales", "Desarrollar pensamiento lógico", "Prepararte para ciencias avanzadas"],
+      image: "📊",
+      color: "bg-purple-500",
+      enrolled: true
     },
     {
       id: 3,
-      title: "Diseño de Videojuegos: Crea tu Mundo Digital 🎮👑",
-      description: "Desarrolla tu primer videojuego con personajes femeninos poderosos y mensaje inspirador",
-      instructor: "Sofía Martín (Game Dev)",
-      duration: "4 semanas",
+      title: "Ciencias de Datos para Principiantes", 
+      description: "Analiza datos como una profesional. Aprende a encontrar patrones, crear visualizaciones y tomar decisiones basadas en datos.",
+      duration: "10 semanas",
       level: "Intermedio",
-      students: 3241,
+      students: "1,432",
       rating: 4.9,
-      emoji: "🎮",
-      category: "creative",
-      progress: 35,
-      highlights: ["Crea tu personaje", "Publica en Steam", "Comunidad gamer"],
-      price: "Gratis"
+      progress: 0,
+      completed: false,
+      topics: ["Análisis exploratorio", "Visualización de datos", "Machine Learning básico", "Proyectos reales"],
+      objectives: ["Analizar conjuntos de datos", "Crear visualizaciones impactantes", "Usar herramientas profesionales"],
+      image: "📈",
+      color: "bg-teal-500",
+      enrolled: false
     },
     {
       id: 4,
-      title: "IA para Principiantes: Tu Asistente Personal 🤖💖",
-      description: "Construye tu propia IA que te ayude con tareas del cole y proyectos personales",
-      instructor: "Ana López (AI Engineer)",
-      duration: "3 semanas",
-      level: "Principiante",
-      students: 1642,
-      rating: 4.7,
-      emoji: "🤖",
-      category: "tech",
-      highlights: ["Crea tu ChatBot", "Sin programación", "Proyectos virales"],
-      price: "Gratis"
+      title: "Desarrollo de Videojuegos",
+      description: "Crea tus propios videojuegos desde cero. Aprende programación, diseño y storytelling para dar vida a tus ideas más creativas.",
+      duration: "12 semanas",
+      level: "Intermedio",
+      students: "1,893",
+      rating: 4.8,
+      progress: 100,
+      completed: true,
+      topics: ["Unity y C#", "Diseño de personajes", "Mecánicas de juego", "Publicación"],
+      objectives: ["Crear un juego completo", "Dominar Unity", "Publicar en plataformas"],
+      image: "🎮",
+      color: "bg-yellow-500",
+      enrolled: true
     },
     {
       id: 5,
-      title: "Robótica + Moda: Diseña Tech Wearables 👗⚡",
-      description: "Combina moda y tecnología creando accesorios inteligentes súper fashionistas",
-      instructor: "Laura Herrera (Fashion Tech)",
-      duration: "5 semanas",
-      level: "Intermedio",
-      students: 892,
-      rating: 4.8,
-      emoji: "👗",
-      category: "creative",
-      highlights: ["Kit de robótica", "Desfile final", "Conexión con marcas"],
-      price: "Gratis"
+      title: "Robótica e IoT para Exploradoras",
+      description: "Construye robots y dispositivos inteligentes. Combina programación, electrónica y creatividad para crear tecnología que cambie el mundo.",
+      duration: "14 semanas",
+      level: "Avanzado", 
+      students: "987",
+      rating: 4.9,
+      progress: 0,
+      completed: false,
+      topics: ["Arduino y sensores", "Programación de robots", "Internet de las cosas", "Proyectos innovadores"],
+      objectives: ["Construir robots funcionales", "Crear dispositivos IoT", "Integrar hardware y software"],
+      image: "🤖",
+      color: "bg-indigo-500",
+      enrolled: false
     },
     {
       id: 6,
-      title: "Matemáticas para Influencers: Stats & Analytics 📊🌟",
-      description: "Aprende matemáticas analizando tu contenido en redes y creciendo tu audiencia",
-      instructor: "Patricia Vega (Data Scientist)",
-      duration: "2 semanas",
-      level: "Principiante",
-      students: 2156,
-      rating: 4.9,
-      emoji: "📊",
-      category: "math",
-      highlights: ["Crece en redes", "Análisis real", "Tools profesionales"],
-      price: "Gratis"
+      title: "Inteligencia Artificial Ética",
+      description: "Explora el futuro de la IA de manera responsable. Aprende machine learning, ética en tecnología y cómo crear IA que beneficie a todos.",
+      duration: "16 semanas",
+      level: "Avanzado",
+      students: "654",
+      rating: 4.7,
+      progress: 0,
+      completed: false,
+      topics: ["Machine Learning", "Ética en IA", "Redes neuronales", "Proyectos sociales"],
+      objectives: ["Crear modelos de IA", "Entender implicaciones éticas", "Desarrollar soluciones responsables"],
+      image: "🧠",
+      color: "bg-rose-500",
+      enrolled: false
     }
   ];
 
-  const filteredCourses = courses.filter(course => {
-    const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         course.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "all" || course.category === selectedCategory;
-    
-    return matchesSearch && matchesCategory;
-  });
+  const achievements = [
+    { title: "Primera Línea de Código", description: "Escribiste tu primer programa", icon: "💻", earned: true },
+    { title: "Solucionadora de Problemas", description: "Completaste 10 ejercicios", icon: "🧩", earned: true },
+    { title: "Exploradora Curiosa", description: "Probaste 3 tecnologías diferentes", icon: "🔍", earned: false }
+  ];
 
   const handleEnrollCourse = (courseId: number) => {
     console.log(`Inscribiéndose al curso ${courseId}`);
-    // Aquí se manejaría la inscripción al curso
   };
 
   return (
     <div className="space-y-8">
-      {/* Header súper atractivo */}
-      <div className="text-center bg-gradient-to-r from-pink-100 to-purple-100 p-8 rounded-xl">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">
-          Cursos STEM que van a volar tu mente 🚀✨
-        </h1>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-          Aprende ciencia, tecnología, ingeniería y matemáticas de manera súper cool y divertida. 
-          Cada curso está diseñado para que descubras tu superpoder y cambies el mundo. 
-          <span className="font-bold text-pink-600">¡Todo gratis y con certificados geniales!</span>
-        </p>
-        <div className="flex justify-center gap-4 text-sm">
-          <Badge className="bg-pink-500 text-white">✨ 8,500+ chicas ya inscritas</Badge>
-          <Badge className="bg-purple-500 text-white">🏆 Certificados reconocidos</Badge>
-          <Badge className="bg-teal-500 text-white">💖 Comunidad súper cool</Badge>
+      {/* Header motivacional */}
+      <div className="text-center bg-gradient-to-r from-pink-500 to-purple-600 text-white p-8 rounded-lg">
+        <h1 className="text-3xl font-bold mb-4">¡Conquista el mundo STEM! 🚀</h1>
+        <p className="text-xl mb-6">Microcursos diseñados para chicas extraordinarias como tú</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+          <div>
+            <div className="text-2xl font-bold">2,847</div>
+            <div className="text-sm opacity-90">Exploradoras aprendiendo</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold">156</div>
+            <div className="text-sm opacity-90">Proyectos creados</div>
+          </div>
+          <div>
+            <div className="text-2xl font-bold">89%</div>
+            <div className="text-sm opacity-90">Aman STEM después</div>
+          </div>
         </div>
       </div>
 
-      {/* Search y filtros mejorados */}
-      <div className="flex flex-col md:flex-row gap-4 items-center">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-          <Input
-            placeholder="Busca tu curso perfecto... ✨"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 border-pink-200 focus:border-pink-400 text-lg py-3"
-          />
-        </div>
-      </div>
-
-      {/* Categories súper atractivas */}
-      <div className="flex flex-wrap gap-3 justify-center">
-        {categories.map((category) => (
-          <Button
-            key={category.id}
-            variant={selectedCategory === category.id ? "default" : "outline"}
-            onClick={() => setSelectedCategory(category.id)}
-            className={`flex items-center gap-2 text-lg py-3 px-6 rounded-full ${
-              selectedCategory === category.id 
-                ? "text-white shadow-lg" 
-                : `border-2 border-pink-200 ${category.color} hover:bg-pink-50`
-            }`}
-            style={selectedCategory === category.id ? { backgroundColor: '#FF1493' } : {}}
-          >
-            {category.label}
-          </Button>
-        ))}
-      </div>
-
-      {/* Courses Grid súper atractivo */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredCourses.map((course) => (
-          <Card key={course.id} className="border-2 border-pink-200 hover:shadow-2xl transition-all hover:scale-105 bg-gradient-to-br from-white to-pink-25">
-            <CardHeader className="relative">
-              <div className="flex items-center justify-between mb-3">
-                <div className="text-5xl">{course.emoji}</div>
-                <div className="flex flex-col items-end gap-1">
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                    <span className="text-sm font-bold">{course.rating}</span>
-                  </div>
-                  <Badge className="bg-green-500 text-white font-bold">
-                    {course.price}
-                  </Badge>
-                </div>
+      {/* Mi progreso */}
+      <Card className="border-pink-200">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Target className="h-5 w-5 text-pink-500" />
+            Tu Camino de Conquista STEM
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span>Progreso general</span>
+                <span>65%</span>
               </div>
-              
-              <CardTitle className="text-xl text-gray-800 leading-tight">
-                {course.title}
-              </CardTitle>
-              
-              <div className="flex items-center gap-4 text-sm text-gray-500">
-                <div className="flex items-center gap-1">
-                  <Users className="h-4 w-4" />
-                  <span className="font-semibold">{course.students.toLocaleString()}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
-                  {course.duration}
-                </div>
+              <Progress value={65} className="h-2" />
+            </div>
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <div className="text-2xl font-bold text-pink-500">3</div>
+                <div className="text-sm text-gray-600">Cursos activos</div>
               </div>
-            </CardHeader>
-            
-            <CardContent className="space-y-4">
-              <CardDescription className="text-gray-700 font-medium leading-relaxed">
-                {course.description}
-              </CardDescription>
-              
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Por {course.instructor}</span>
-                  <Badge 
-                    variant="outline" 
-                    className={`font-bold
-                      ${course.level === 'Principiante' ? 'border-green-300 text-green-700 bg-green-50' : ''}
-                      ${course.level === 'Intermedio' ? 'border-yellow-300 text-yellow-700 bg-yellow-50' : ''}
-                    `}
-                  >
+              <div>
+                <div className="text-2xl font-bold text-purple-600">1</div>
+                <div className="text-sm text-gray-600">Completado</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-teal-500">47</div>
+                <div className="text-sm text-gray-600">Horas de aprendizaje</div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Cursos */}
+      <div className="grid gap-6">
+        <h2 className="text-2xl font-bold text-gray-800">Explora nuestros microcursos épicos</h2>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {courses.map((course) => (
+            <Card key={course.id} className={`border-2 hover:shadow-xl transition-all ${
+              course.enrolled ? 'border-pink-200 bg-pink-50' : 'border-gray-200'
+            }`}>
+              <CardHeader>
+                <div className={`w-12 h-12 rounded-lg ${course.color} flex items-center justify-center text-2xl mb-3`}>
+                  {course.image}
+                </div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Badge variant={course.level === 'Principiante' ? 'default' : course.level === 'Intermedio' ? 'secondary' : 'outline'}>
                     {course.level}
                   </Badge>
+                  {course.enrolled && (
+                    <Badge className="bg-pink-500 text-white">
+                      Inscrita
+                    </Badge>
+                  )}
+                  {course.completed && (
+                    <Badge className="bg-green-500 text-white">
+                      <CheckCircle2 className="h-3 w-3 mr-1" />
+                      Completado
+                    </Badge>
+                  )}
                 </div>
-                
-                {/* Highlights súper atractivos */}
-                <div className="space-y-2">
-                  <p className="text-xs font-bold text-gray-600">Lo que vas a lograr:</p>
-                  <div className="grid grid-cols-1 gap-1">
-                    {course.highlights.map((highlight, index) => (
-                      <div key={index} className="flex items-center gap-2 text-xs">
-                        <Sparkles className="h-3 w-3 text-pink-500" />
-                        <span className="text-gray-600 font-medium">{highlight}</span>
-                      </div>
-                    ))}
+                <CardTitle className="text-lg">{course.title}</CardTitle>
+                <CardDescription className="text-sm">{course.description}</CardDescription>
+              </CardHeader>
+              
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between text-sm text-gray-600">
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-4 w-4" />
+                    {course.duration}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Users className="h-4 w-4" />
+                    {course.students}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Star className="h-4 w-4 text-yellow-500" />
+                    {course.rating}
                   </div>
                 </div>
-                
-                {course.progress !== undefined && course.progress > 0 && (
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Tu progreso</span>
-                      <span className="text-pink-600 font-bold">{course.progress}%</span>
+
+                {course.enrolled && course.progress > 0 && (
+                  <div>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span>Progreso</span>
+                      <span>{course.progress}%</span>
                     </div>
-                    <Progress value={course.progress} className="h-3" />
+                    <Progress value={course.progress} className="h-2" />
                   </div>
                 )}
-                
-                <Button
+
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-sm">Lo que aprenderás:</h4>
+                  <ul className="text-xs space-y-1">
+                    {course.topics.slice(0, 2).map((topic, index) => (
+                      <li key={index} className="flex items-center gap-2">
+                        <div className="w-1 h-1 bg-purple-500 rounded-full" />
+                        {topic}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <Button 
                   onClick={() => handleEnrollCourse(course.id)}
-                  className="w-full text-white font-bold text-lg py-3 rounded-full shadow-lg hover:shadow-xl transition-all"
-                  style={{ backgroundColor: '#FF1493' }}
+                  className={`w-full ${course.enrolled ? 'bg-pink-500 hover:bg-pink-600' : 'bg-purple-500 hover:bg-purple-600'} text-white`}
                 >
-                  {course.progress !== undefined && course.progress > 0 ? (
+                  {course.completed ? (
                     <>
-                      <Play className="h-5 w-5 mr-2" />
-                      ¡Continuar aventura! 🚀
+                      <Award className="h-4 w-4 mr-2" />
+                      Ver certificado
                     </>
+                  ) : course.enrolled ? (
+                    course.progress > 0 ? (
+                      <>
+                        <Play className="h-4 w-4 mr-2" />
+                        Continuar curso
+                      </>
+                    ) : (
+                      <>
+                        <Play className="h-4 w-4 mr-2" />
+                        Comenzar curso
+                      </>
+                    )
                   ) : (
                     <>
-                      <Heart className="h-5 w-5 mr-2" />
-                      ¡Empezar ahora! ✨
+                      <Zap className="h-4 w-4 mr-2" />
+                      ¡Inscribirme ahora!
                     </>
                   )}
                 </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Mis logros */}
+      <Card className="border-yellow-200 bg-gradient-to-r from-yellow-50 to-orange-50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Award className="h-5 w-5 text-yellow-500" />
+            Tus Logros Épicos
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid md:grid-cols-3 gap-4">
+            {achievements.map((achievement, index) => (
+              <div key={index} className={`p-4 rounded-lg border-2 ${
+                achievement.earned ? 'border-yellow-200 bg-yellow-50' : 'border-gray-200 bg-gray-50'
+              }`}>
+                <div className="text-center">
+                  <div className="text-2xl mb-2">{achievement.icon}</div>
+                  <div className={`font-semibold ${achievement.earned ? 'text-yellow-600' : 'text-gray-400'}`}>
+                    {achievement.title}
+                  </div>
+                  <div className={`text-xs ${achievement.earned ? 'text-yellow-500' : 'text-gray-400'}`}>
+                    {achievement.description}
+                  </div>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
-      {filteredCourses.length === 0 && (
-        <div className="text-center py-16">
-          <div className="text-8xl mb-6">🔍✨</div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">
-            ¡Ups! No encontramos cursos con esos filtros
-          </h3>
-          <p className="text-gray-600 mb-6 text-lg">
-            Pero no te preocupes, tenemos muchas opciones geniales esperándote
-          </p>
-          <Button
-            onClick={() => {
-              setSearchTerm("");
-              setSelectedCategory("all");
-            }}
-            className="bg-pink-500 text-white px-8 py-3 text-lg font-bold rounded-full hover:bg-pink-600"
-          >
-            Ver todos los cursos 🌟
-          </Button>
-        </div>
-      )}
-
-      {/* Call to Action mejorado */}
-      <div className="text-center bg-gradient-to-r from-pink-500 to-purple-600 text-white p-12 rounded-xl">
-        <h3 className="text-3xl font-bold mb-4">
-          ¿Lista para cambiar el mundo? 💖🚀
-        </h3>
-        <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
-          Únete a nuestra comunidad de 8,500+ chicas increíbles, comparte tus proyectos épicos 
-          y encuentra mentoras que te van a inspirar a conquistar STEM.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button
-            onClick={onNavigateToCommunity}
-            size="lg"
-            className="bg-white text-pink-600 hover:bg-pink-50 px-8 py-4 text-lg font-bold rounded-full shadow-lg"
-          >
-            <Users className="h-5 w-5 mr-2" />
-            Explorar comunidad 🌟
-          </Button>
-          <Button
-            size="lg"
-            className="bg-yellow-500 text-gray-800 hover:bg-yellow-400 px-8 py-4 text-lg font-bold rounded-full shadow-lg"
-          >
-            <Trophy className="h-5 w-5 mr-2" />
-            Ver logros épicos 🏆
-          </Button>
-        </div>
-      </div>
+      {/* Mensaje motivacional */}
+      <Card className="border-pink-200 bg-pink-50">
+        <CardContent className="pt-6">
+          <div className="text-center">
+            <Heart className="h-8 w-8 text-pink-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-800 mb-2">¡Estás brillando, genia!</h3>
+            <p className="text-gray-600 mb-4">
+              Cada paso que das te acerca más a conquistar el mundo STEM. ¡Sigue así!
+            </p>
+            <Button 
+              onClick={onNavigateToCommunity}
+              className="text-white"
+              style={{ backgroundColor: '#FF1493' }}
+            >
+              Compartir mi progreso en la comunidad
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

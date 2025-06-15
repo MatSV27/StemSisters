@@ -1,137 +1,125 @@
 
 import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Heart, MessageCircle, Share2, Trophy, Star, Users, BookOpen, Lightbulb, Rocket, Target, Sparkles, Award, Calendar, ExternalLink, MapPin, Clock, Gift } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { 
+  Heart, 
+  MessageCircle, 
+  Share2, 
+  Users, 
+  Trophy, 
+  Target, 
+  Star, 
+  Calendar,
+  MapPin,
+  Gift,
+  Clock,
+  ExternalLink
+} from "lucide-react";
 
 interface CommunityPost {
   id: number;
   author: string;
   avatar: string;
   content: string;
+  type: 'logro' | 'apoyo' | 'pregunta';
+  timestamp: string;
   likes: number;
   comments: number;
-  timestamp: string;
-  category: string;
-  achievement?: string;
-  postComments?: Array<{
-    author: string;
-    avatar: string;
-    content: string;
-  }>;
 }
 
-interface CommunityProps {
+interface CommunitySectionProps {
   onNavigateToEventsOpportunities?: () => void;
 }
 
-const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunityProps) => {
-  const [newPost, setNewPost] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [showTopContributors, setShowTopContributors] = useState(false);
-
-  const posts: CommunityPost[] = [
+const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionProps) => {
+  const [activeTab, setActiveTab] = useState("logros");
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [shareType, setShareType] = useState<'logro' | 'apoyo' | 'pregunta'>('logro');
+  const [shareContent, setShareContent] = useState("");
+  const [posts, setPosts] = useState<CommunityPost[]>([
     {
       id: 1,
-      author: "María G.",
+      author: "Sofía M.",
       avatar: "👩‍💻",
-      content: "¡Acabo de completar mi primera app! Se siente INCREÍBLE ver cómo funciona. gracias maIA por creer en mí cuando ni yo misma lo hacía 💖",
-      likes: 47,
-      comments: 12,
-      timestamp: "Hace 2 horas",
-      category: "logros",
-      achievement: "Primera App Completada",
-      postComments: [
-        { author: "Sofía R.", avatar: "👩‍🔬", content: "¡Qué increíble María! Me inspiras a seguir con mi proyecto" },
-        { author: "Luna M.", avatar: "👩‍⚕️", content: "¡Felicidades! Yo también quiero aprender a programar" }
-      ]
+      content: "¡Acabo de completar mi primer programa en Python! 🐍 Era súper complicado al principio pero MaYA me ayudó paso a paso. ¡Me siento IMPARABLE!",
+      type: 'logro',
+      timestamp: "hace 2 horas",
+      likes: 24,
+      comments: 8
     },
     {
       id: 2,
-      author: "Sofía R.",
+      author: "Valentina R.",
       avatar: "👩‍🔬",
-      content: "¿Alguien más se siente súper nerviosa antes de presentar proyectos? Mañana presento mi experimento de química y necesito buenas vibras 🧪✨",
-      likes: 23,
-      comments: 8,
-      timestamp: "Hace 4 horas",
-      category: "apoyo",
-      postComments: [
-        { author: "María G.", avatar: "👩‍💻", content: "¡Tú puedes! Respira profundo y recuerda que eres genial" },
-        { author: "Camila P.", avatar: "👩‍🚀", content: "Yo también me pongo nerviosa, pero siempre sale bien. ¡Mucha suerte!" }
-      ]
+      content: "Chicas, ¿alguien sabe cómo resolver ecuaciones cuadráticas de forma más fácil? Tengo examen mañana y estoy un poco perdida 😅",
+      type: 'pregunta',
+      timestamp: "hace 4 horas",
+      likes: 12,
+      comments: 15
     },
     {
       id: 3,
-      author: "Luna M.",
-      avatar: "👩‍⚕️",
-      content: "Update: ¡Mi proyecto sobre salud mental en adolescentes fue seleccionado para la feria nacional! No puedo creer que hace 6 meses no sabía ni por dónde empezar 🎉",
-      likes: 89,
-      comments: 25,
-      timestamp: "Ayer",
-      category: "logros",
-      achievement: "Proyecto Nacional"
-    },
-    {
-      id: 4,
-      author: "Camila P.",
+      author: "Isabella L.",
       avatar: "👩‍🚀",
-      content: "¿Quién más está aplicando al programa de NASA para jóvenes? Podríamos formar un grupo de estudio virtual y motivarnos juntas 🚀",
-      likes: 34,
-      comments: 15,
-      timestamp: "Hace 1 día",
-      category: "oportunidades",
-      postComments: [
-        { author: "Isabella M.", avatar: "👩‍🔬", content: "¡Yo también estoy aplicando! Me encantaría formar el grupo" },
-        { author: "Valentina S.", avatar: "👩‍💼", content: "Encontré esta convocatoria súper útil para aplicar" }
-      ]
+      content: "Me siento súper desanimada... Reprobé mi examen de física y siento que no soy buena para las ciencias 😔",
+      type: 'apoyo',
+      timestamp: "hace 6 horas",
+      likes: 31,
+      comments: 22
+    }
+  ]);
+
+  const handleShare = () => {
+    if (!shareContent.trim()) return;
+    
+    const newPost: CommunityPost = {
+      id: posts.length + 1,
+      author: "Tú",
+      avatar: "👤",
+      content: shareContent,
+      type: shareType,
+      timestamp: "ahora",
+      likes: 0,
+      comments: 0
+    };
+
+    setPosts([newPost, ...posts]);
+    setShareContent("");
+    setShareDialogOpen(false);
+  };
+
+  const eventsOpportunities = [
+    {
+      title: "Beca Google para Exploradoras STEM",
+      type: "Beca",
+      deadline: "15 Dic 2024",
+      amount: "$5,000 USD",
+      description: "Beca completa para chicas destacadas en tecnología",
+      icon: "💰",
+      link: "#",
+      country: "Internacional"
     },
     {
-      id: 5,
-      author: "Ana L.",
-      avatar: "👩‍💼",
-      content: "¿Cómo puedo empezar en inteligencia artificial? Me parece súper interesante pero no sé por dónde comenzar",
-      likes: 18,
-      comments: 7,
-      timestamp: "Hace 2 días",
-      category: "preguntas",
-      postComments: [
-        { author: "María G.", avatar: "👩‍💻", content: "Te recomiendo empezar con Python! Hay cursos geniales aquí en la plataforma" }
-      ]
+      title: "Hackathon Chicas Tech México",
+      type: "Evento",
+      deadline: "20 Nov 2024",
+      amount: "Gratis",
+      description: "48 horas creando soluciones tecnológicas para problemas sociales",
+      icon: "💻",
+      link: "#",
+      country: "México"
     }
   ];
 
-  const categories = [
-    { id: "all", label: "Todo", icon: Sparkles },
-    { id: "logros", label: "Logros", icon: Trophy },
-    { id: "apoyo", label: "Apoyo", icon: Heart },
-    { id: "oportunidades", label: "Eventos y Oportunidades", icon: Rocket },
-    { id: "preguntas", label: "Preguntas", icon: Lightbulb }
-  ];
-
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "logros": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "apoyo": return "bg-pink-100 text-pink-800 border-pink-200";
-      case "oportunidades": return "bg-purple-100 text-purple-800 border-purple-200";
-      case "preguntas": return "bg-blue-100 text-blue-800 border-blue-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
-    }
-  };
-
-  const getCategoryLabel = (category: string) => {
-    switch (category) {
-      case "logros": return "🏆 Logro";
-      case "apoyo": return "❤️ Apoyo";
-      case "oportunidades": return "🚀 Oportunidad";
-      case "preguntas": return "❓ Pregunta";
-      default: return "📝 Post";
-    }
-  };
-
-  const events = [
+  const upcomingEvents = [
     {
       title: "Hackathon Chicas Tech",
       date: "15 Oct",
@@ -143,271 +131,254 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunityProps) =
       date: "22 Oct", 
       participants: "45 plazas",
       color: "bg-purple-500"
-    },
-    {
-      title: "Workshop Arduino",
-      date: "28 Oct",
-      participants: "30 exploradoras",
-      color: "bg-teal-500"
     }
   ];
 
-  const topContributors = [
-    { name: "Ana L.", points: 1250, avatar: "👩‍💼", specialty: "AI & Data" },
-    { name: "Valentina S.", points: 1180, avatar: "👩‍💻", specialty: "Web Dev" },
-    { name: "Isabella M.", points: 985, avatar: "👩‍🔬", specialty: "Biotecnología" }
-  ];
-
-  const filteredPosts = selectedCategory === "all" 
-    ? posts 
-    : posts.filter(post => post.category === selectedCategory);
-
-  const handlePost = () => {
-    if (!newPost.trim()) return;
-    // Aquí se manejaría la creación del post
-    setNewPost("");
+  const renderPosts = (filterType: string) => {
+    const filteredPosts = filterType === 'todos' ? posts : posts.filter(post => post.type === filterType);
+    
+    return filteredPosts.map(post => (
+      <Card key={post.id} className="mb-4 border-pink-200 hover:shadow-md transition-shadow">
+        <CardHeader className="pb-3">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">{post.avatar}</span>
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-gray-800">{post.author}</span>
+                <Badge 
+                  variant="outline" 
+                  className={`text-xs ${
+                    post.type === 'logro' ? 'border-yellow-200 text-yellow-600' :
+                    post.type === 'apoyo' ? 'border-pink-200 text-pink-600' :
+                    'border-purple-200 text-purple-600'
+                  }`}
+                >
+                  {post.type === 'logro' ? '🏆 Logro' : 
+                   post.type === 'apoyo' ? '💖 Apoyo' : '❓ Pregunta'}
+                </Badge>
+              </div>
+              <span className="text-xs text-gray-500">{post.timestamp}</span>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-gray-700 mb-4">{post.content}</p>
+          <div className="flex items-center gap-4 text-sm text-gray-500">
+            <button className="flex items-center gap-1 hover:text-pink-500">
+              <Heart className="h-4 w-4" />
+              {post.likes}
+            </button>
+            <button className="flex items-center gap-1 hover:text-purple-500">
+              <MessageCircle className="h-4 w-4" />
+              {post.comments}
+            </button>
+          </div>
+        </CardContent>
+      </Card>
+    ));
   };
 
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Existen más exploradoras que aprenden contigo 🌟
-        </h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Conecta con chicas geniales como tú, comparte tus logros épicos y encuentra el apoyo que mereces para conquistar el mundo STEM
-        </p>
+      {/* Header con estadísticas */}
+      <div className="grid md:grid-cols-3 gap-6">
+        <Card className="text-center border-pink-200">
+          <CardContent className="pt-6">
+            <Users className="h-8 w-8 text-pink-500 mx-auto mb-2" />
+            <div className="text-2xl font-bold text-pink-600">2,847</div>
+            <div className="text-sm text-gray-600">Exploradoras activas</div>
+          </CardContent>
+        </Card>
+        <Card className="text-center border-purple-200">
+          <CardContent className="pt-6">
+            <Trophy className="h-8 w-8 text-purple-500 mx-auto mb-2" />
+            <div className="text-2xl font-bold text-purple-600">1,234</div>
+            <div className="text-sm text-gray-600">Logros compartidos</div>
+          </CardContent>
+        </Card>
+        <Card className="text-center border-teal-200">
+          <CardContent className="pt-6">
+            <Star className="h-8 w-8 text-teal-500 mx-auto mb-2" />
+            <div className="text-2xl font-bold text-teal-600">987</div>
+            <div className="text-sm text-gray-600">Metas alcanzadas</div>
+          </CardContent>
+        </Card>
       </div>
 
-      <div className="grid lg:grid-cols-4 gap-8">
-        {/* Main Content */}
-        <div className="lg:col-span-3 space-y-6">
-          {/* Create Post */}
-          <Card className="border-pink-200">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-pink-500" />
-                ¿Qué quieres compartir con las exploradoras?
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Textarea
-                placeholder="Comparte tu logro épico, pide apoyo, o cuenta qué estás aprendiendo... ✨"
-                value={newPost}
-                onChange={(e) => setNewPost(e.target.value)}
-                className="border-pink-200 focus:border-pink-400"
-              />
-              <div className="flex justify-between items-center">
-                <div className="flex gap-2">
-                  <Badge variant="outline" className="border-pink-200 text-pink-600">
-                    🏆 Logro
-                  </Badge>
-                  <Badge variant="outline" className="border-purple-200 text-purple-600">
-                    ❤️ Apoyo
-                  </Badge>
-                  <Badge variant="outline" className="border-teal-200 text-teal-600">
-                    💡 Pregunta
-                  </Badge>
-                </div>
-                <Button 
-                  onClick={handlePost}
-                  className="text-white"
-                  style={{ backgroundColor: '#FF1493' }}
-                >
-                  Compartir ✨
+      {/* Botón Compartir */}
+      <Card className="border-pink-200 bg-gradient-to-r from-pink-50 to-purple-50">
+        <CardContent className="pt-6">
+          <div className="text-center">
+            <h3 className="text-xl font-bold text-gray-800 mb-2">¡Comparte tu experiencia!</h3>
+            <p className="text-gray-600 mb-4">
+              Tu historia puede inspirar a otras chicas increíbles como tú
+            </p>
+            <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="text-white" style={{ backgroundColor: '#FF1493' }}>
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Compartir con la comunidad
                 </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Category Filter */}
-          <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
-              <Button
-                key={category.id}
-                variant={selectedCategory === category.id ? "default" : "outline"}
-                onClick={() => {
-                  if (category.id === "oportunidades") {
-                    onNavigateToEventsOpportunities?.();
-                  } else {
-                    setSelectedCategory(category.id);
-                  }
-                }}
-                className={selectedCategory === category.id 
-                  ? "text-white" 
-                  : "border-pink-200 text-pink-600 hover:bg-pink-50"
-                }
-                style={selectedCategory === category.id ? { backgroundColor: '#FF1493' } : {}}
-              >
-                <category.icon className="h-4 w-4 mr-2" />
-                {category.label}
-              </Button>
-            ))}
-          </div>
-
-          {/* Posts Feed */}
-          <div className="space-y-4">
-            {filteredPosts.map((post) => (
-              <Card key={post.id} className="border-pink-200 hover:shadow-lg transition-shadow">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="text-2xl">{post.avatar}</div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-semibold text-gray-800">{post.author}</span>
-                        {post.achievement && (
-                          <Badge 
-                            className="text-white text-xs"
-                            style={{ backgroundColor: '#FF1493' }}
-                          >
-                            {post.achievement}
-                          </Badge>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline" className={`text-xs ${getCategoryColor(post.category)}`}>
-                          {getCategoryLabel(post.category)}
-                        </Badge>
-                        <span className="text-sm text-gray-500">{post.timestamp}</span>
-                      </div>
-                    </div>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Comparte con tu Squad 💖</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">¿Qué quieres compartir?</label>
+                    <Select value={shareType} onValueChange={(value: 'logro' | 'apoyo' | 'pregunta') => setShareType(value)}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="logro">🏆 Logro - ¡Algo que lograste!</SelectItem>
+                        <SelectItem value="apoyo">💖 Apoyo - Necesitas palabras de aliento</SelectItem>
+                        <SelectItem value="pregunta">❓ Pregunta - Necesitas ayuda</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <p className="text-gray-700 mb-4 leading-relaxed">{post.content}</p>
-                  
-                  {/* Comments section for apoyo, oportunidades posts */}
-                  {(selectedCategory === "apoyo" || selectedCategory === "oportunidades" || selectedCategory === "preguntas") && post.postComments && (
-                    <div className="bg-gray-50 p-3 rounded-lg mb-4">
-                      <h4 className="font-semibold text-sm text-gray-800 mb-2">Comentarios de apoyo:</h4>
-                      <div className="space-y-2">
-                        {post.postComments.map((comment, index) => (
-                          <div key={index} className="flex items-start gap-2">
-                            <span className="text-sm">{comment.avatar}</span>
-                            <div>
-                              <span className="font-semibold text-xs text-gray-800">{comment.author}</span>
-                              <p className="text-xs text-gray-600">{comment.content}</p>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Cuéntanos tu historia</label>
+                    <Textarea
+                      value={shareContent}
+                      onChange={(e) => setShareContent(e.target.value)}
+                      placeholder="Escribe aquí lo que quieres compartir con tu squad..."
+                      rows={4}
+                    />
+                  </div>
+                  <Button 
+                    onClick={handleShare}
+                    className="w-full text-white"
+                    style={{ backgroundColor: '#FF1493' }}
+                    disabled={!shareContent.trim()}
+                  >
+                    Publicar en la comunidad
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Tabs principales */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="logros">🏆 Logros</TabsTrigger>
+          <TabsTrigger value="apoyo">💖 Apoyo</TabsTrigger>
+          <TabsTrigger value="eventos-oportunidades">🎯 Eventos y Oportunidades</TabsTrigger>
+          <TabsTrigger value="preguntas">❓ Preguntas</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="logros" className="space-y-4">
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Celebremos juntas cada victoria 🎉</h3>
+            {renderPosts('logro')}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="apoyo" className="space-y-4">
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Aquí estamos para apoyarnos 💝</h3>
+            {renderPosts('apoyo')}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="eventos-oportunidades" className="space-y-6">
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Oportunidades épicas esperándote 🚀</h3>
+            
+            {/* Oportunidades */}
+            <Card className="border-purple-200 bg-gradient-to-r from-purple-50 to-teal-50 mb-6">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Gift className="h-5 w-5 text-purple-500" />
+                  Oportunidades Épicas para Ti 🚀
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {eventsOpportunities.map((opportunity, index) => (
+                    <Card key={index} className="border-purple-200 hover:shadow-lg transition-shadow">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="text-2xl">{opportunity.icon}</div>
+                          <div className="flex-1">
+                            <CardTitle className="text-sm">{opportunity.title}</CardTitle>
+                            <div className="flex gap-2 mt-1">
+                              <Badge variant="outline" className="text-xs">
+                                {opportunity.type}
+                              </Badge>
+                              <Badge variant="outline" className="text-xs border-green-200 text-green-600">
+                                {opportunity.country}
+                              </Badge>
                             </div>
                           </div>
-                        ))}
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <p className="text-xs text-gray-600 mb-3">{opportunity.description}</p>
+                        <div className="flex justify-between items-center text-xs mb-3">
+                          <span className="text-gray-500">
+                            <Clock className="h-3 w-3 inline mr-1" />
+                            {opportunity.deadline}
+                          </span>
+                          <span className="font-bold text-purple-600">{opportunity.amount}</span>
+                        </div>
+                        <Button size="sm" className="w-full text-xs" style={{ backgroundColor: '#8B5CF6' }}>
+                          <ExternalLink className="h-3 w-3 mr-1" />
+                          Ver detalles
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Próximos Eventos */}
+            <Card className="border-pink-200">
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <Calendar className="h-5 w-5 text-purple-500" />
+                    Próximos Eventos
+                  </CardTitle>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onNavigateToEventsOpportunities}
+                    className="border-pink-200 text-pink-600 hover:bg-pink-50"
+                  >
+                    Ver todos los eventos
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {upcomingEvents.map((event, index) => (
+                  <div key={index} className="border border-gray-200 rounded-lg p-3">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-3 h-3 rounded-full ${event.color}`} />
+                      <div className="flex-1">
+                        <div className="font-semibold text-sm text-gray-800">{event.title}</div>
+                        <div className="text-xs text-gray-500">{event.date} • {event.participants}</div>
                       </div>
                     </div>
-                  )}
-                  
-                  <div className="flex items-center gap-6 text-sm text-gray-500">
-                    <button className="flex items-center gap-2 hover:text-pink-600 transition-colors">
-                      <Heart className="h-4 w-4" />
-                      {post.likes}
-                    </button>
-                    <button className="flex items-center gap-2 hover:text-pink-600 transition-colors">
-                      <MessageCircle className="h-4 w-4" />
-                      {post.comments}
-                    </button>
-                    <button className="flex items-center gap-2 hover:text-pink-600 transition-colors">
-                      <Share2 className="h-4 w-4" />
-                      Compartir
-                    </button>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                ))}
+              </CardContent>
+            </Card>
           </div>
-        </div>
+        </TabsContent>
 
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Community Stats */}
-          <Card className="border-pink-200">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center justify-center gap-2 text-lg">
-                <Users className="h-5 w-5 text-pink-500" />
-                Exploradoras Activas
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-pink-600">2,847</div>
-                <div className="text-sm text-gray-600">exploradoras conectadas</div>
-              </div>
-              <div className="grid grid-cols-2 gap-4 text-center text-sm">
-                <div>
-                  <div className="font-bold text-purple-600">156</div>
-                  <div className="text-gray-600">logros compartidos</div>
-                </div>
-                <div>
-                  <div className="font-bold text-teal-600">423</div>
-                  <div className="text-gray-600">proyectos activos</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Top Contributors */}
-          <Card className="border-pink-200">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Trophy className="h-5 w-5 text-yellow-500" />
-                Top Exploradoras
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {topContributors.slice(0, showTopContributors ? topContributors.length : 3).map((contributor, index) => (
-                <div key={contributor.name} className="flex items-center gap-3">
-                  <div className="text-lg">{contributor.avatar}</div>
-                  <div className="flex-1">
-                    <div className="font-semibold text-gray-800">{contributor.name}</div>
-                    <div className="text-xs text-gray-500">{contributor.specialty}</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-bold text-pink-600">{contributor.points}</div>
-                    <div className="text-xs text-gray-500">puntos</div>
-                  </div>
-                </div>
-              ))}
-              {!showTopContributors && (
-                <Button
-                  variant="outline"
-                  onClick={() => setShowTopContributors(true)}
-                  className="w-full border-pink-200 text-pink-600 hover:bg-pink-50"
-                >
-                  Ver más
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Upcoming Events */}
-          <Card className="border-pink-200">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Calendar className="h-5 w-5 text-purple-500" />
-                Próximos Eventos
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {events.map((event, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg p-3">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full ${event.color}`} />
-                    <div className="flex-1">
-                      <div className="font-semibold text-sm text-gray-800">{event.title}</div>
-                      <div className="text-xs text-gray-500">{event.date} • {event.participants}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              <Button 
-                variant="outline" 
-                className="w-full border-pink-200 text-pink-600 hover:bg-pink-50"
-                onClick={onNavigateToEventsOpportunities}
-              >
-                Ver todos los eventos
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+        <TabsContent value="preguntas" className="space-y-4">
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Ninguna pregunta es tonta 🤓</h3>
+            {renderPosts('pregunta')}
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

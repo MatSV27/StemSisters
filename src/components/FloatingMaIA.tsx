@@ -4,12 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Send, X, Maximize2, Minimize2, Heart, Star, Sparkles, Atom, BookOpen, Users, Trophy, Target, MessageCircle, Bot } from "lucide-react";
+import { Send, X, MessageCircle, Bot, Menu, Sidebar, PanelLeftClose, PanelLeftOpen, BookOpen, Play } from "lucide-react";
 
 interface Message {
   id: number;
   text: string;
   isBot: boolean;
+  timestamp: Date;
+}
+
+interface ChatHistory {
+  id: number;
+  title: string;
+  lastMessage: string;
   timestamp: Date;
 }
 
@@ -19,16 +26,67 @@ interface FloatingMaYAProps {
 
 const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [leftPanelOpen, setLeftPanelOpen] = useState(true);
+  const [rightPanelOpen, setRightPanelOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "¡Hola, bienvenida a StemSisters! Me llamo MaYA y estoy aquí para acompañarte a descubrir tus talentos. 🌟 Antes de empezar… ¿cómo te sientes hoy al pensar en carreras de ciencia, tecnología o matemáticas?",
+      text: "¡Hola, bienvenida a StemSisters! Me llamo MaYA y estoy aquí para acompañarte a descubrir tus talentos. 🌟 ¿En qué puedo ayudarte hoy?",
       isBot: true,
       timestamp: new Date()
     }
   ]);
   const [inputMessage, setInputMessage] = useState("");
+  const [chatHistory] = useState<ChatHistory[]>([
+    {
+      id: 1,
+      title: "Mi primer chat con MaYA",
+      lastMessage: "¡Hola, bienvenida a StemSisters!",
+      timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000)
+    },
+    {
+      id: 2,
+      title: "Preguntas sobre programación",
+      lastMessage: "¿Qué lenguaje me recomiendas para empezar?",
+      timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
+    },
+    {
+      id: 3,
+      title: "Dudas sobre carreras STEM",
+      lastMessage: "No sé si soy buena para esto...",
+      timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+    }
+  ]);
+
+  const [suggestedCourses] = useState([
+    {
+      id: 1,
+      title: "Programación desde Cero con Python",
+      description: "Perfecto para principiantes",
+      duration: "6 semanas",
+      students: "2,847",
+      icon: "💻",
+      color: "bg-pink-500"
+    },
+    {
+      id: 2,
+      title: "Matemáticas Divertidas para STEM",
+      description: "Descubre la belleza de las matemáticas",
+      duration: "8 semanas", 
+      students: "1,956",
+      icon: "📊",
+      color: "bg-purple-500"
+    },
+    {
+      id: 3,
+      title: "Desarrollo de Videojuegos",
+      description: "Crea tus propios videojuegos",
+      duration: "12 semanas",
+      students: "1,893",
+      icon: "🎮",
+      color: "bg-yellow-500"
+    }
+  ]);
 
   const handleSendMessage = () => {
     if (!inputMessage.trim()) return;
@@ -41,9 +99,15 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
     };
 
     setMessages(prev => [...prev, newMessage]);
+    
+    // Detectar si pregunta sobre cursos
+    if (inputMessage.toLowerCase().includes('curso') || inputMessage.toLowerCase().includes('estudiar') || inputMessage.toLowerCase().includes('aprender')) {
+      setRightPanelOpen(true);
+    }
+
     setInputMessage("");
 
-    // Simular respuesta de MaYA con los escenarios proporcionados
+    // Simular respuesta de MaYA
     setTimeout(() => {
       const botResponse = generateMaYAResponse(inputMessage);
       setMessages(prev => [...prev, {
@@ -58,78 +122,32 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
   const generateMaYAResponse = (userMessage: string): string => {
     const lowerMessage = userMessage.toLowerCase();
     
-    // Escenario 1 - Dudas sobre dificultad
-    if (lowerMessage.includes('difícil') || lowerMessage.includes('dificil') || lowerMessage.includes('complicado') || lowerMessage.includes('no sé') || lowerMessage.includes('no se')) {
-      return "Eso es muy común, y es normal tener dudas. Justamente estamos aquí para ir paso a paso. 💜 ¿Te gustaría que empecemos por algo sencillo? Puedo mostrarte algunas áreas para explorar y tú me dices cuál te llama la atención.";
+    if (lowerMessage.includes('curso') || lowerMessage.includes('estudiar') || lowerMessage.includes('aprender')) {
+      return "¡Perfecto! He encontrado algunos cursos súper cool que podrían interesarte. Revisa las sugerencias en el panel de la derecha. ¿Hay alguno que te llame la atención? 💫";
     }
     
-    // Escenario 2 - Después de completar algo
-    if (lowerMessage.includes('terminé') || lowerMessage.includes('complete') || lowerMessage.includes('acabé') || lowerMessage.includes('divertido')) {
-      return "¡Eso pasa mucho cuando programamos: al principio parece complicado, pero después todo empieza a tener sentido! 😊 ¿Quieres seguir probando cosas parecidas? Puedo recomendarte un mini reto para crear tu primer escenario de juego.";
+    if (lowerMessage.includes('difícil') || lowerMessage.includes('complicado') || lowerMessage.includes('no sé')) {
+      return "Es completamente normal sentirse así al principio. 💜 Recuerda que cada gran científica y programadora empezó exactamente donde tú estás ahora. ¿Te gustaría que te muestre algunos recursos para empezar paso a paso?";
     }
     
-    // Escenario 3 - Motivación baja
-    if (lowerMessage.includes('no soy buena') || lowerMessage.includes('malo') || lowerMessage.includes('frustrada') || lowerMessage.includes('perdida')) {
-      return "Te entiendo mucho. Aprender algo nuevo siempre puede ser un desafío. 💖 Recuerda: el talento no nace, se construye con práctica. Si quieres, puedo mostrarte historias de chicas que sintieron lo mismo y hoy están creando cosas increíbles. ¿Te gustaría ver algunas?";
-    }
-    
-    // Respuestas generales más empáticas para adolescentes
     const responses = [
-      "¡Me encanta esa actitud! 🌟 Sabes qué, hay muchas chicas como tú que han descubierto que STEM puede ser súper divertido. ¿Te gustaría que exploremos juntas algunas opciones que podrían gustarte?",
-      "¡Qué genial que estés aquí! 💫 El mundo necesita más chicas curiosas como tú. ¿Hay algo específico que te llame la atención? ¿Videojuegos, apps, experimentos, robótica?",
-      "Me emociona conocerte 🚀 Cada gran científica o programadora empezó exactamente donde tú estás ahora. ¿Quieres que te cuente sobre algunas chicas súper cool que están cambiando el mundo?",
-      "¡Perfecto! 💜 Estás en el lugar correcto para descubrir cosas increíbles. ¿Te gustaría empezar con un experimento súper fácil o prefieres ver qué cursos tenemos?",
-      "¡Eres increíble por estar aquí! 🌟 Tengo muchas ideas geniales para compartir contigo. ¿Qué te parece si exploramos juntas las áreas de STEM de una manera súper divertida?"
+      "¡Me encanta esa actitud! 🌟 Estoy aquí para apoyarte en lo que necesites. ¿Hay algo específico en lo que te gustaría que te ayude?",
+      "¡Qué genial tenerte aquí! 💫 ¿Te gustaría explorar algunas áreas de STEM que podrían interesarte?",
+      "¡Eres increíble por estar aquí! 🚀 ¿En qué área te gustaría enfocarte hoy?",
+      "¡Perfecto! 💜 Siempre es emocionante ayudar a chicas curiosas como tú. ¿Qué te gustaría descubrir?"
     ];
     
     return responses[Math.floor(Math.random() * responses.length)];
   };
 
-  const quickActions = [
-    { 
-      text: "No sé si soy buena en esto", 
-      action: () => setInputMessage("No sé si soy buena en esto, me siento perdida"),
-      color: "bg-gradient-to-r from-pink-400 to-pink-600"
-    },
-    { 
-      text: "¿Qué me recomiendas?", 
-      action: () => setInputMessage("¿Qué me recomiendas para empezar?"),
-      color: "bg-gradient-to-r from-purple-400 to-purple-600"
-    },
-    { 
-      text: "Quiero historias inspiradoras", 
-      action: () => setInputMessage("Cuéntame historias de chicas que lo lograron"),
-      color: "bg-gradient-to-r from-teal-400 to-teal-600"
-    },
-    { 
-      text: "¿Qué cursos hay?", 
-      action: () => setInputMessage("¿Qué cursos súper cool tienen disponibles?"),
-      color: "bg-gradient-to-r from-yellow-400 to-orange-500"
-    }
-  ];
-
-  const suggestedCourses = [
-    { title: "Programación para principiantes", students: "1,247", color: "bg-pink-500" },
-    { title: "Ciencias de datos", students: "856", color: "bg-purple-500" },
-    { title: "Desarrollo de videojuegos", students: "1,593", color: "bg-teal-500" }
-  ];
-
-  const stats = [
-    { label: "exploradoras estudiando programación", value: "2,847" },
-    { label: "chicas en ingeniería", value: "1,234" },
-    { label: "futuras científicas", value: "987" }
-  ];
+  const handleCourseClick = (courseId: number) => {
+    onNavigate?.('courses');
+    setIsOpen(false);
+  };
 
   if (!isOpen) {
     return (
       <div className="fixed bottom-6 right-6 z-50">
-        {/* Mensaje encima del botón */}
-        <div className="absolute -top-14 -left-32 bg-white rounded-lg shadow-lg p-3 border-2 border-pink-200 max-w-xs mb-2">
-          <p className="text-sm text-gray-700 font-medium">
-            ¿Necesitas ayuda? ¡Pregúntame! 💖
-          </p>
-        </div>
-        
         <Button
           onClick={() => setIsOpen(true)}
           className="w-16 h-16 rounded-full shadow-lg text-white border-4 border-white hover:scale-105 transition-all animate-pulse"
@@ -148,240 +166,180 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
     );
   }
 
-  if (isExpanded) {
-    return (
-      <div className="fixed inset-0 bg-gradient-to-br from-pink-50 via-white to-purple-50 z-50">
-        {/* Header con navegación */}
-        <header className="bg-white border-b-2 border-pink-200 p-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
-                <Atom className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h1 className="font-bold text-pink-600">maIA - Tu mentora STEM</h1>
-                <p className="text-sm text-gray-500">Siempre aquí para ti 💖</p>
-              </div>
+  return (
+    <div className="fixed inset-0 bg-gradient-to-br from-pink-50 via-white to-purple-50 z-50">
+      {/* Header */}
+      <header className="bg-white border-b-2 border-pink-200 p-4">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
+              <img 
+                src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
+                alt="MaYA" 
+                className="h-6 w-6 object-contain"
+              />
             </div>
-            <div className="flex space-x-2">
-              <Button variant="ghost" onClick={() => onNavigate?.('home')}>
-                Home
-              </Button>
-              <Button variant="ghost" onClick={() => onNavigate?.('courses')}>
-                Cursos
-              </Button>
-              <Button variant="ghost" onClick={() => onNavigate?.('dashboard')}>
-                Mi Seguimiento
-              </Button>
-              <Button variant="ghost" onClick={() => onNavigate?.('community')}>
-                Comunidad
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => setIsExpanded(false)}
-                className="text-gray-600"
-              >
-                <Minimize2 className="h-4 w-4" />
-              </Button>
+            <div>
+              <h1 className="font-bold text-pink-600">MaYA - Tu mentora STEM personal</h1>
+              <p className="text-sm text-gray-500">Siempre aquí para ti 💖</p>
             </div>
           </div>
-        </header>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setLeftPanelOpen(!leftPanelOpen)}
+              className="text-gray-600"
+            >
+              {leftPanelOpen ? <PanelLeftClose className="h-4 w-4" /> : <PanelLeftOpen className="h-4 w-4" />}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsOpen(false)}
+              className="text-gray-600"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </header>
 
-        {/* Chat expandido */}
-        <div className="flex h-[calc(100vh-80px)]">
-          <div className="flex-1 flex flex-col">
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
-                >
-                  <div
-                    className={`max-w-[70%] p-4 rounded-2xl ${
-                      message.isBot
-                        ? 'bg-pink-100 text-pink-800 rounded-tl-sm'
-                        : 'bg-purple-100 text-purple-800 rounded-tr-sm'
-                    }`}
-                  >
-                    <p className="text-sm leading-relaxed">{message.text}</p>
-                    <p className="text-xs opacity-70 mt-2">
-                      {message.timestamp.toLocaleTimeString()}
-                    </p>
+      {/* Main content */}
+      <div className="flex h-[calc(100vh-80px)]">
+        {/* Left Panel - Chat History */}
+        {leftPanelOpen && (
+          <div className="w-64 border-r-2 border-pink-200 bg-white p-4 overflow-y-auto">
+            <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <MessageCircle className="h-4 w-4" />
+              Historial de chats
+            </h3>
+            <div className="space-y-2">
+              {chatHistory.map((chat) => (
+                <div key={chat.id} className="p-3 rounded-lg hover:bg-pink-50 cursor-pointer border border-pink-100">
+                  <div className="font-medium text-sm text-gray-800 truncate">
+                    {chat.title}
+                  </div>
+                  <div className="text-xs text-gray-500 truncate mt-1">
+                    {chat.lastMessage}
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">
+                    {chat.timestamp.toLocaleDateString()}
                   </div>
                 </div>
               ))}
             </div>
+          </div>
+        )}
 
-            {/* Quick actions */}
-            <div className="px-6 py-3 border-t border-pink-200">
-              <div className="flex gap-2 flex-wrap">
-                {quickActions.map((action, index) => (
-                  <Button
-                    key={index}
-                    size="sm"
-                    onClick={action.action}
-                    className={`text-white hover:scale-105 transition-transform ${action.color}`}
-                  >
-                    {action.text}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            {/* Input */}
-            <div className="p-6 border-t-2 border-pink-200 bg-white">
-              <div className="flex gap-3">
-                <Input
-                  value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
-                  placeholder="Juntas conquistemos el mundo, pregúntame... 💖"
-                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  className="flex-1 border-pink-200 focus:border-pink-400"
-                />
-                <Button
-                  onClick={handleSendMessage}
-                  className="text-white"
-                  style={{ backgroundColor: '#FF1493' }}
+        {/* Center Panel - Chat */}
+        <div className="flex-1 flex flex-col">
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
+              >
+                <div
+                  className={`max-w-[70%] p-4 rounded-2xl ${
+                    message.isBot
+                      ? 'bg-pink-100 text-pink-800 rounded-tl-sm'
+                      : 'bg-purple-100 text-purple-800 rounded-tr-sm'
+                  }`}
                 >
-                  <Send className="h-4 w-4" />
-                </Button>
+                  <p className="text-sm leading-relaxed">{message.text}</p>
+                  <p className="text-xs opacity-70 mt-2">
+                    {message.timestamp.toLocaleTimeString()}
+                  </p>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
 
-          {/* Sidebar con sugerencias */}
+          {/* Input */}
+          <div className="p-6 border-t-2 border-pink-200 bg-white">
+            <div className="flex gap-3">
+              <Input
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                placeholder="Escribe tu pregunta aquí... 💖"
+                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                className="flex-1 border-pink-200 focus:border-pink-400"
+              />
+              <Button
+                onClick={handleSendMessage}
+                className="text-white"
+                style={{ backgroundColor: '#FF1493' }}
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Panel - Course Suggestions (conditional) */}
+        {rightPanelOpen && (
           <div className="w-80 border-l-2 border-pink-200 bg-white p-6 overflow-y-auto">
-            <h3 className="font-bold text-gray-800 mb-4">Sugerencias para ti</h3>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-bold text-gray-800">Cursos sugeridos para ti</h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setRightPanelOpen(false)}
+                className="text-gray-600"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
             
-            <div className="space-y-4 mb-6">
-              {suggestedCourses.map((course, index) => (
-                <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer border-pink-200">
+            <div className="space-y-4">
+              {suggestedCourses.map((course) => (
+                <Card key={course.id} className="hover:shadow-md transition-shadow cursor-pointer border-pink-200">
                   <CardContent className="p-4">
                     <div className={`w-8 h-8 rounded-lg ${course.color} flex items-center justify-center mb-2`}>
-                      <BookOpen className="h-4 w-4 text-white" />
+                      <span className="text-white">{course.icon}</span>
                     </div>
                     <h4 className="font-semibold text-sm mb-1">{course.title}</h4>
-                    <p className="text-xs text-gray-500 mb-2">{course.students} exploradoras estudiando</p>
-                    <Button size="sm" className="w-full text-xs" style={{ backgroundColor: '#FF1493' }}>
-                      ¡Empezar!
+                    <p className="text-xs text-gray-600 mb-2">{course.description}</p>
+                    <div className="flex justify-between items-center text-xs text-gray-500 mb-3">
+                      <span>{course.duration}</span>
+                      <span>{course.students} estudiantes</span>
+                    </div>
+                    <Button 
+                      size="sm" 
+                      className="w-full text-xs text-white" 
+                      style={{ backgroundColor: '#FF1493' }}
+                      onClick={() => handleCourseClick(course.id)}
+                    >
+                      <Play className="h-3 w-3 mr-1" />
+                      Empezar curso
                     </Button>
                   </CardContent>
                 </Card>
               ))}
             </div>
 
-            <div className="mb-6">
-              <h4 className="font-semibold text-gray-800 mb-3">Exploradoras activas</h4>
-              <div className="space-y-2">
-                {stats.map((stat, index) => (
-                  <div key={index} className="text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">{stat.value}</span>
-                      <span className="text-pink-600 font-medium">{stat.label}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8 p-4 bg-pink-50 rounded-lg">
+            <div className="mt-6 p-4 bg-pink-50 rounded-lg">
               <div className="text-center">
-                <Star className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
-                <h4 className="font-semibold text-pink-800 mb-2">¡Sigue así, genia!</h4>
-                <p className="text-sm text-pink-600">
-                  Eres parte de las 2,847 exploradoras cambiando el mundo
+                <BookOpen className="h-6 w-6 text-pink-500 mx-auto mb-2" />
+                <h4 className="font-semibold text-pink-800 mb-1">¿Necesitas más opciones?</h4>
+                <p className="text-xs text-pink-600 mb-3">
+                  Explora todos nuestros cursos épicos
                 </p>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="text-xs border-pink-200 text-pink-600"
+                  onClick={() => onNavigate?.('courses')}
+                >
+                  Ver todos los cursos
+                </Button>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
-    );
-  }
-
-  return (
-    <div className="fixed bottom-6 right-6 z-50">
-      <Card className="w-80 border-2 border-pink-200 shadow-xl">
-        <CardHeader className="pb-3">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
-                <img 
-                  src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
-                  alt="MaYA" 
-                  className="h-5 w-5 object-contain"
-                />
-              </div>
-              <div>
-                <CardTitle className="text-sm text-pink-600">MaYA</CardTitle>
-                <p className="text-xs text-gray-500">Tu mentora STEM</p>
-              </div>
-            </div>
-            <div className="flex gap-1">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsExpanded(true)}
-                className="h-6 w-6 p-0"
-              >
-                <Maximize2 className="h-3 w-3" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsOpen(false)}
-                className="h-6 w-6 p-0"
-              >
-                <X className="h-3 w-3" />
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-
-        <CardContent className="space-y-4">
-          {/* Quick actions */}
-          <div className="grid grid-cols-2 gap-2">
-            {quickActions.map((action, index) => (
-              <Button
-                key={index}
-                size="sm"
-                onClick={action.action}
-                className={`text-xs text-white hover:scale-105 transition-transform ${action.color}`}
-              >
-                {action.text}
-              </Button>
-            ))}
-          </div>
-
-          {/* Latest message */}
-          <div className="bg-pink-50 p-3 rounded-lg border border-pink-200">
-            <p className="text-sm text-pink-800">
-              {messages[messages.length - 1]?.text.substring(0, 100)}
-              {messages[messages.length - 1]?.text.length > 100 ? '...' : ''}
-            </p>
-          </div>
-
-          {/* Input */}
-          <div className="flex gap-2">
-            <Input
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              placeholder="Escribe aquí..."
-              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-              className="flex-1 text-sm border-pink-200"
-            />
-            <Button
-              onClick={handleSendMessage}
-              size="sm"
-              className="text-white"
-              style={{ backgroundColor: '#FF1493' }}
-            >
-              <Send className="h-3 w-3" />
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
