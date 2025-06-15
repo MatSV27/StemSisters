@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -123,6 +122,14 @@ const ChatBot = ({ onLogout }: ChatBotProps) => {
           >
             <BookOpen className="h-4 w-4 mr-2" />
             Cursos
+          </Button>
+          <Button 
+            variant={currentView === 'community' ? "default" : "ghost"} 
+            onClick={() => setCurrentView('community')}
+            style={currentView === 'community' ? { backgroundColor: '#7E4EFF', color: 'white' } : {}}
+          >
+            <Users className="h-4 w-4 mr-2" />
+            Comunidad
           </Button>
           <Button 
             variant={currentView === 'chat' ? "default" : "ghost"} 
