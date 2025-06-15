@@ -1,181 +1,162 @@
 
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Trophy, Star, Target, Zap, Heart, BookOpen, Users, Award } from "lucide-react";
-
-interface Achievement {
-  id: string;
-  title: string;
-  description: string;
-  icon: any;
-  color: string;
-  bgColor: string;
-  isUnlocked: boolean;
-  progress?: number;
-  maxProgress?: number;
-}
+import { Button } from "@/components/ui/button";
+import { Star, Trophy, Target, Zap, Clock, Award, BookOpen, Users } from "lucide-react";
 
 const AchievementsSection = () => {
-  const achievements: Achievement[] = [
+  const achievements = [
     {
-      id: '1',
-      title: 'Primera Exploradora',
-      description: 'Completa tu primer microcurso',
-      icon: Star,
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-100',
-      isUnlocked: true
+      id: 1,
+      title: "Primera Exploradora",
+      description: "Completa tu primer microcurso",
+      icon: <Star className="h-8 w-8 text-yellow-500" />,
+      progress: 100,
+      completed: true,
+      category: "Logros Desbloqueados"
     },
     {
-      id: '2',
-      title: 'Científica Curiosa',
-      description: 'Realiza 5 experimentos científicos',
-      icon: Target,
-      color: 'text-teal-600',
-      bgColor: 'bg-teal-100',
-      isUnlocked: true
+      id: 2,
+      title: "Científica Curiosa",
+      description: "Realiza 5 experimentos científicos",
+      icon: <Target className="h-8 w-8 text-teal-500" />,
+      progress: 60,
+      completed: false,
+      category: "En Progreso"
     },
     {
-      id: '3',
-      title: 'Programadora Novata',
-      description: 'Crea tu primera aplicación',
-      icon: Zap,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-100',
-      isUnlocked: true
+      id: 3,
+      title: "Programadora Novata",
+      description: "Crea tu primera aplicación",
+      icon: <Zap className="h-8 w-8 text-purple-500" />,
+      progress: 40,
+      completed: false,
+      category: "En Progreso"
     },
     {
-      id: '4',
-      title: 'Mentora Comunitaria',
-      description: 'Ayuda a 10 compañeras en la comunidad',
-      icon: Heart,
-      color: 'text-pink-600',
-      bgColor: 'bg-pink-100',
-      isUnlocked: false,
-      progress: 6,
-      maxProgress: 10
+      id: 4,
+      title: "Mentora Comunitaria",
+      description: "Ayuda a 10 compañeras en la comunidad",
+      icon: <Users className="h-8 w-8 text-pink-500" />,
+      progress: 60,
+      completed: false,
+      category: "En Progreso"
     },
     {
-      id: '5',
-      title: 'Aprendiz Constante',
-      description: 'Completa 15 microcursos',
-      icon: BookOpen,
-      color: 'text-indigo-600',
-      bgColor: 'bg-indigo-100',
-      isUnlocked: false,
-      progress: 8,
-      maxProgress: 15
-    },
-    {
-      id: '6',
-      title: 'Líder STEM',
-      description: 'Participa en 3 hackathons',
-      icon: Trophy,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-100',
-      isUnlocked: false,
-      progress: 1,
-      maxProgress: 3
+      id: 5,
+      title: "Aprendiz Constante",
+      description: "Completa 15 microcursos",
+      icon: <BookOpen className="h-8 w-8 text-blue-500" />,
+      progress: 80,
+      completed: false,
+      category: "En Progreso"
     }
   ];
 
-  const unlockedAchievements = achievements.filter(a => a.isUnlocked);
-  const inProgressAchievements = achievements.filter(a => !a.isUnlocked && a.progress !== undefined);
+  const stats = [
+    { label: "Logros obtenidos", value: "3", color: "text-purple-600" },
+    { label: "En progreso", value: "3", color: "text-teal-600" },
+    { label: "Por desbloquear", value: "3", color: "text-pink-600" }
+  ];
+
+  const completedAchievements = achievements.filter(achievement => achievement.completed);
+  const inProgressAchievements = achievements.filter(achievement => !achievement.completed);
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">
-          Tus Logros STEM 🏆
-        </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Cada paso que das en tu camino STEM es una victoria. 
-          ¡Celebremos tus logros y sigamos construyendo tu futuro brillante!
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
+      <div className="container mx-auto px-8 py-8 max-w-6xl">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            Tus Logros STEM 🏆
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Cada paso que das en tu camino STEM es una victoria. ¡Celebremos tus logros y sigamos 
+            construyendo tu futuro brillante!
+          </p>
+        </div>
 
-      {/* Stats Overview */}
-      <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
-        <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
-          <div className="text-2xl font-bold text-purple-600">{unlockedAchievements.length}</div>
-          <div className="text-sm text-purple-700">Logros obtenidos</div>
-        </div>
-        <div className="text-center p-4 bg-gradient-to-br from-teal-50 to-teal-100 rounded-lg">
-          <div className="text-2xl font-bold text-teal-600">{inProgressAchievements.length}</div>
-          <div className="text-sm text-teal-700">En progreso</div>
-        </div>
-        <div className="text-center p-4 bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg">
-          <div className="text-2xl font-bold" style={{ color: '#FF6B9D' }}>{achievements.length - unlockedAchievements.length}</div>
-          <div className="text-sm" style={{ color: '#FF6B9D' }}>Por desbloquear</div>
-        </div>
-      </div>
-
-      {/* Unlocked Achievements */}
-      <div>
-        <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-          <Trophy className="h-5 w-5 text-yellow-500" />
-          Logros Desbloqueados
-        </h3>
-        <div className="grid md:grid-cols-3 gap-4">
-          {unlockedAchievements.map((achievement) => (
-            <Card key={achievement.id} className="border-2 border-green-200 bg-green-50">
-              <CardHeader className="pb-3">
-                <div className={`w-12 h-12 rounded-full ${achievement.bgColor} flex items-center justify-center mb-2`}>
-                  <achievement.icon className={`h-6 w-6 ${achievement.color}`} />
+        {/* Stats Cards */}
+        <div className="grid grid-cols-3 gap-6 mb-8">
+          {stats.map((stat, index) => (
+            <Card key={index} className="text-center border-pink-200">
+              <CardContent className="pt-6">
+                <div className={`text-3xl font-bold ${stat.color} mb-2`}>
+                  {stat.value}
                 </div>
-                <CardTitle className="text-lg">{achievement.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 text-sm">{achievement.description}</p>
-                <Badge 
-                  className="mt-3 text-white"
-                  style={{ backgroundColor: '#10B981' }}
-                >
-                  ✓ Completado
-                </Badge>
+                <div className="text-gray-600 text-sm font-medium">
+                  {stat.label}
+                </div>
               </CardContent>
             </Card>
           ))}
         </div>
-      </div>
 
-      {/* In Progress Achievements */}
-      <div>
-        <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-          <Target className="h-5 w-5 text-purple-500" />
-          En Progreso
-        </h3>
-        <div className="grid md:grid-cols-2 gap-4">
-          {inProgressAchievements.map((achievement) => (
-            <Card key={achievement.id} className="border-purple-200">
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <div className={`w-12 h-12 rounded-full ${achievement.bgColor} flex items-center justify-center`}>
-                    <achievement.icon className={`h-6 w-6 ${achievement.color}`} />
+        {/* Completed Achievements */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+            <Trophy className="h-6 w-6 text-yellow-500" />
+            Logros Desbloqueados
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {completedAchievements.map((achievement) => (
+              <Card key={achievement.id} className="border-yellow-200 bg-gradient-to-br from-yellow-50 to-orange-50">
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    {achievement.icon}
+                    <div className="flex-1">
+                      <CardTitle className="text-lg">{achievement.title}</CardTitle>
+                      <p className="text-sm text-gray-600">{achievement.description}</p>
+                    </div>
+                    <Trophy className="h-6 w-6 text-yellow-500" />
                   </div>
-                  <Badge variant="outline">
-                    {achievement.progress}/{achievement.maxProgress}
+                </CardHeader>
+                <CardContent>
+                  <Badge className="w-full justify-center text-white font-bold" style={{ backgroundColor: '#FF1493' }}>
+                    ✨ COMPLETADO ✨
                   </Badge>
-                </div>
-                <CardTitle className="text-lg">{achievement.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <p className="text-gray-600 text-sm">{achievement.description}</p>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Progreso</span>
-                    <span>{Math.round((achievement.progress! / achievement.maxProgress!) * 100)}%</span>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* In Progress Achievements */}
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+            <Clock className="h-6 w-6 text-purple-500" />
+            En Progreso
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {inProgressAchievements.map((achievement) => (
+              <Card key={achievement.id} className="border-purple-200">
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    {achievement.icon}
+                    <div className="flex-1">
+                      <CardTitle className="text-lg">{achievement.title}</CardTitle>
+                      <p className="text-sm text-gray-600">{achievement.description}</p>
+                    </div>
                   </div>
-                  <Progress 
-                    value={(achievement.progress! / achievement.maxProgress!) * 100} 
-                    className="h-2"
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span>Progreso</span>
+                        <span className="font-bold text-purple-600">{achievement.progress}%</span>
+                      </div>
+                      <Progress value={achievement.progress} className="h-3" />
+                    </div>
+                    <Button variant="outline" className="w-full border-purple-200 text-purple-600">
+                      Seguir trabajando
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </div>

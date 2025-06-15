@@ -28,6 +28,7 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
     }
   ]);
   const [inputMessage, setInputMessage] = useState("");
+  const [showCourses, setShowCourses] = useState(false);
 
   const predefinedMessages = [
     {
@@ -58,6 +59,27 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
     { id: 3, title: "Dudas sobre programación", time: "3:01 PM" }
   ];
 
+  const recommendedCourses = [
+    {
+      title: "Crea tu primer proyecto STEAM",
+      level: "Principiante",
+      duration: "6 semanas",
+      icon: "📱"
+    },
+    {
+      title: "Química súper divertida",
+      level: "Principiante", 
+      duration: "4 semanas",
+      icon: "🧪"
+    },
+    {
+      title: "Robótica fácil para chicas",
+      level: "Intermedio",
+      duration: "8 semanas", 
+      icon: "🤖"
+    }
+  ];
+
   const handleSendMessage = () => {
     if (!inputMessage.trim()) return;
 
@@ -69,6 +91,12 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
     };
 
     setMessages(prev => [...prev, newMessage]);
+    
+    // Check if user asks about courses
+    if (inputMessage.toLowerCase().includes('curso')) {
+      setShowCourses(true);
+    }
+    
     setInputMessage("");
 
     // Simular respuesta de MaYA
@@ -108,7 +136,8 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
     const lowerMessage = userMessage.toLowerCase();
     
     if (lowerMessage.includes('curso') || lowerMessage.includes('estudiar') || lowerMessage.includes('aprender')) {
-      return "¡Tenemos cursos increíbles! Desde 'Experimentos épicos para chicas curiosas' hasta 'Diseño UX/UI para apps que importan'. Todos están diseñados para que descubras tu superpoder. ¿Te gustaría que te lleve a la sección de cursos?";
+      setShowCourses(true);
+      return "¡Tenemos cursos increíbles! Desde 'Experimentos épicos para chicas curiosas' hasta 'Diseño UX/UI para apps que importan'. Todos están diseñados para que descubras tu superpoder. Aquí tienes algunos recomendados especialmente para ti:";
     }
     
     if (lowerMessage.includes('difícil') || lowerMessage.includes('complicado') || lowerMessage.includes('no sé')) {
@@ -160,7 +189,7 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
               />
             </div>
             <div>
-              <h1 className="font-bold text-pink-600">maIA - Tu mentora STEM personal</h1>
+              <h1 className="font-bold text-pink-600">MaYA - Tu mentora STEM personal</h1>
               <p className="text-sm text-gray-500">Siempre aquí para ti 💖</p>
             </div>
           </div>
@@ -239,6 +268,37 @@ const FloatingMaYA = ({ onNavigate }: FloatingMaYAProps) => {
                 </div>
               </div>
             ))}
+
+            {/* Show courses if requested */}
+            {showCourses && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                {recommendedCourses.map((course, index) => (
+                  <Card key={index} className="border-pink-200 hover:shadow-md transition-shadow">
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">{course.icon}</span>
+                        <div>
+                          <CardTitle className="text-sm">{course.title}</CardTitle>
+                          <div className="flex gap-2 mt-1">
+                            <Badge variant="outline" className="text-xs">{course.level}</Badge>
+                            <Badge variant="outline" className="text-xs">{course.duration}</Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <Button 
+                        size="sm" 
+                        className="w-full text-white text-xs"
+                        style={{ backgroundColor: '#FF1493' }}
+                      >
+                        Ver curso
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Predefined Message Buttons */}

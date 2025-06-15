@@ -38,6 +38,7 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
   const [activeTab, setActiveTab] = useState("logro");
   const [shareContent, setShareContent] = useState("");
   const [shareType, setShareType] = useState<'logro' | 'apoyo' | 'pregunta' | ''>('');
+  const [showMoreExplorers, setShowMoreExplorers] = useState(false);
   const [posts, setPosts] = useState<CommunityPost[]>([
     {
       id: 1,
@@ -91,6 +92,20 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
       field: "Biotecnología",
       points: 985,
       avatar: "👩‍🔬",
+      message: ""
+    },
+    {
+      name: "Carla P.",
+      field: "Robótica",
+      points: 920,
+      avatar: "🤖",
+      message: ""
+    },
+    {
+      name: "Lucía R.",
+      field: "Química",
+      points: 890,
+      avatar: "🧪",
       message: ""
     }
   ];
@@ -196,23 +211,14 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
     <div className="bg-gradient-to-br from-pink-50 via-white to-purple-50 min-h-screen">
       {/* Hero Section */}
       <div className="text-center py-12 px-4">
-        <div className="flex justify-between items-center max-w-6xl mx-auto">
-          <div className="flex-1">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">
-              Existen más exploradoras que aprenden contigo ✨
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl">
-              Conecta con chicas geniales como tú, comparte tus logros épicos y encuentra el apoyo que 
-              mereces para conquistar el mundo STEM
-            </p>
-          </div>
-          <Button 
-            className="text-white font-bold px-6 py-3 rounded-full"
-            style={{ backgroundColor: '#FF1493' }}
-          >
-            <Trophy className="h-4 w-4 mr-2" />
-            Mis Logros
-          </Button>
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            Existen más exploradoras que aprenden contigo ✨
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Conecta con chicas geniales como tú, comparte tus logros épicos y encuentra el apoyo que 
+            mereces para conquistar el mundo STEM
+          </p>
         </div>
       </div>
 
@@ -367,9 +373,26 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
             </TabsContent>
           </Tabs>
 
-          {/* Footer with MaYA prompt */}
-          <div className="text-center py-6 text-gray-500">
-            <p>Escribe algo para conversar con MaYA... 💬</p>
+          {/* Decorative section for MaYA */}
+          <div className="py-16 bg-gradient-to-r from-pink-100 to-purple-100 rounded-3xl">
+            <div className="text-center px-4">
+              <div className="max-w-2xl mx-auto">
+                <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                  ¿Lista para escribir tu propia historia de éxito? 💫
+                </h2>
+                <p className="text-lg text-gray-600 mb-6">
+                  Cada gran científica, ingeniera o matemática empezó con un solo paso. 
+                  Tu momento de brillar es AHORA.
+                </p>
+                <Button 
+                  size="lg"
+                  className="text-white px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
+                  style={{ backgroundColor: '#FF1493' }}
+                >
+                  ¡Comenzar mi aventura STEM! 🚀
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -410,13 +433,13 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {topExplorers.map((explorer, index) => (
+              {topExplorers.slice(0, showMoreExplorers ? 5 : 3).map((explorer, index) => (
                 <div key={index} className="flex items-center gap-3">
                   <div className="text-2xl">{explorer.avatar}</div>
                   <div className="flex-1">
                     <div className="font-semibold text-gray-800">{explorer.name}</div>
                     <div className="text-sm text-gray-600">{explorer.field}</div>
-                    {explorer.message && (
+                    {explorer.message && index === 0 && (
                       <div className="text-xs text-pink-600 mt-1">{explorer.message}</div>
                     )}
                   </div>
@@ -426,20 +449,13 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
                   </div>
                 </div>
               ))}
-              <Button variant="outline" size="sm" className="w-full text-yellow-600 border-yellow-200">
-                Ver más
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Help Section */}
-          <Card className="border-purple-200">
-            <CardContent className="pt-6 text-center">
-              <div className="text-2xl mb-2">💖</div>
-              <h4 className="font-semibold text-gray-800 mb-2">¿Necesitas ayuda?</h4>
-              <p className="text-sm text-gray-600 mb-3">¡Pregúntame!</p>
-              <Button size="sm" variant="outline" className="border-purple-200 text-purple-600">
-                💬 Pregúntame
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full text-yellow-600 border-yellow-200"
+                onClick={() => setShowMoreExplorers(!showMoreExplorers)}
+              >
+                {showMoreExplorers ? 'Ver menos' : 'Ver más'}
               </Button>
             </CardContent>
           </Card>

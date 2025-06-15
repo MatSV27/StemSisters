@@ -64,7 +64,7 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
       level: "Intermedio",
       students: 1593,
       rating: 4.7,
-      progress: 75,
+      progress: 100,
       category: "Ingeniería",
       instructor: "Sofía Martín",
       completed: true,
@@ -184,7 +184,7 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
           <TabsContent value="explorar" className="space-y-8">
             {/* Search */}
             <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
-              <div className="relative w-full max-w-2xl">
+              <div className="relative w-full max-w-4xl">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <input
                   type="text"
@@ -197,7 +197,7 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
             </div>
 
             {/* Categories */}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 px-4">
               {categories.map((category) => (
                 <Button
                   key={category.id}
@@ -220,7 +220,7 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
             </div>
 
             {/* Courses Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 px-8">
               {filteredCourses.map((course) => (
                 <Card key={course.id} className="border-pink-200 hover:shadow-xl transition-all hover:scale-105">
                   <CardHeader>
@@ -270,23 +270,28 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
                         </div>
                       )}
                       
-                      <div className="flex gap-2">
-                        {course.progress ? (
-                          <Button className="flex-1 text-white" style={{ backgroundColor: '#FF1493' }}>
+                      <div className="flex gap-2 flex-col">
+                        {course.progress && course.progress < 100 ? (
+                          <Button className="w-full text-white" style={{ backgroundColor: '#FF1493' }}>
                             <Play className="h-4 w-4 mr-2" />
                             🚀 Continuar aventura
                           </Button>
+                        ) : course.completed ? (
+                          <>
+                            <div className="flex gap-2">
+                              <Button variant="outline" className="flex-1 border-yellow-200 text-yellow-600">
+                                <Award className="h-4 w-4 mr-1" />
+                                Ver Certificado
+                              </Button>
+                              <Button variant="outline" className="flex-1 border-purple-200 text-purple-600">
+                                Ver Curso
+                              </Button>
+                            </div>
+                          </>
                         ) : (
-                          <Button className="flex-1 text-white" style={{ backgroundColor: '#FF1493' }}>
+                          <Button className="w-full text-white" style={{ backgroundColor: '#FF1493' }}>
                             <Play className="h-4 w-4 mr-2" />
                             🚀 ¡Empezar ahora!
-                          </Button>
-                        )}
-                        
-                        {course.completed && (
-                          <Button variant="outline" className="border-yellow-200 text-yellow-600">
-                            <Award className="h-4 w-4 mr-1" />
-                            Ver Certificado
                           </Button>
                         )}
                       </div>
@@ -300,7 +305,7 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
           <TabsContent value="progreso" className="space-y-6">
             {/* Search also in Mi Progreso */}
             <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
-              <div className="relative w-full max-w-2xl">
+              <div className="relative w-full max-w-4xl">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <input
                   type="text"
@@ -317,7 +322,7 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
               <p className="text-gray-600">Sigue así, estás conquistando el mundo STEM paso a paso</p>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-6 px-4">
+            <div className="grid md:grid-cols-2 gap-6 px-8">
               {inProgressCourses.map((course) => (
                 <Card key={course.id} className="border-purple-200">
                   <CardHeader>
@@ -352,7 +357,7 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
           <TabsContent value="completados" className="space-y-6">
             {/* Search also in Completados */}
             <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
-              <div className="relative w-full max-w-2xl">
+              <div className="relative w-full max-w-4xl">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <input
                   type="text"
@@ -369,7 +374,7 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
               <p className="text-gray-600">Cada curso completado es un paso más hacia tu futuro genial</p>
             </div>
             
-            <div className="grid md:grid-cols-2 gap-6 px-4">
+            <div className="grid md:grid-cols-2 gap-6 px-8">
               {completedCourses.map((course) => (
                 <Card key={course.id} className="border-yellow-200 bg-gradient-to-br from-yellow-50 to-orange-50">
                   <CardHeader>
@@ -391,6 +396,9 @@ const CoursesSection = ({ onNavigateToCommunity }: CoursesSectionProps) => {
                         <Button variant="outline" className="flex-1 border-yellow-200 text-yellow-600">
                           <Award className="h-4 w-4 mr-2" />
                           Ver Certificado
+                        </Button>
+                        <Button variant="outline" className="flex-1 border-purple-200 text-purple-600">
+                          Ver Curso
                         </Button>
                       </div>
                     </div>
