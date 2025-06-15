@@ -70,7 +70,7 @@ const Index = () => {
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <img 
-                src="/lovable-uploads/114fa174-de26-43c4-a0ac-a55e99208bbe.png" 
+                src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
                 alt="StemSisters Logo" 
                 className="h-8 w-8 object-contain"
               />
@@ -100,7 +100,7 @@ const Index = () => {
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <img 
-                src="/lovable-uploads/114fa174-de26-43c4-a0ac-a55e99208bbe.png" 
+                src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
                 alt="StemSisters Logo" 
                 className="h-8 w-8 object-contain"
               />
@@ -265,7 +265,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <img 
-              src="/lovable-uploads/114fa174-de26-43c4-a0ac-a55e99208bbe.png" 
+              src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
               alt="StemSisters Logo" 
               className="h-8 w-8 object-contain"
             />
@@ -305,7 +305,11 @@ const Index = () => {
               <div className="bg-white rounded-3xl p-8 shadow-xl border-2 border-pink-200">
                 <div className="flex items-center justify-center mb-6">
                   <div className="w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center animate-pulse">
-                    <Atom className="h-10 w-10 text-white" />
+                    <img 
+                      src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
+                      alt="maIA Logo" 
+                      className="h-10 w-10 object-contain"
+                    />
                   </div>
                 </div>
                 <h2 className="text-3xl font-bold text-gray-800 mb-4">

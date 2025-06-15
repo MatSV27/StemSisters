@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { X, Heart, Star, Sparkles } from "lucide-react";
+import { X, Heart, Star } from "lucide-react";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -50,7 +50,11 @@ const AuthModal = ({ isOpen, onClose, onAuthComplete, mode: initialMode }: AuthM
         <CardHeader className="text-center pb-4">
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center">
-              <Sparkles className="h-8 w-8 text-white" />
+              <img 
+                src="/lovable-uploads/a2105dde-07d8-4f7c-a95a-327a43979b79.png" 
+                alt="StemSisters Logo" 
+                className="h-8 w-8 object-contain"
+              />
             </div>
           </div>
           <CardTitle className="text-2xl bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
