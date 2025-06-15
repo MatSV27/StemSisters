@@ -12,6 +12,7 @@ import CoursesSection from "@/components/CoursesSection";
 import AchievementsSection from "@/components/AchievementsSection";
 import CommunitySection from "@/components/CommunitySection";
 import AchievementsPage from "@/components/AchievementsPage";
+import SuccessProfilesSection from "@/components/SuccessProfilesSection";
 
 const Index = () => {
   const [showAuth, setShowAuth] = useState(false);
@@ -347,6 +348,9 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        {/* Success Profiles Section */}
+        <SuccessProfilesSection />
 
         {/* Métricas de Impacto */}
         <section className="py-16" style={{ backgroundColor: '#FFF0F8' }}>
