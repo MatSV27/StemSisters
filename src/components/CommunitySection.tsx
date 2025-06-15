@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,9 +31,10 @@ interface CommunityPost {
 
 interface CommunitySectionProps {
   onNavigateToEventsOpportunities?: () => void;
+  onNavigateToCourses?: () => void;
 }
 
-const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionProps) => {
+const CommunitySection = ({ onNavigateToEventsOpportunities, onNavigateToCourses }: CommunitySectionProps) => {
   const [activeTab, setActiveTab] = useState("logro");
   const [shareContent, setShareContent] = useState("");
   const [shareType, setShareType] = useState<'logro' | 'apoyo' | 'pregunta' | ''>('');
@@ -251,7 +251,7 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
                       className={shareType === 'logro' ? 'text-white' : 'border-yellow-200 text-yellow-600'}
                       style={shareType === 'logro' ? { backgroundColor: '#FF1493' } : {}}
                     >
-                      🏆 Logro
+                      🏆 Logros
                     </Button>
                     <Button
                       variant={shareType === 'apoyo' ? 'default' : 'outline'}
@@ -269,7 +269,7 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
                       className={shareType === 'pregunta' ? 'text-white' : 'border-purple-200 text-purple-600'}
                       style={shareType === 'pregunta' ? { backgroundColor: '#FF1493' } : {}}
                     >
-                      ❓ Pregunta
+                      ❓ Preguntas
                     </Button>
                   </div>
                   <Button 
@@ -386,6 +386,7 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
                 </p>
                 <Button 
                   size="lg"
+                  onClick={onNavigateToCourses}
                   className="text-white px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
                   style={{ backgroundColor: '#FF1493' }}
                 >
@@ -439,9 +440,6 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
                   <div className="flex-1">
                     <div className="font-semibold text-gray-800">{explorer.name}</div>
                     <div className="text-sm text-gray-600">{explorer.field}</div>
-                    {explorer.message && index === 0 && (
-                      <div className="text-xs text-pink-600 mt-1">{explorer.message}</div>
-                    )}
                   </div>
                   <div className="text-right">
                     <div className="font-bold text-purple-600">{explorer.points}</div>
@@ -456,6 +454,25 @@ const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunitySectionP
                 onClick={() => setShowMoreExplorers(!showMoreExplorers)}
               >
                 {showMoreExplorers ? 'Ver menos' : 'Ver más'}
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* MaYA Call to Action */}
+          <Card className="bg-gradient-to-r from-pink-500 to-purple-600 border-none text-white">
+            <CardContent className="p-6 text-center">
+              <div className="text-2xl mb-3">🤖💖</div>
+              <h3 className="text-lg font-bold mb-2">
+                ¿Tienes dudas o necesitas apoyo?
+              </h3>
+              <p className="text-pink-100 text-sm mb-4">
+                MaYA está aquí para ti. Conversa conmigo sobre cualquier tema STEM
+              </p>
+              <Button 
+                size="sm"
+                className="bg-white text-pink-600 hover:bg-pink-50 font-bold"
+              >
+                Conversar con MaYA 💬
               </Button>
             </CardContent>
           </Card>

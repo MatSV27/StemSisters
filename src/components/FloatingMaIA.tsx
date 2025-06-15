@@ -159,6 +159,20 @@ const FloatingMaYA = ({ onNavigate, onNavigateToCourses }: FloatingMaYAProps) =>
     setShowHelp(!showHelp);
   };
 
+  const handleNewConversation = () => {
+    setMessages([
+      {
+        id: 1,
+        text: "¡Hola, bienvenida a StemSisters! Me llamo MaYA y estoy aquí para acompañarte a descubrir tus talentos. ✨ Antes de empezar... ¿cómo te sientes hoy al pensar en carreras de ciencia, tecnología o matemáticas?",
+        isBot: true,
+        timestamp: new Date()
+      }
+    ]);
+    setShowCourses(false);
+    setShowHelp(false);
+    setInputMessage("");
+  };
+
   const generateMaYAResponse = (userMessage: string): string => {
     const lowerMessage = userMessage.toLowerCase();
     
@@ -271,6 +285,7 @@ const FloatingMaYA = ({ onNavigate, onNavigateToCourses }: FloatingMaYAProps) =>
           <div className="mb-4">
             <h3 className="font-semibold text-gray-800 mb-3">Conversaciones</h3>
             <Button
+              onClick={handleNewConversation}
               className="w-full text-white mb-4"
               style={{ backgroundColor: '#FF1493' }}
             >
