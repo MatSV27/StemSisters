@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,10 +25,10 @@ interface CommunityPost {
 }
 
 interface CommunityProps {
-  onNavigateToAchievements?: () => void;
+  onNavigateToEventsOpportunities?: () => void;
 }
 
-const CommunitySection = ({ onNavigateToAchievements }: CommunityProps) => {
+const CommunitySection = ({ onNavigateToEventsOpportunities }: CommunityProps) => {
   const [newPost, setNewPost] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showTopContributors, setShowTopContributors] = useState(false);
@@ -106,7 +107,7 @@ const CommunitySection = ({ onNavigateToAchievements }: CommunityProps) => {
     { id: "all", label: "Todo", icon: Sparkles },
     { id: "logros", label: "Logros", icon: Trophy },
     { id: "apoyo", label: "Apoyo", icon: Heart },
-    { id: "oportunidades", label: "Oportunidades", icon: Rocket },
+    { id: "oportunidades", label: "Eventos y Oportunidades", icon: Rocket },
     { id: "preguntas", label: "Preguntas", icon: Lightbulb }
   ];
 
@@ -129,91 +130,6 @@ const CommunitySection = ({ onNavigateToAchievements }: CommunityProps) => {
       default: return "📝 Post";
     }
   };
-
-  const successStories = [
-    {
-      name: "María González",
-      age: 16,
-      story: "Desarrolló una app para ayudar a su abuela con diabetes. Ahora estudia medicina y su app se usa en 3 hospitales.",
-      achievement: "Innovadora Médica",
-      avatar: "👩‍⚕️",
-      impact: "3,000+ usuarios ayudados"
-    },
-    {
-      name: "Luisa Martínez", 
-      age: 17,
-      story: "Creó un videojuego sobre el cambio climático. ¡Nintendo se interesó y ahora trabaja con su equipo!",
-      achievement: "Game Developer",
-      avatar: "👩‍💻",
-      impact: "50,000+ descargas"
-    },
-    {
-      name: "Sofía Ramírez",
-      age: 16, 
-      story: "Inventó un filtro de agua usando nanotecnología. Su diseño ganó la feria de ciencias nacional.",
-      achievement: "Ingeniera del Futuro",
-      avatar: "👩‍🔬",
-      impact: "Patente registrada"
-    }
-  ];
-
-  const opportunities = [
-    {
-      title: "Beca Google para Exploradoras STEM",
-      type: "Beca",
-      deadline: "15 Dic 2024",
-      amount: "$5,000 USD",
-      description: "Beca completa para chicas destacadas en tecnología",
-      icon: "💰",
-      link: "#",
-      country: "Internacional"
-    },
-    {
-      title: "Hackathon Chicas Tech México",
-      type: "Evento",
-      deadline: "20 Nov 2024",
-      amount: "Gratis",
-      description: "48 horas creando soluciones tecnológicas para problemas sociales",
-      icon: "💻",
-      link: "#",
-      country: "México"
-    },
-    {
-      title: "Mentoría con Científicas de NASA",
-      type: "Mentoría",
-      deadline: "30 Nov 2024",
-      amount: "Gratis",
-      description: "Programa de 6 meses con científicas de la NASA",
-      icon: "🚀",
-      link: "#",
-      country: "Estados Unidos"
-    },
-    {
-      title: "Taller de Robótica MIT",
-      type: "Taller",
-      deadline: "10 Dic 2024",
-      amount: "$200 USD",
-      description: "Taller intensivo de robótica en el MIT",
-      icon: "🤖",
-      link: "#",
-      country: "Estados Unidos"
-    }
-  ];
-
-  const opportunityTestimonials = [
-    {
-      name: "Valentina S.",
-      avatar: "👩‍💼",
-      opportunity: "Beca Google 2023",
-      testimonial: "¡He encontrado esta beca increíble! Gracias a la comunidad por compartir. Ya apliqué y estoy súper emocionada 💖"
-    },
-    {
-      name: "Isabella M.",
-      avatar: "👩‍🔬",
-      opportunity: "Mentoría NASA",
-      testimonial: "La mentoría cambió mi vida. Mi mentora me ayudó a entrar al programa de ciencias espaciales de mi universidad"
-    }
-  ];
 
   const events = [
     {
@@ -255,25 +171,13 @@ const CommunitySection = ({ onNavigateToAchievements }: CommunityProps) => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="text-center relative">
+      <div className="text-center">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">
           Existen más exploradoras que aprenden contigo 🌟
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
           Conecta con chicas geniales como tú, comparte tus logros épicos y encuentra el apoyo que mereces para conquistar el mundo STEM
         </p>
-        
-        {/* Achievements Button */}
-        <div className="absolute top-0 right-0">
-          <Button
-            onClick={onNavigateToAchievements}
-            className="text-white font-bold"
-            style={{ backgroundColor: '#FF1493' }}
-          >
-            <Trophy className="h-4 w-4 mr-2" />
-            Mis Logros
-          </Button>
-        </div>
       </div>
 
       <div className="grid lg:grid-cols-4 gap-8">
@@ -323,7 +227,13 @@ const CommunitySection = ({ onNavigateToAchievements }: CommunityProps) => {
               <Button
                 key={category.id}
                 variant={selectedCategory === category.id ? "default" : "outline"}
-                onClick={() => setSelectedCategory(category.id)}
+                onClick={() => {
+                  if (category.id === "oportunidades") {
+                    onNavigateToEventsOpportunities?.();
+                  } else {
+                    setSelectedCategory(category.id);
+                  }
+                }}
                 className={selectedCategory === category.id 
                   ? "text-white" 
                   : "border-pink-200 text-pink-600 hover:bg-pink-50"
@@ -335,110 +245,6 @@ const CommunitySection = ({ onNavigateToAchievements }: CommunityProps) => {
               </Button>
             ))}
           </div>
-
-          {/* Conditional Sections based on selected category */}
-          {selectedCategory === "all" && (
-            <>
-              {/* Success Stories Section */}
-              <Card className="border-pink-200 bg-gradient-to-r from-pink-50 to-purple-50">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Star className="h-5 w-5 text-yellow-500" />
-                    Historias de Éxito que Inspiran 🔥
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    {successStories.map((story, index) => (
-                      <Card key={index} className="border-pink-200 hover:shadow-lg transition-shadow">
-                        <CardHeader className="text-center pb-3">
-                          <div className="text-3xl mb-2">{story.avatar}</div>
-                          <CardTitle className="text-sm">{story.name}, {story.age} años</CardTitle>
-                          <Badge 
-                            className="text-white text-xs"
-                            style={{ backgroundColor: '#FF1493' }}
-                          >
-                            {story.achievement}
-                          </Badge>
-                        </CardHeader>
-                        <CardContent className="pt-0 text-center">
-                          <p className="text-xs text-gray-600 mb-3">"{story.story}"</p>
-                          <Badge variant="outline" className="text-xs border-green-200 text-green-600">
-                            {story.impact}
-                          </Badge>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Opportunities Section */}
-              <Card className="border-purple-200 bg-gradient-to-r from-purple-50 to-teal-50">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Gift className="h-5 w-5 text-purple-500" />
-                    Oportunidades Épicas para Ti 🚀
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-2 gap-4 mb-6">
-                    {opportunities.map((opportunity, index) => (
-                      <Card key={index} className="border-purple-200 hover:shadow-lg transition-shadow">
-                        <CardHeader className="pb-3">
-                          <div className="flex items-center gap-3">
-                            <div className="text-2xl">{opportunity.icon}</div>
-                            <div className="flex-1">
-                              <CardTitle className="text-sm">{opportunity.title}</CardTitle>
-                              <div className="flex gap-2 mt-1">
-                                <Badge variant="outline" className="text-xs">
-                                  {opportunity.type}
-                                </Badge>
-                                <Badge variant="outline" className="text-xs border-green-200 text-green-600">
-                                  {opportunity.country}
-                                </Badge>
-                              </div>
-                            </div>
-                          </div>
-                        </CardHeader>
-                        <CardContent className="pt-0">
-                          <p className="text-xs text-gray-600 mb-3">{opportunity.description}</p>
-                          <div className="flex justify-between items-center text-xs mb-3">
-                            <span className="text-gray-500">
-                              <Clock className="h-3 w-3 inline mr-1" />
-                              {opportunity.deadline}
-                            </span>
-                            <span className="font-bold text-purple-600">{opportunity.amount}</span>
-                          </div>
-                          <Button size="sm" className="w-full text-xs" style={{ backgroundColor: '#8B5CF6' }}>
-                            <ExternalLink className="h-3 w-3 mr-1" />
-                            Ver detalles
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                  
-                  {/* Testimonials */}
-                  <div className="space-y-3">
-                    <h4 className="font-semibold text-gray-800 text-sm">Lo que dicen las exploradoras:</h4>
-                    {opportunityTestimonials.map((testimonial, index) => (
-                      <div key={index} className="bg-white p-3 rounded-lg border border-purple-200">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="text-lg">{testimonial.avatar}</span>
-                          <div>
-                            <span className="font-semibold text-xs text-gray-800">{testimonial.name}</span>
-                            <span className="text-xs text-gray-500 ml-2">{testimonial.opportunity}</span>
-                          </div>
-                        </div>
-                        <p className="text-xs text-gray-600 italic">"{testimonial.testimonial}"</p>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </>
-          )}
 
           {/* Posts Feed */}
           <div className="space-y-4">
@@ -594,41 +400,9 @@ const CommunitySection = ({ onNavigateToAchievements }: CommunityProps) => {
               <Button 
                 variant="outline" 
                 className="w-full border-pink-200 text-pink-600 hover:bg-pink-50"
+                onClick={onNavigateToEventsOpportunities}
               >
                 Ver todos los eventos
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Quick Actions */}
-          <Card className="border-pink-200">
-            <CardHeader>
-              <CardTitle className="text-lg">Acciones Rápidas</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <Button 
-                variant="outline" 
-                className="w-full justify-start border-pink-200 hover:bg-pink-50"
-                onClick={() => window.location.href = '/courses'}
-              >
-                <BookOpen className="h-4 w-4 mr-2" />
-                Explorar cursos
-              </Button>
-              <Button 
-                variant="outline" 
-                className="w-full justify-start border-purple-200 hover:bg-purple-50"
-                onClick={() => window.location.href = '/dashboard'}
-              >
-                <Target className="h-4 w-4 mr-2" />
-                Ver mi progreso
-              </Button>
-              <Button 
-                variant="outline" 
-                className="w-full justify-start border-teal-200 hover:bg-teal-50"
-                onClick={onNavigateToAchievements}
-              >
-                <Award className="h-4 w-4 mr-2" />
-                Mis logros
               </Button>
             </CardContent>
           </Card>

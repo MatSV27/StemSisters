@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Star, Sparkles, Heart, Rocket } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Star, Sparkles, Heart, Rocket, Crown, Trophy } from "lucide-react";
 import ProfileCard from "./ProfileCard";
 import SimilarProfilesModal from "./SimilarProfilesModal";
 
@@ -24,6 +25,33 @@ interface Profile {
 const SuccessProfilesSection = () => {
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
   const [showSimilarModal, setShowSimilarModal] = useState(false);
+
+  const successStories = [
+    {
+      name: "María González",
+      age: 16,
+      story: "Desarrolló una app para ayudar a su abuela con diabetes. Ahora estudia medicina y su app se usa en 3 hospitales.",
+      achievement: "Innovadora Médica",
+      avatar: "👩‍⚕️",
+      impact: "3,000+ usuarios ayudados"
+    },
+    {
+      name: "Luisa Martínez", 
+      age: 17,
+      story: "Creó un videojuego sobre el cambio climático. ¡Nintendo se interesó y ahora trabaja con su equipo!",
+      achievement: "Game Developer",
+      avatar: "👩‍💻",
+      impact: "50,000+ descargas"
+    },
+    {
+      name: "Sofía Ramírez",
+      age: 16, 
+      story: "Inventó un filtro de agua usando nanotecnología. Su diseño ganó la feria de ciencias nacional.",
+      achievement: "Ingeniera del Futuro",
+      avatar: "👩‍🔬",
+      impact: "Patente registrada"
+    }
+  ];
 
   const profiles: Profile[] = [
     {
@@ -154,16 +182,16 @@ const SuccessProfilesSection = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Star className="h-8 w-8 text-yellow-500" />
+              <Crown className="h-8 w-8 text-yellow-500" />
               <Sparkles className="h-8 w-8 text-pink-500" />
-              <Star className="h-8 w-8 text-yellow-500" />
+              <Crown className="h-8 w-8 text-yellow-500" />
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-              Mujeres que Cambiaron el Mundo 🌟
+              Reinas de la Ciencia ✨👑
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-              Estas mujeres extraordinarias rompieron barreras, desafiaron estereotipos y 
-              demostraron que no hay límites para lo que una chica determinada puede lograr en STEM.
+              Descubre las historias de chicas como tú que están conquistando el mundo STEM, 
+              y las mujeres extraordinarias que abrieron el camino para todas nosotras.
             </p>
             <div className="flex items-center justify-center gap-4 text-sm">
               <div className="flex items-center gap-2 text-pink-600">
@@ -176,6 +204,43 @@ const SuccessProfilesSection = () => {
               </div>
             </div>
           </div>
+
+          {/* Success Stories Section */}
+          <Card className="mb-12 border-pink-200 bg-gradient-to-r from-pink-50 to-purple-50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Trophy className="h-5 w-5 text-yellow-500" />
+                Historias de Éxito que Inspiran 🔥
+              </CardTitle>
+              <CardDescription>
+                Chicas de tu edad que ya están cambiando el mundo con sus proyectos increíbles
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-3 gap-4">
+                {successStories.map((story, index) => (
+                  <Card key={index} className="border-pink-200 hover:shadow-lg transition-shadow">
+                    <CardHeader className="text-center pb-3">
+                      <div className="text-3xl mb-2">{story.avatar}</div>
+                      <CardTitle className="text-sm">{story.name}, {story.age} años</CardTitle>
+                      <Badge 
+                        className="text-white text-xs"
+                        style={{ backgroundColor: '#FF1493' }}
+                      >
+                        {story.achievement}
+                      </Badge>
+                    </CardHeader>
+                    <CardContent className="pt-0 text-center">
+                      <p className="text-xs text-gray-600 mb-3">"{story.story}"</p>
+                      <Badge variant="outline" className="text-xs border-green-200 text-green-600">
+                        {story.impact}
+                      </Badge>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Inspiration Message */}
           <Card className="mb-12 bg-gradient-to-r from-pink-100 via-purple-100 to-teal-100 border-2 border-pink-200">
@@ -197,6 +262,17 @@ const SuccessProfilesSection = () => {
               </CardDescription>
             </CardContent>
           </Card>
+
+          {/* Women Who Changed the World Section */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-bold text-center text-gray-800 mb-8">
+              Mujeres que Cambiaron el Mundo 🌟
+            </h3>
+            <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+              Conoce a las pioneras que rompieron barreras y demostraron que no hay límites 
+              para lo que una mujer determinada puede lograr en STEM.
+            </p>
+          </div>
 
           {/* Profiles Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

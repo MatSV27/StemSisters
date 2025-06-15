@@ -13,6 +13,7 @@ import AchievementsSection from "@/components/AchievementsSection";
 import CommunitySection from "@/components/CommunitySection";
 import AchievementsPage from "@/components/AchievementsPage";
 import SuccessProfilesSection from "@/components/SuccessProfilesSection";
+import EventsOpportunitiesSection from "@/components/EventsOpportunitiesSection";
 
 const Index = () => {
   const [showAuth, setShowAuth] = useState(false);
@@ -20,7 +21,7 @@ const Index = () => {
   const [showSurvey, setShowSurvey] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState<any>(null);
-  const [currentView, setCurrentView] = useState<'home' | 'courses' | 'dashboard' | 'community' | 'success-stories'>('community');
+  const [currentView, setCurrentView] = useState<'home' | 'courses' | 'dashboard' | 'community' | 'success-stories' | 'events-opportunities'>('community');
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const handleAuthComplete = (data: any) => {
@@ -140,6 +141,15 @@ const Index = () => {
                 <Crown className="h-4 w-4" />
                 Reinas de la Ciencia ✨
               </Button>
+              <Button 
+                variant={currentView === 'events-opportunities' ? "default" : "ghost"}
+                onClick={() => setCurrentView('events-opportunities')}
+                style={currentView === 'events-opportunities' ? { backgroundColor: '#FF1493', color: 'white' } : {}}
+                className="flex items-center gap-2"
+              >
+                <Target className="h-4 w-4" />
+                Eventos y Oportunidades
+              </Button>
             </nav>
 
             <div className="flex items-center gap-4">
@@ -178,16 +188,19 @@ const Index = () => {
 
         <main className="container mx-auto px-4 py-8">
           {currentView === 'community' && (
-            <>
-              <CommunitySection />
-              <div className="mt-16">
-                <SuccessProfilesSection />
-              </div>
-            </>
+            <CommunitySection onNavigateToEventsOpportunities={() => setCurrentView('events-opportunities')} />
           )}
           {currentView === 'courses' && <ImprovedCoursesSection onNavigateToCommunity={() => setCurrentView('community')} />}
           {currentView === 'dashboard' && <AchievementsSection />}
           {currentView === 'success-stories' && <SuccessProfilesSection />}
+          {currentView === 'events-opportunities' && (
+            <div>
+              <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+                Eventos y Oportunidades 🚀
+              </h1>
+              <EventsOpportunitiesSection />
+            </div>
+          )}
         </main>
 
         <FloatingMaYA onNavigate={handleNavigation} />
