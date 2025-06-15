@@ -4,16 +4,135 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Star, Users, BookOpen, Award, MessageCircle, Sparkles, Heart, Target, Bot, Zap, Shield, Atom } from "lucide-react";
+import { Star, Users, BookOpen, Award, MessageCircle, Sparkles, Heart, Target, Bot, Zap, Shield, Atom, User, LogOut } from "lucide-react";
 import WelcomeSection from "@/components/WelcomeSection";
-import ChatBot from "@/components/ChatBot";
-import RegistrationModal from "@/components/RegistrationModal";
+import AuthModal from "@/components/AuthModal";
+import InitialSurvey from "@/components/InitialSurvey";
+import FloatingMaIA from "@/components/FloatingMaIA";
+import CoursesSection from "@/components/CoursesSection";
+import AchievementsSection from "@/components/AchievementsSection";
+import CommunitySection from "@/components/CommunitySection";
 
 const Index = () => {
-  const [showRegistration, setShowRegistration] = useState(false);
-  const [showChatBot, setShowChatBot] = useState(false);
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
+  const [showSurvey, setShowSurvey] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
+  const [currentView, setCurrentView] = useState<'home' | 'courses' | 'dashboard' | 'community'>('community');
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
+  const handleAuthComplete = (data: any) => {
+    setUserData(data);
+    setIsAuthenticated(true);
+    setShowAuth(false);
+    setShowSurvey(true);
+  };
+
+  const handleSurveyComplete = () => {
+    setShowSurvey(false);
+    setCurrentView('community');
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setUserData(null);
+    setCurrentView('home');
+    setShowUserMenu(false);
+  };
+
+  const handleNavigation = (view: string) => {
+    setCurrentView(view as any);
+  };
+
+  // Show survey if authenticated but hasn't completed it
+  if (isAuthenticated && showSurvey) {
+    return <InitialSurvey onComplete={handleSurveyComplete} />;
+  }
+
+  // Show main app if authenticated
+  if (isAuthenticated && currentView !== 'home') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
+        {/* Header */}
+        <header className="bg-white/90 backdrop-blur-sm border-b-2 border-pink-200 sticky top-0 z-40">
+          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div className="flex items-center space-x-2">
+              <Sparkles className="h-8 w-8 text-pink-500" />
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+                StemSisters
+              </h1>
+            </div>
+            
+            <nav className="hidden md:flex items-center gap-4">
+              <Button 
+                variant={currentView === 'community' ? "default" : "ghost"}
+                onClick={() => setCurrentView('community')}
+                style={currentView === 'community' ? { backgroundColor: '#FF1493', color: 'white' } : {}}
+              >
+                Comunidad
+              </Button>
+              <Button 
+                variant={currentView === 'courses' ? "default" : "ghost"}
+                onClick={() => setCurrentView('courses')}
+                style={currentView === 'courses' ? { backgroundColor: '#FF1493', color: 'white' } : {}}
+              >
+                Cursos
+              </Button>
+              <Button 
+                variant={currentView === 'dashboard' ? "default" : "ghost"}
+                onClick={() => setCurrentView('dashboard')}
+                style={currentView === 'dashboard' ? { backgroundColor: '#FF1493', color: 'white' } : {}}
+              >
+                Mi Seguimiento
+              </Button>
+            </nav>
+
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  <span>{userData?.name}</span>
+                </Button>
+                
+                {showUserMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-pink-200 z-50">
+                    <div className="p-3 border-b border-pink-100">
+                      <p className="font-medium text-gray-800">{userData?.name}</p>
+                      <p className="text-sm text-gray-500">{userData?.email}</p>
+                    </div>
+                    <div className="p-1">
+                      <Button
+                        variant="ghost"
+                        onClick={handleLogout}
+                        className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Cerrar sesión
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="container mx-auto px-4 py-8">
+          {currentView === 'community' && <CommunitySection />}
+          {currentView === 'courses' && <CoursesSection onNavigateToCommunity={() => setCurrentView('community')} />}
+          {currentView === 'dashboard' && <AchievementsSection />}
+        </main>
+
+        <FloatingMaIA onNavigate={handleNavigation} />
+      </div>
+    );
+  }
+
+  // Show welcome page
   const successStories = [
     {
       name: "María González",
@@ -39,7 +158,7 @@ const Index = () => {
   ];
 
   const metrics = [
-    { icon: Users, value: "2,847", label: "Chicas empoderadas", color: "text-pink-500" },
+    { icon: Users, value: "2,847", label: "Exploradoras empoderadas", color: "text-pink-500" },
     { icon: BookOpen, value: "156", label: "Sueños cumplidos", color: "text-purple-600" },
     { icon: Award, value: "89%", label: "Ahora aman STEM", color: "text-teal-600" },
     { icon: Star, value: "4.9/5", label: "¡Se sienten poderosas!", color: "text-yellow-500" }
@@ -49,7 +168,7 @@ const Index = () => {
     {
       icon: Bot,
       title: "maIA, tu hermana mayor digital STEM",
-      description: "Una IA súper cool que te entiende, te escucha sin juzgar y te ayuda a descubrir tu superpoder en Ciencia, Tecnología, Ingeniería y Matemáticas",
+      description: "Una asistente súper cool que te entiende, te escucha sin juzgar y te ayuda a descubrir tu superpoder en Ciencia, Tecnología, Ingeniería y Matemáticas",
       color: "text-pink-500",
       bgColor: "bg-pink-100"
     },
@@ -62,7 +181,7 @@ const Index = () => {
     },
     {
       icon: Users,
-      title: "Tu squad de power girls",
+      title: "Tu comunidad de exploradoras genias",
       description: "Conecta con chicas increíbles como tú, comparte tus logros épicos y encuentra el apoyo que mereces para conquistar el mundo",
       color: "text-teal-600",
       bgColor: "bg-teal-100"
@@ -70,34 +189,11 @@ const Index = () => {
     {
       icon: Award,
       title: "Reconocimiento que te mereces",
-      description: "Gana badges súper cool, celebra cada pequeña victoria y forma parte del Top de chicas que están cambiando el mundo",
+      description: "Gana insignias súper cool, celebra cada pequeña victoria y forma parte del Top de chicas que están cambiando el mundo",
       color: "text-yellow-600",
       bgColor: "bg-yellow-100"
     }
   ];
-
-  const handleGetStarted = () => {
-    if (!isRegistered) {
-      setShowRegistration(true);
-    } else {
-      setShowChatBot(true);
-    }
-  };
-
-  const handleRegistrationComplete = () => {
-    setIsRegistered(true);
-    setShowRegistration(false);
-    setShowChatBot(true);
-  };
-
-  const handleLogout = () => {
-    setIsRegistered(false);
-    setShowChatBot(false);
-  };
-
-  if (showChatBot && isRegistered) {
-    return <ChatBot onLogout={handleLogout} />;
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50" style={{ backgroundColor: '#FFF0F8' }}>
@@ -110,18 +206,20 @@ const Index = () => {
               StemSisters
             </h1>
           </div>
+          
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-2 text-sm text-gray-600">
-              <div className="w-6 h-6 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full flex items-center justify-center animate-pulse">
-                <Atom className="h-4 w-4 text-white" />
-              </div>
-              <span>maIA está esperándote 💖</span>
-            </div>
             <Button 
-              onClick={handleGetStarted}
+              onClick={() => setShowAuth(true)}
+              variant="outline" 
+              className="border-pink-200 text-pink-600 hover:bg-pink-50"
+            >
+              Ingresar
+            </Button>
+            <Button 
+              onClick={() => setShowAuth(true)}
               className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-full font-bold shadow-lg hover:shadow-xl transition-all"
             >
-              {isRegistered ? '¡Seguir conquistando! 🔥' : '¡Conocer a maIA! 💖'}
+              Registrarme
             </Button>
           </div>
         </div>
@@ -129,9 +227,9 @@ const Index = () => {
 
       <main>
         {/* Welcome Section */}
-        <WelcomeSection onGetStarted={handleGetStarted} />
+        <WelcomeSection onGetStarted={() => setShowAuth(true)} />
 
-        {/* Chat Bot Teaser Section */}
+        {/* maIA Teaser Section */}
         <section className="py-16 bg-gradient-to-r from-pink-100 to-purple-100">
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-4xl mx-auto">
@@ -142,7 +240,7 @@ const Index = () => {
                   </div>
                 </div>
                 <h2 className="text-3xl font-bold text-gray-800 mb-4">
-                  ¡Hola queen! Soy maIA, tu hermana mayor digital STEM 💖
+                  ¡Hola genia! Soy maIA, tu hermana mayor digital STEM 💖
                 </h2>
                 <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
                   Estoy aquí para recordarte que eres increíble y que puedes dominar la Ciencia, Tecnología, Ingeniería y Matemáticas. 
@@ -168,7 +266,7 @@ const Index = () => {
                   </div>
                 </div>
                 <Button 
-                  onClick={handleGetStarted}
+                  onClick={() => setShowAuth(true)}
                   size="lg"
                   className="text-white px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
                   style={{ backgroundColor: '#FF1493' }}
@@ -309,7 +407,7 @@ const Index = () => {
               Tu momento de brillar en ciencia y tecnología empieza AHORA.
             </p>
             <Button 
-              onClick={handleGetStarted}
+              onClick={() => setShowAuth(true)}
               size="lg"
               className="bg-white text-pink-600 hover:bg-pink-50 px-8 py-4 text-lg font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
             >
@@ -319,13 +417,12 @@ const Index = () => {
         </section>
       </main>
 
-      {/* Registration Modal */}
-      {showRegistration && (
-        <RegistrationModal 
-          onClose={() => setShowRegistration(false)}
-          onComplete={handleRegistrationComplete}
-        />
-      )}
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuth}
+        onClose={() => setShowAuth(false)}
+        onAuthComplete={handleAuthComplete}
+      />
     </div>
   );
 };

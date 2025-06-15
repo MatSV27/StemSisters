@@ -46,7 +46,7 @@ const WelcomeSection = ({ onGetStarted }: WelcomeSectionProps) => {
           </p>
 
           <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
-            Somos tu squad digital de hermanas mayores que te ayudarán a dominar el increíble mundo de la 
+            Somos tu comunidad digital de hermanas mayores que te ayudarán a dominar el increíble mundo de la 
             <span className="font-bold text-purple-600"> Ciencia, Tecnología, Ingeniería y Matemáticas (STEM)</span>.
           </p>
           
@@ -61,7 +61,7 @@ const WelcomeSection = ({ onGetStarted }: WelcomeSectionProps) => {
             </Button>
             
             <p className="text-sm text-gray-500 md:ml-4">
-              100% gratis • Sin drama • Solo apoyo entre hermanas
+              100% gratis • Sin drama • Solo apoyo entre exploradoras
             </p>
           </div>
           
@@ -80,7 +80,7 @@ const WelcomeSection = ({ onGetStarted }: WelcomeSectionProps) => {
             
             <div className="bg-gradient-to-br from-teal-50 to-pink-50 backdrop-blur-sm rounded-2xl p-6 border-2 border-teal-200 hover:shadow-lg transition-all">
               <div className="text-4xl mb-3">👭🔥</div>
-              <h3 className="font-bold text-gray-800 mb-2">Squad de power girls</h3>
+              <h3 className="font-bold text-gray-800 mb-2">Comunidad de exploradoras genias</h3>
               <p className="text-gray-600 text-sm">Conoce chicas que también van a cambiar el mundo</p>
             </div>
           </div>
